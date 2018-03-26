@@ -22,6 +22,7 @@ Rectangle
 		model: parent.model
 		orientation: if ( isHorizontal ) { ListView.Horizontal } else { ListView.Vertical }
 		snapMode: ListView.SnapOneItem;
+//		pressDelay: 50
 		flickDeceleration: 500
 		maximumFlickVelocity: parent.width * 5
 		currentIndex: startIndex
