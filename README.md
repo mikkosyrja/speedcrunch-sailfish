@@ -1,12 +1,8 @@
-speedcrunch mobile
-==================
+## speedcrunch mobile
 
-This is a port of the KDE calculator to SailfishOS.
+This is a port of the SpeedCrunch calculator to SailfishOS.
 
-You can find ports to harmattan and BB10 as mobilecrunch, in my other repositories.
-
-License
--------
+### License
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 

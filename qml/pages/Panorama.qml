@@ -133,136 +133,139 @@ Page
 		Rectangle
 		{
 			width: window.width; height: window.height; color: "transparent"
-			Column
+			SilicaFlickable
 			{
-				anchors { fill: parent; margins: 10 }
-				ListModel { id: resultsList }
-				Rectangle
+				width: window.width; height: window.height
+				Column
 				{
-					id: header2
-					width: parent.width; height: statusmargin; color: "transparent"
-					Text
+					anchors { fill: parent; margins: 10 }
+					ListModel { id: resultslist }
+					Rectangle
 					{
-						color: Theme.highlightColor
-						anchors { right: parent.right; rightMargin: bulletwidth / 2 }
-						anchors.verticalCenter: parent.verticalCenter
-						text: "SpeedCrunch"
-						font.pixelSize: fontsizebig
-					}
-				}
-				Item { width: parent.width; height: resultheight / 2 }
-				Rectangle
-				{
-					width: parent.width; height: historyheight; color: "transparent"
-					ListView
-					{
-						id: resultsview
-						width: parent.width; height: parent.height
-						snapMode: "SnapOneItem"
-						clip: true
-						model: resultsList
-						delegate: Rectangle
+						id: header2
+						width: parent.width; height: statusmargin; color: "transparent"
+						Text
 						{
-							property bool isCurrentItem: ListView.isCurrentItem
-							width: parent.width; height: lineheight; color: "transparent"
-							Text
+							color: Theme.highlightColor
+							anchors { right: parent.right; rightMargin: bulletwidth / 2 }
+							anchors.verticalCenter: parent.verticalCenter
+							text: "SpeedCrunch"
+							font.pixelSize: fontsizebig
+						}
+					}
+					Item { width: parent.width; height: resultheight / 2 }
+					Rectangle
+					{
+						width: parent.width; height: historyheight; color: "transparent"
+						ListView
+						{
+							id: resultsview
+							width: parent.width; height: parent.height
+							snapMode: "SnapOneItem"
+							clip: true
+							model: resultslist
+							delegate: Rectangle
 							{
-								id: resultitem
-								width: parent.width - 40; color: "white"
-								anchors.centerIn: parent
-								text: model.text
-								font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
-								MouseArea
+								property bool isCurrentItem: ListView.isCurrentItem
+								width: parent.width; height: lineheight; color: "transparent"
+								Text
 								{
-									anchors.fill: parent
-									onClicked:
+									id: resultitem
+									width: parent.width - 40; color: "white"
+									anchors.centerIn: parent
+									text: model.text
+									font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
+									MouseArea
 									{
-										var text = textfield.text
-										var pos = textfield.cursorPosition
-										textfield.text = text.substring(0, pos) + model.value + text.substring(pos, text.length)
-										textfield.cursorPosition = pos + model.value.length
+										anchors.fill: parent
+										onClicked:
+										{
+											var text = textfield.text
+											var pos = textfield.cursorPosition
+											textfield.text = text.substring(0, pos) + model.value + text.substring(pos, text.length)
+											textfield.cursorPosition = pos + model.value.length
+										}
+										onPressAndHold: { textfield.text = model.steps }
 									}
-									onPressAndHold: { textfield.text = model.steps }
 								}
 							}
 						}
+						ScrollDecorator { flickable: resultsview }
 					}
-					ScrollDecorator { flickable: resultsview }
-				}
-				Item { width: parent.width; height: resultheight / 2 }
-				Item
-				{
-					width: parent.width; height: textfield.height
-					TextField
+					Item { width: parent.width; height: resultheight / 2 }
+					Item
 					{
-						id: textfield
-						anchors { left: parent.left; right: cleartext.left }
-//						label: ""
-						inputMethodHints:  Qt.ImhPreferNumbers
-						placeholderText: "expression"
-						softwareInputPanelEnabled: false
-						Keys.onReturnPressed: { evaluate(); }
-						onClicked:
+						width: parent.width; height: textfield.height
+						TextField
 						{
-							textfield.softwareInputPanelEnabled = true
-							textfield.forceActiveFocus()
-						}
-						onFocusChanged:
-						{
-							if ( textfield.softwareInputPanelEnabled )
+							id: textfield
+							anchors { left: parent.left; right: cleartext.left }
+//							label: ""
+							inputMethodHints:  Qt.ImhPreferNumbers
+							placeholderText: "expression"
+							softwareInputPanelEnabled: false
+							Keys.onReturnPressed: { evaluate(); }
+							onClicked:
 							{
-								textfield.softwareInputPanelEnabled = false
+								textfield.softwareInputPanelEnabled = true
 								textfield.forceActiveFocus()
 							}
+							onFocusChanged:
+							{
+								if ( textfield.softwareInputPanelEnabled )
+								{
+									textfield.softwareInputPanelEnabled = false
+									textfield.forceActiveFocus()
+								}
+							}
+							onTextChanged:
+							{
+//								if (manager.autoCalc(text)!=="NaN")
+//									window.latestResult = result.text= manager.autoCalc(text)
+							}
 						}
-						onTextChanged:
+						Image	// clear button
 						{
-//							if (manager.autoCalc(text)!=="NaN")
-//								window.latestResult = result.text= manager.autoCalc(text)
+							id: cleartext
+							width: buttonwidth / 2; height: buttonheight
+							anchors { right: evaluatebutton.left; rightMargin: buttonmargin }
+							anchors.verticalCenter: evaluatebutton.verticalCenter
+							fillMode: Image.PreserveAspectFit
+							smooth: true;
+							visible: textfield.text
+							source: "clear.png"
+							MouseArea
+							{
+								id: cleararea
+								anchors { fill: parent; margins: -10 }
+								onClicked: { textfield.text = ""; textfield.forceActiveFocus() }
+							}
+						}
+						Button	// evaluate button
+						{
+							id: evaluatebutton
+							width: buttonwidth; color: Theme.highlightColor
+							anchors { top: textfield.top; topMargin: buttonmargin; right: parent.right }
+							text: "="
+							onClicked: { evaluate(); }
 						}
 					}
-					Image	// clear button
+					Pager
 					{
-						id: cleartext
-						width: buttonwidth / 2; height: buttonheight
-						anchors { right: evaluatebutton.left; rightMargin: buttonmargin }
-						anchors.verticalCenter: evaluatebutton.verticalCenter
-						fillMode: Image.PreserveAspectFit
-						smooth: true;
-						visible: textfield.text
-						source: "clear.png"
-						MouseArea
+						id: keyboard
+						width: parent.width; height: keyboardheight - statusmargin; spacing: buttonmargin; color: "transparent"
+						anchors.top: textfield.bottom
+						isHorizontal: true
+						enableKeys: false
+						focus: false
+						startIndex: -1
+						indicator: footer
+						model: VisualItemModel
 						{
-							id: cleararea
-							anchors { fill: parent; margins: -10 }
-							onClicked: { textfield.text = ""; textfield.forceActiveFocus() }
-						}
-					}
-					Button	// evaluate button
-					{
-						id: evaluatebutton
-						width: buttonwidth; color: Theme.highlightColor
-						anchors { top: textfield.top; topMargin: buttonmargin; right: parent.right }
-						text: "="
-						onClicked: { evaluate(); }
-					}
-				}
-				Pager
-				{
-					id: keyboard
-					width: parent.width; height: keyboardheight - statusmargin; spacing: buttonmargin; color: "transparent"
-					anchors.top: textfield.bottom
-					isHorizontal: true
-					enableKeys: false
-					focus: false
-					startIndex: -1
-					indicator: footer
-					model: VisualItemModel
-					{
-						Grid	// Page 1
-						{
-							rows: buttonrows; columns: buttoncolumns
-							width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
+							Grid	// Page 1
+							{
+								rows: buttonrows; columns: buttoncolumns
+								width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
 
 	CalcButton { text: "7" } CalcButton { text: "8" } CalcButton { text: "9" }
 	CalcButton { text: "/" } CalcButton { text: "x²"; value: "^2" }
@@ -282,57 +285,60 @@ Page
 	CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
 	Backspace { color: Theme.highlightColor }
 
-						}
-						Grid	// Page 2
-						{
-							rows: buttonrows; columns: buttoncolumns
-							width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
+							}
+							Grid	// Page 2
+							{
+								rows: buttonrows; columns: buttoncolumns
+								width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
 
 	CalcButton { text: "sin"; isFunction: true } CalcButton { text: "cos"; isFunction: true }
 	CalcButton { text: "tan"; isFunction: true } CalcButton { text: "ln"; isFunction: true }
-	CalcButton { text: "^" }
+	CalcButton { text: "Xⁿ"; value:"^" }
 
 	CalcButton { text: "asin"; value: "arcsin()" } CalcButton { text: "acos"; value: "arccos()" }
 	CalcButton { text: "atan"; value: "arctan()" } CalcButton { text: "exp"; isFunction: true }
-	CalcButton { image: "cube_root.png"; /*text: "∛"; */ value:"cbrt()" }
+	CalcButton { text: "∛"; value:"cbrt()" }
 
 	CalcButton { text: "π"; value: "pi" } CalcButton { text: "e" } CalcButton { text: "x" }
 	CalcButton { text: "x="; value: "="; secondary: "(x)=" } CalcButton { text: "!" }
 
-	CalcButton { text: "&" } CalcButton { text: "|" } CalcButton { text: "<<" } CalcButton { text: ">>" } CalcButton { text: "->" }
+	CalcButton { text: "&" } CalcButton { text: "|" } CalcButton { text: "<<" } CalcButton { text: ">>" }
+	CalcButton { text: "➔"; value: "->" }
 
 	CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
 	CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
 	CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
 	Backspace { color: Theme.highlightColor }
 
+							}
+						}
+						Component.onCompleted: keyboard.goToPage(0);
+					}
+				}
+				Row
+				{
+					id: footer
+					height: statusmargin; spacing: bulletwidth / 2
+					anchors { bottom: parent.bottom; left: parent.left; leftMargin: spacing }
+					Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(0) }
+					Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(1) }
+				}
+				PushUpMenu
+				{
+					MenuItem { text: "Copy result"; onClicked: manager.setClipboard(window.latestResult) }
+					MenuItem { text: "Copy expression"; onClicked: manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
+					MenuItem
+					{
+						text: "Paste";
+						onClicked:
+						{
+							var text = textfield.text; var pos = textfield.cursorPosition
+							textfield.text = text.substring(0, pos) + manager.getClipboard() + text.substring(pos, text.length)
+							textfield.cursorPosition = pos + value.length
 						}
 					}
-					Component.onCompleted: keyboard.goToPage(0);
+					MenuItem { text: "Clear history"; onClicked: resultslist.clear() }
 				}
-//				Button
-//				{
-//					anchors.horizontalCenter: parent.horizontalCenter
-//					width: 400
-//					text: "clear till"
-//					onClicked: resultsList.clear()
-//				}
-//				Button
-//				{
-//					anchors.horizontalCenter: parent.horizontalCenter
-//					width: 400
-//					text: "copy result"
-//					enabled: result.text.length
-//					onClicked: manager.setClipboard(result.text)
-//				}
-			}
-			Row
-			{
-				id: footer
-				height: statusmargin; spacing: bulletwidth / 2
-				anchors { bottom: parent.bottom; left: parent.left; leftMargin: spacing }
-				Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(0) }
-				Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(1) }
 			}
 		}
 		Rectangle
@@ -564,9 +570,9 @@ Page
 			window.latestExpression = manager.autoFix(textfield.text)
 			window.latestResult = manager.calculate(textfield.text);
 			if ( window.latestResult !== "" )
-				resultsList.append({"text": window.latestExpression + " = " + window.latestResult, "value" : window.latestResult, "steps" : window.latestExpression})
+				resultslist.append({"text": window.latestExpression + " = " + window.latestResult, "value" : window.latestResult, "steps" : window.latestExpression})
 			else
-				resultsList.append({"text": window.latestExpression, "value" : "", "steps": window.latestExpression})
+				resultslist.append({"text": window.latestExpression, "value" : "", "steps": window.latestExpression})
 			resultsview.positionViewAtEnd()
 			resultsview.currentIndex = resultsview.count - 1
 			textfield.text = ""
