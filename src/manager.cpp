@@ -204,10 +204,19 @@ QString Manager::getPrecision() const
 /*!
 	\param text			Clipboard text.
 */
-void Manager::setClipboard(QString text)
+void Manager::setClipboard(QString text) const
 {
-//	qDebug() << "set clipboard: " << settings->angleUnit;
-	clipboard->setText(text, QClipboard::Clipboard);
-	clipboard->setText(text, QClipboard::Selection);
+//	qDebug() << "set clipboard: " << text;
+	clipboard->setText(text);
+}
+
+//! Get clipboard text.
+/*!
+	\return				Clipboard text.
+*/
+QString Manager::getClipboard() const
+{
+//	qDebug() << "get clipboard: " << clipboard->text();
+	return clipboard->text();
 }
 

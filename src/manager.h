@@ -45,7 +45,8 @@ public:
 	Q_INVOKABLE QString getResultFormat() const;
 	Q_INVOKABLE void setPrecision(QString precision);
 	Q_INVOKABLE QString getPrecision() const;
-	Q_INVOKABLE void setClipboard(QString text);
+	Q_INVOKABLE void setClipboard(QString text) const;
+	Q_INVOKABLE QString getClipboard() const;
 
 private:
 	Evaluator* evaluator;

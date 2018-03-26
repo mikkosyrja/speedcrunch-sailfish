@@ -27,4 +27,11 @@
 ## 0.2.7 (2018-03-xx)
 
 - Fixed angle unit setting z-ordering
+- Changed some keys to use Unicode characters
+- Changed GitHub repository name to speedcrunch-sailfish
+- Added bottom pulley menu:
+	- Copy result copies just result value to clipboard
+	- Copy expression copies whole result line to clipboard
+	- Paste gets clipboard contents to cursor position
+	- Clear history clears whole history list
 

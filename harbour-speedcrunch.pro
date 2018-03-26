@@ -86,7 +86,6 @@ OTHER_FILES += \
 	qml/pages/CalcButton.qml \
 	qml/pages/Backspace.qml \
 	qml/pages/erase_to_the_left.svg \
-	qml/pages/cube_root.svg \
 	qml/harbour-speedcrunch.qml \
 	rpm/harbour-speedcrunch.yaml
 
@@ -130,5 +129,6 @@ HEADERS += \
 	math/cnumberparser.h
 
 DISTFILES += \
-    CHANGELOG.md
+    CHANGELOG.md \
+    README.md
 
