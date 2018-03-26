@@ -102,7 +102,7 @@ QString Manager::calculate(const QString& input)
 	\param filter		Filter string.
 	\return				Function list in JavaScript format.
 */
-QString Manager::getFunctions(QString filter)
+QString Manager::getFunctions(const QString& filter)
 {
 	QString result = "[";
 	QStringList functions = FunctionRepo::instance()->getIdentifiers();
@@ -132,7 +132,7 @@ QString Manager::getFunctions(QString filter)
 /*!
 	\param unit			Angle unit (d, r, g).
 */
-void Manager::setAngleUnit(QString unit)
+void Manager::setAngleUnit(const QString& unit)
 {
 	if ( !unit.isEmpty() && unit.at(0) != settings->angleUnit )
 	{
@@ -157,7 +157,7 @@ QString Manager::getAngleUnit() const
 /*!
 	\param format		Result format (g, f, n, e, b, o, h).
 */
-void Manager::setResultFormat(QString format)
+void Manager::setResultFormat(const QString& format)
 {
 	if ( !format.isEmpty() && format.at(0) != settings->resultFormat )
 	{
@@ -182,7 +182,7 @@ QString Manager::getResultFormat() const
 /*!
 	\param precision	Decimal precision.
 */
-void Manager::setPrecision(QString precision)
+void Manager::setPrecision(const QString& precision)
 {
 	settings->resultPrecision = (precision.isEmpty() ? -1 : precision.toInt());
 //	qDebug() << "set precision: " << settings->resultPrecision;
@@ -204,7 +204,7 @@ QString Manager::getPrecision() const
 /*!
 	\param text			Clipboard text.
 */
-void Manager::setClipboard(QString text) const
+void Manager::setClipboard(const QString& text) const
 {
 //	qDebug() << "set clipboard: " << text;
 	clipboard->setText(text);

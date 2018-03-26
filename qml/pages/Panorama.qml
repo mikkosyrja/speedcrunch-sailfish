@@ -329,7 +329,7 @@ Page
 					MenuItem { text: "Copy expression"; onClicked: manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
 					MenuItem
 					{
-						text: "Paste";
+						text: "Paste"
 						onClicked:
 						{
 							var text = textfield.text; var pos = textfield.cursorPosition
