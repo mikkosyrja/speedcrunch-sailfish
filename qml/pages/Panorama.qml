@@ -80,24 +80,46 @@ Page
 					anchors { right: parent.right; rightMargin: bulletwidth / 2 }
 					anchors.verticalCenter: parent.verticalCenter
 					text: "Functions"
-					font.pixelSize: fontsizebig
+					font.pixelSize: Theme.fontSizeLarge
 				}
 			}
-			TextField
+			Item
 			{
-				id: searchFunctions
-				width: parent.width
-				anchors { top: header1.bottom; horizontalCenter: parent.horizontalCenter }
-				placeholderText: "search"
-				inputMethodHints: Qt.ImhNoPredictiveText;
+				id: searchrectangle
+				width: parent.width; height: searchfunctions.height;
+				anchors { top: header1.bottom; }
+				TextField
+				{
+					id: searchfunctions
+					anchors { top: searchrectangle.top; left: parent.left; right: clearsearch.left }
+					placeholderText: "search"
+					inputMethodHints: Qt.ImhNoPredictiveText;
+				}
+				Image	// clear button
+				{
+					id: clearsearch
+					width: buttonwidth / 3; height: buttonwidth / 3
+					anchors { top: searchrectangle.top; right: parent.right; rightMargin: buttonmargin * 2 }
+					anchors.verticalCenter: searchfunctions.verticalCenter
+					fillMode: Image.PreserveAspectFit
+					smooth: true;
+					visible: searchfunctions.text
+					source: "clear.png"
+					MouseArea
+					{
+						id: clearsearcharea
+						anchors { fill: parent; margins: -10 }
+						onClicked: { searchfunctions.text = ""; }
+					}
+				}
 			}
 			ListView
 			{
 				id: functions
 				width: parent.width
-				anchors { top: searchFunctions.bottom; bottom: parent.bottom }
+				anchors { top: searchrectangle.bottom; bottom: parent.bottom }
 				clip: true
-				model: { eval(manager.getFunctions(searchFunctions.text)) }
+				model: { eval(manager.getFunctions(searchfunctions.text)) }
 				delegate: Rectangle
 				{
 					property bool isCurrentItem: ListView.isCurrentItem
@@ -150,7 +172,7 @@ Page
 							anchors { right: parent.right; rightMargin: bulletwidth / 2 }
 							anchors.verticalCenter: parent.verticalCenter
 							text: "SpeedCrunch"
-							font.pixelSize: fontsizebig
+							font.pixelSize: Theme.fontSizeLarge
 						}
 					}
 					Item { width: parent.width; height: resultheight / 2 }
@@ -201,7 +223,7 @@ Page
 							id: textfield
 							anchors { left: parent.left; right: cleartext.left }
 //							label: ""
-							inputMethodHints:  Qt.ImhPreferNumbers
+							inputMethodHints: Qt.ImhNoPredictiveText;
 							placeholderText: "expression"
 							softwareInputPanelEnabled: false
 							Keys.onReturnPressed: { evaluate(); }
@@ -227,8 +249,8 @@ Page
 						Image	// clear button
 						{
 							id: cleartext
-							width: buttonwidth / 2; height: buttonheight
-							anchors { right: evaluatebutton.left; rightMargin: buttonmargin }
+							width: buttonwidth / 3; height: buttonwidth / 3
+							anchors { right: evaluatebutton.left; rightMargin: buttonmargin * 2 }
 							anchors.verticalCenter: evaluatebutton.verticalCenter
 							fillMode: Image.PreserveAspectFit
 							smooth: true;
@@ -315,13 +337,37 @@ Page
 						Component.onCompleted: keyboard.goToPage(0);
 					}
 				}
-				Row
+				Item
 				{
-					id: footer
-					height: statusmargin; spacing: bulletwidth / 2
-					anchors { bottom: parent.bottom; left: parent.left; leftMargin: spacing }
-					Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(0) }
-					Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(1) }
+					id: statusbar
+					width: parent.width; height: statusmargin
+					anchors { bottom: parent.bottom; left: parent.left }
+					Row
+					{
+						id: footer
+						width: buttonwidth * 2 + buttonmargin; height: statusmargin; spacing: bulletwidth / 2
+						anchors { bottom: parent.bottom; left: parent.left; leftMargin: spacing }
+						Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(0) }
+						Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(1) }
+					}
+					Label
+					{
+						id: resultformat
+						width: buttonwidth * 2 + buttonmargin; height: statusmargin; color: Theme.highlightColor
+						anchors { bottom: parent.bottom; left: footer.right; leftMargin: buttonmargin }
+						verticalAlignment: Text.AlignVCenter
+						font.pixelSize: Theme.fontSizeExtraSmall
+						text: resultformatlist.value
+					}
+					Label
+					{
+						id: angleunit
+						width: buttonwidth; height: statusmargin; color: Theme.highlightColor
+						anchors { bottom: parent.bottom; right: parent.right; rightMargin: buttonmargin }
+						verticalAlignment: Text.AlignVCenter
+						font.pixelSize: Theme.fontSizeExtraSmall
+						text: angleunitlist.value
+					}
 				}
 				PushUpMenu
 				{
@@ -357,7 +403,7 @@ Page
 						anchors { right: parent.right; rightMargin: bulletwidth / 2 }
 						anchors.verticalCenter: parent.verticalCenter
 						text: "Settings"
-						font.pixelSize: fontsizebig
+						font.pixelSize: Theme.fontSizeLarge
 						color: Theme.highlightColor
 					}
 				}
@@ -507,7 +553,7 @@ Page
 					width: parent.width; color: "white"
 					anchors { top: precisionsetting.bottom; left: parent.left; leftMargin: helpmargin }
 					text: "Tips:"
-					font.pixelSize: fontsizesmall
+					font.pixelSize: Theme.fontSizeSmall
 				}
 				Column
 				{
@@ -518,35 +564,35 @@ Page
 						width: parent.width - (helpmargin * 3); color: "white"
 						anchors.horizontalCenter: parent.horizontalCenter
 						text: "Swipe left/right on the keypad for more functions."
-						font.pixelSize: fontsizetiny; wrapMode: Text.WordWrap
+						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
 					}
 					Text
 					{
 						width: parent.width - (helpmargin * 3); color: "white"
 						anchors.horizontalCenter: parent.horizontalCenter
 						text: "Tap on the expression twice to edit it with the full\nkeyboard, for advanced formulas."
-						font.pixelSize: fontsizetiny; wrapMode: Text.WordWrap
+						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
 					}
 					Text
 					{
 						width: parent.width - (helpmargin * 3); color: "white"
 						anchors.horizontalCenter: parent.horizontalCenter
 						text: "Tap on any line on the history to insert result value\nto the running expression."
-						font.pixelSize: fontsizetiny; wrapMode: Text.WordWrap
+						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
 					}
 					Text
 					{
 						width: parent.width - (helpmargin * 3); color: "white"
 						anchors.horizontalCenter: parent.horizontalCenter
 						text: "Tap and hold on any line on the history to replace\nthe running expression with it."
-						font.pixelSize: fontsizetiny; wrapMode: Text.WordWrap
+						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
 					}
 					Text
 					{
 						width: parent.width - (helpmargin * 3); color: "white"
 						anchors.horizontalCenter: parent.horizontalCenter
 						text: "Tap and hold on buttons 1-6 to insert hexadecimal\nletters A-F. Tap and hold on 0x to insert 0b."
-						font.pixelSize: fontsizetiny; wrapMode: Text.WordWrap
+						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
 					}
 				}
 			}
