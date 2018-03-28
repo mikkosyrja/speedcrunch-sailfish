@@ -1,4 +1,4 @@
-## speedcrunch mobile
+## SpeedCrunch sailfish
 
 This is a port of the SpeedCrunch calculator to SailfishOS.
 

@@ -34,4 +34,5 @@
 	- Copy expression copies whole result line to clipboard
 	- Paste gets clipboard contents to cursor position
 	- Clear history clears whole history list
-
+- Added clear button for function search field
+- Added status texts for result format and angle unit
