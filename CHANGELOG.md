@@ -5,7 +5,7 @@
 - Added setting for decimals
 - Improved expression editing
 
-## 0.2.6 (2018-03-25)
+### 0.2.6 (2018-03-25)
 
 - Fixed cover expression
 - Fixed inverse trigonometric functions
@@ -24,7 +24,7 @@
 	- Removed home and end buttons
 	- Removed deprecated % button
 
-## 0.2.7 (2018-03-xx)
+### 0.2.7 (2018-03-28)
 
 - Fixed angle unit setting z-ordering
 - Changed some keys to use Unicode characters
@@ -36,3 +36,15 @@
 	- Clear history clears whole history list
 - Added clear button for function search field
 - Added status texts for result format and angle unit
+
+### 0.3.0 (2018-04-xx)
+
+- Added function parameter hints as text field label
+- Added autocalc value as text field label
+- Some minor keyboard tweaks:
+	- Long press with x generates character y
+	- Long press with ← goes to the end of expression
+	- Long press with → goes to the start of expression
+- xxx
+- Submitted to Jolla Store
+

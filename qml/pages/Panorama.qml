@@ -46,6 +46,8 @@ Page
 		focus: true
 		indicator: header
 		startIndex: 1
+//		interactive: false
+//		pressDelay: 200
 
 		Timer
 		{
@@ -137,13 +139,16 @@ Page
 							onClicked:
 							{
 								functions.currentIndex = index;
-								var value = modelData.val + (modelData.func ? "()" : "")
+								var value = modelData.value + (modelData.usage != "" ? "()" : "")
 								var text = textfield.text
 								var pos = textfield.cursorPosition
 								textfield.text = text.substring(0, pos) + value + text.substring(pos, text.length)
 								textfield.cursorPosition = pos + value.length
-								if ( modelData.func )
+								if ( modelData.usage != "" )
+								{
+									textfield.label = modelData.usage
 									textfield.cursorPosition--
+								}
 								screen.goToPage(1)
 								mouse.accepted = true;
 							}
@@ -222,7 +227,6 @@ Page
 						{
 							id: textfield
 							anchors { left: parent.left; right: cleartext.left }
-//							label: ""
 							inputMethodHints: Qt.ImhNoPredictiveText;
 							placeholderText: "expression"
 							softwareInputPanelEnabled: false
@@ -242,8 +246,11 @@ Page
 							}
 							onTextChanged:
 							{
-//								if (manager.autoCalc(text)!=="NaN")
-//									window.latestResult = result.text= manager.autoCalc(text)
+								var result = manager.autoCalc(text);
+								if ( manager.autoCalc(text) !== "NaN" )
+									label = "=" + result
+								else
+									label = ""
 							}
 						}
 						Image	// clear button
@@ -282,6 +289,7 @@ Page
 						focus: false
 						startIndex: -1
 						indicator: footer
+//						pressDelay: 100
 						model: VisualItemModel
 						{
 							Grid	// Page 1
@@ -321,7 +329,7 @@ Page
 	CalcButton { text: "atan"; value: "arctan()" } CalcButton { text: "exp"; isFunction: true }
 	CalcButton { text: "∛"; value:"cbrt()" }
 
-	CalcButton { text: "π"; value: "pi" } CalcButton { text: "e" } CalcButton { text: "x" }
+	CalcButton { text: "π"; value: "pi" } CalcButton { text: "e" } CalcButton { text: "x"; secondary: "y" }
 	CalcButton { text: "x="; value: "="; secondary: "(x)=" } CalcButton { text: "!" }
 
 	CalcButton { text: "&" } CalcButton { text: "|" } CalcButton { text: "<<" } CalcButton { text: ">>" }

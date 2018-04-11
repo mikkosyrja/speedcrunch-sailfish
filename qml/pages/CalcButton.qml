@@ -49,5 +49,13 @@ Button
 			insertValue(value)
 	}
 
-	onPressAndHold: { insertValue(secondary) }
+	onPressAndHold:
+	{
+		if ( text == "←" )
+			textfield.cursorPosition = 0
+		else if ( text == "→" )
+			textfield.cursorPosition = textfield.text.length
+		else
+			insertValue(secondary)
+	}
 }

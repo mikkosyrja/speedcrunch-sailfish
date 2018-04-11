@@ -15,6 +15,8 @@ Rectangle
 	property alias interactive: view.interactive
 	property Item indicator
 
+//	property int pressDelay: 300
+
 	ListView
 	{
 		id: view
@@ -22,7 +24,7 @@ Rectangle
 		model: parent.model
 		orientation: if ( isHorizontal ) { ListView.Horizontal } else { ListView.Vertical }
 		snapMode: ListView.SnapOneItem;
-//		pressDelay: 50
+//		pressDelay: parent.pressDelay
 		flickDeceleration: 500
 		maximumFlickVelocity: parent.width * 5
 		currentIndex: startIndex
