@@ -37,38 +37,12 @@ Manager::Manager()
 //
 QString Manager::autoCalc(const QString& input)
 {
-#if 0
-	const QString str = evaluator->autoFix(input);
-	if ( str.isEmpty() )
-		return QString("");
-
-	// very short (just one token) and still no calculation, then skip
-	//if ( ! d->ansAvailable ) {
-//        const Tokens tokens = evaluator->scan( input );
-//        if ( tokens.count() < 2 )
-//            return "";
-	//}
-
-	// too short even after autofix ? do not bother either...
-	const Tokens tokens = evaluator->scan(str);
-	if ( tokens.count() < 2 )
-		return QString("");
-
-	// strip off assignment operator, e.g. "x=1+2" becomes "1+2" only
-	// the reason is that we want only to evaluate (on the fly) the expression,
-	// not to update (put the result in) the variable
-	//if( tokens.count() > 2 ) // reftk
-	//if( tokens.at(0).isIdentifier() )
-	//if( tokens.at(1).asOperator() == Token::Equal )
-	//  str.remove( 0, tokens.at(1).pos()+1 );
-
-	// same reason as above, do not update "ans"
-	evaluator->setExpression(str);
-	const HNumber num = evaluator->evalNoAssign();
-
-	return QString(HMath::format(num,'g',4));
-#endif
-	return QString();
+	const QString expression = evaluator->autoFix(input);
+	evaluator->setExpression(expression);
+	Quantity quantity = evaluator->evalNoAssign();
+	if ( evaluator->error().isEmpty() )
+		return NumberFormatter::format(quantity);
+	return "NaN";
 }
 
 //! Auto fix expression.
@@ -112,18 +86,22 @@ QString Manager::getFunctions(const QString& filter)
 		{
 			if ( filter == "" || function->name().toLower().contains(filter.toLower())
 				|| function->identifier().toLower().contains(filter.toLower()))
-				result += "{ val:'" + function->identifier() + "' , name: '" + function->name() + "' , func: true},";
+			{
+				QString usage = function->identifier() + "(" + function->usage() + ")";
+				usage.remove("<sub>").remove("</sub>");
+				result += "{value:\"" + function->identifier() + "\",name:\"" + function->name() + "\",usage:\"" + usage + "\"},";
+			}
 		}
 	}
 	for ( const auto& unit : Units::getList() )
 	{
 		if ( filter == "" || unit.name.contains(filter, Qt::CaseInsensitive))
-			result += "{ val:' " + unit.name + " ' , name: \"" + unit.name +"\", func: false},";
+			result += "{value:\"" + unit.name + "\", name:\"" + unit.name + "\",usage:\"\"},";
 	}
 	for ( const auto& constant : Constants::instance()->list() )
 	{
 		if ( filter == "" || constant.value.contains(filter, Qt::CaseInsensitive) || constant.name.contains(filter, Qt::CaseInsensitive))
-			result += "{ val:'" + constant.value + "' , name: \"" + constant.name +"\", func: false},";
+			result += "{value:\"" + constant.value + "\",name:\"" + constant.name + "\",usage:\"\"},";
 	}
 	return result += "]";
 }
