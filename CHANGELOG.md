@@ -1,4 +1,4 @@
-## 0.2.5 (2018-03-22)
+### 0.2.5 (2018-03-22)
 
 - Fixed ui scaling for Sailfish X
 - Updated engine to version 0.12
@@ -37,7 +37,7 @@
 - Added clear button for function search field
 - Added status texts for result format and angle unit
 
-### 0.3.0 (2018-04-xx)
+### 0.3.0 (2018-04-11)
 
 - Added function parameter hints as text field label
 - Added autocalc value as text field label
@@ -45,6 +45,5 @@
 	- Long press with x generates character y
 	- Long press with ← goes to the end of expression
 	- Long press with → goes to the start of expression
-- xxx
 - Submitted to Jolla Store
 
