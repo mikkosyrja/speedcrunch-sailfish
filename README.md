@@ -26,17 +26,17 @@ Leftmost page has function list containing all SpeedCrunch engine functions, con
 Topmost field can be used to filter names. Pointing function name inserts it to the expression
 editing field and activates the main calculator page.
 
-Rightmost page contains some settings. These are same as desktop version settings and are mostly
+Rightmost page contains some settings. These are same as desktop version settings and mostly
 self-explanatory.
 
 #### Expression editing and history list
 
 At the top of the main calculator page is history list. All calculated expressions and their
-results are stored there. Pointing history list line insert result to the expression editing.
-Pointing and holding history line gets the whole expression for editing.
+results are stored there. Pointing history list line inserts result to the expression editing.
+Pointing and holding history line recalls the whole expression for editing.
 
 Below the history list is expression editing field. It can be edited either by calculator key panes
-or standard Sailfish virtual keyboarf. Because the expression field is always active, it must be
+or standard Sailfish virtual keyboard. Because the expression field is always active, it must be
 pointed twice to activate the Sailfish keyboard.
 
 Below the expression editor is label field used for function syntax hints and autocalc results.
@@ -52,12 +52,12 @@ Some keys have secondary function available with long press:
 - Keys 1-6 produce hexadecimal values A-F
 - Key 0x produces 0b for binary values (0b1010)
 - Key X produces character Y for another variable name
-- Keys ← and → move cursor to start or end fo exression
+- Keys ← and → move cursor to start or end of expression
 
 #### Pulley menu
 
-Bottmo pulley menu has functions for copying result or expression to clipboard, pasting clipboard
-contents to the expression field and clearing the history list.
+Bottom pulley menu has functions for copying latest result or expression to clipboard, pasting
+clipboard contents to the expression field and clearing the history list.
 
 For more information, see desktop SpeedCrunch [documentation](http://speedcrunch.org/userguide/index.html).
 

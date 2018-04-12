@@ -43,7 +43,7 @@
 - Added autocalc value as text field label
 - Some minor keyboard tweaks:
 	- Long press with x generates character y
-	- Long press with ← goes to the end of expression
-	- Long press with → goes to the start of expression
+	- Long press with ← goes to the start of expression
+	- Long press with → goes to the end of expression
 - Submitted to Jolla Store
 
