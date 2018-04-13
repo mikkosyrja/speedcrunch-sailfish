@@ -22,16 +22,24 @@
 #endif
 
 #include <sailfishapp.h>
+
+#include <QGuiApplication>
+#include <QQuickView>
+
 #include "core/evaluator.h"
 #include "src/manager.h"
-#include <QtQml>
 
 int main(int argc, char *argv[])
 {
+	QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
+	QScopedPointer<QQuickView> view(SailfishApp::createView());
+
 	Manager manager;
 	qmlRegisterType<Manager>("harbour.speedcrunch.Manager", 1, 0, "Manager");
-//	view->rootContext()->setContextProperty("mn",&mn );
 
-	return SailfishApp::main(argc, argv);
+	view->setSource(SailfishApp::pathToMainQml());
+	view->showFullScreen();
+
+	return app->exec();
 }
 

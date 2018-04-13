@@ -47,3 +47,14 @@
 	- Long press with → goes to the end of expression
 - Submitted to Jolla Store
 
+### 0.3.1 (2018-04-13)
+
+- Added support for complex numbers:
+	- Setting for Disabled, Cartesian or Polar mode
+	- Long press with 9 generates j for imaginary part
+- Changed automatic precision maximum decimals to 12
+- Added 16 and 20 decimals to the precision list
+- Reordered settings, moved format and precision to top
+- Fixed application initialization for Jolla Harbour QA
+- Resubmitted to Jolla Store
+

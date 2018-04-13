@@ -95,7 +95,7 @@ Page
 					id: searchfunctions
 					anchors { top: searchrectangle.top; left: parent.left; right: clearsearch.left }
 					placeholderText: "search"
-					inputMethodHints: Qt.ImhNoPredictiveText;
+					inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 				}
 				Image	// clear button
 				{
@@ -227,7 +227,7 @@ Page
 						{
 							id: textfield
 							anchors { left: parent.left; right: cleartext.left }
-							inputMethodHints: Qt.ImhNoPredictiveText;
+							inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 							placeholderText: "expression"
 							softwareInputPanelEnabled: false
 							Keys.onReturnPressed: { evaluate(); }
@@ -297,7 +297,8 @@ Page
 								rows: buttonrows; columns: buttoncolumns
 								width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
 
-	CalcButton { text: "7" } CalcButton { text: "8" } CalcButton { text: "9" }
+	CalcButton { id: button7; text: "7" } CalcButton { id: button8; text: "8" }
+	CalcButton { id: button9; text: "9"; value: "9"; secondary: "j" }
 	CalcButton { text: "/" } CalcButton { text: "x²"; value: "^2" }
 	CalcButton { id: button4; text: "4"; value: "4"; secondary: "D" }
 	CalcButton { id: button5; text: "5"; value: "5"; secondary: "E" }
@@ -330,7 +331,7 @@ Page
 	CalcButton { text: "∛"; value:"cbrt()" }
 
 	CalcButton { text: "π"; value: "pi" } CalcButton { text: "e" } CalcButton { text: "x"; secondary: "y" }
-	CalcButton { text: "x="; value: "="; secondary: "(x)=" } CalcButton { text: "!" }
+	CalcButton { text: "X="; value: "="; secondary: "(x)=" } CalcButton { text: "!" }
 
 	CalcButton { text: "&" } CalcButton { text: "|" } CalcButton { text: "<<" } CalcButton { text: ">>" }
 	CalcButton { text: "➔"; value: "->" }
@@ -417,40 +418,10 @@ Page
 				}
 				Rectangle
 				{
-					id: angleunitsetting
-					width: parent.width; height: settingheight; color: "transparent"
-					anchors.top: header3.bottom
-					z: 30
-					ComboBox
-					{
-						id: angleunitlist
-						label: "Angle Unit"
-						menu: ContextMenu
-						{
-							MenuItem { text: "Degree" }
-							MenuItem { text: "Radian" }
-//							MenuItem { text: "Gradian" }
-						}
-						onCurrentIndexChanged:
-						{
-							if ( currentIndex == 0 ) { manager.setAngleUnit("d") }
-							else if ( currentIndex == 1 ) { manager.setAngleUnit("r") }
-//							else if ( currentIndex == 2 ) { manager.setAngleUnit("g") }
-						}
-						function setAngleUnit(unit)
-						{
-							if ( unit == "d" ) currentIndex = 0
-							else if ( unit == "r" ) currentIndex = 1
-//							else if ( unit == "g" ) currentIndex = 2
-						}
-					}
-				}
-				Rectangle
-				{
 					id: resultformatsetting
 					width: parent.width; height: settingheight; color: "transparent"
-					anchors.top: angleunitsetting.bottom
-					z: 20
+					anchors.top: header3.bottom
+					z: 40
 					ComboBox
 					{
 						id: resultformatlist
@@ -493,7 +464,7 @@ Page
 					id: precisionsetting
 					width: parent.width; height: settingheight; color: "transparent"
 					anchors.top: resultformatsetting.bottom
-					z: 10
+					z: 30
 					ComboBox
 					{
 						id: precisionlist
@@ -505,6 +476,7 @@ Page
 							MenuItem { text: "2" } MenuItem { text: "3" }
 							MenuItem { text: "4" } MenuItem { text: "6" }
 							MenuItem { text: "8" } MenuItem { text: "12" }
+							MenuItem { text: "16" } MenuItem { text: "20" }
 						}
 						onCurrentIndexChanged:
 						{
@@ -523,7 +495,70 @@ Page
 							else if ( precision == "6" ) currentIndex = 6
 							else if ( precision == "8" ) currentIndex = 7
 							else if ( precision == "12" ) currentIndex = 8
+							else if ( precision == "16" ) currentIndex = 9
+							else if ( precision == "20" ) currentIndex = 10
 							else currentIndex = 0;
+						}
+					}
+				}
+				Rectangle
+				{
+					id: angleunitsetting
+					width: parent.width; height: settingheight; color: "transparent"
+					anchors.top: precisionsetting.bottom
+					z: 20
+					ComboBox
+					{
+						id: angleunitlist
+						label: "Angle Unit"
+						menu: ContextMenu
+						{
+							MenuItem { text: "Degree" }
+							MenuItem { text: "Radian" }
+//							MenuItem { text: "Gradian" }
+						}
+						onCurrentIndexChanged:
+						{
+							if ( currentIndex == 0 ) manager.setAngleUnit("d")
+							else if ( currentIndex == 1 ) manager.setAngleUnit("r")
+//							else if ( currentIndex == 2 ) manager.setAngleUnit("g")
+						}
+						function setAngleUnit(unit)
+						{
+							if ( unit == "d" ) currentIndex = 0
+							else if ( unit == "r" ) currentIndex = 1
+//							else if ( unit == "g" ) currentIndex = 2
+						}
+					}
+				}
+				Rectangle
+				{
+					id: complexnumbersetting
+					width: parent.width; height: settingheight; color: "transparent"
+					anchors.top: angleunitsetting.bottom
+					z: 10
+					ComboBox
+					{
+						id: complexnumberlist
+						label: "Complex numbers"
+						menu: ContextMenu
+						{
+							MenuItem { text: "Disabled" }
+							MenuItem { text: "Cartesian" }
+							MenuItem { text: "Polar" }
+						}
+						onCurrentIndexChanged:
+						{
+							if ( currentIndex == 0 ) manager.setComplexNumber("d")
+							else if ( currentIndex == 1 ) manager.setComplexNumber("c")
+							else if ( currentIndex == 2 ) manager.setComplexNumber("p")
+							setButtonLabels()
+						}
+						function setComplexNumber(complex)
+						{
+							if ( complex == "d" ) currentIndex = 0
+							else if ( complex == "c" ) currentIndex = 1
+							else if ( complex == "p" ) currentIndex = 2
 						}
 					}
 				}
@@ -532,7 +567,7 @@ Page
 				{
 					id: expressionsetting
 					width: parent.width; height: settingheight; color: "transparent"
-					anchors.top: precisionsetting.bottom
+					anchors.top: complexnumbersetting.bottom
 					TextSwitch
 					{
 						id: expressionswitch
@@ -545,7 +580,7 @@ Page
 				{
 					id: historysetting
 					width: parent.width; height: settingheight; color: "transparent"
-					anchors.top: decimalsetting.bottom
+					anchors.top: expressionsetting.bottom
 					TextSwitch
 					{
 						id: historyswitch
@@ -559,7 +594,7 @@ Page
 				{
 					id: helptitle
 					width: parent.width; color: "white"
-					anchors { top: precisionsetting.bottom; left: parent.left; leftMargin: helpmargin }
+					anchors { top: complexnumbersetting.bottom; left: parent.left; leftMargin: helpmargin }
 					text: "Tips:"
 					font.pixelSize: Theme.fontSizeSmall
 				}
@@ -615,6 +650,7 @@ Page
 		angleunitlist.setAngleUnit(manager.getAngleUnit())
 		resultformatlist.setResultFormat(manager.getResultFormat())
 		precisionlist.setPrecision(manager.getPrecision())
+		complexnumberlist.setComplexNumber(manager.getComplexNumber())
 	}
 
 	function evaluate()
@@ -650,5 +686,9 @@ Page
 			buttonbase.text = "0x 0b"
 		else
 			buttonbase.text = "0x"
+		if ( manager.getComplexNumber() != "d" )
+			button9.text = "9 j"
+		else
+			button9.text = "9"
 	}
 }
