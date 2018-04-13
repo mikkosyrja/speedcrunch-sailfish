@@ -1,6 +1,7 @@
 ## SpeedCrunch Sailfish
 
-SpeedCrunch is a high-precision scientific calculator supporting expression editing, history stack, unit conversions, radix systems and user defined variables.
+SpeedCrunch is a high-precision scientific calculator supporting expression editing, history stack,
+unit conversions, radix systems, complex numbers and user defined variables.
 
 Sailfish port of [SpeedCrunch](http://speedcrunch.org) calculator.
 
@@ -41,26 +42,25 @@ pointed twice to activate the Sailfish keyboard.
 
 Below the expression editor is label field used for function syntax hints and autocalc results.
 
-#### Keyboard
+#### Keyboard and pulley menu
 
-Most keys are familiar to anyone ever used handheld calculator. Key 0X is for entering hexadecimal
-values (0xFF). Key X is for variable name X and key X= is for user variable or function definition
-(X=42). Big arrow on the right side of second pane is for unit conversion (1 inch -> foot). Bottom
+Most keys are familiar to anyone ever used handheld calculator. Key 0x is for entering hexadecimal
+values (0xFF). Key x is for variable name x and key X= is for user variable or function definition
+(x=42). Big arrow on the right side of second pane is for unit conversion (1 inch -> foot). Bottom
 row arrow keys and backspace are for expression field editing.
 
 Some keys have secondary function available with long press:
 - Keys 1-6 produce hexadecimal values A-F
+- Key 9 produces j for complex number imaginary part
 - Key 0x produces 0b for binary values (0b1010)
-- Key X produces character Y for another variable name
+- Key x produces character y for another variable name
+- Key X= produces (x)= for function definition (foo(x)=)
 - Keys ← and → move cursor to start or end of expression
-
-#### Pulley menu
 
 Bottom pulley menu has functions for copying latest result or expression to clipboard, pasting
 clipboard contents to the expression field and clearing the history list.
 
 For more information, see desktop SpeedCrunch [documentation](http://speedcrunch.org/userguide/index.html).
-
 
 ### License
 

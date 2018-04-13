@@ -32,9 +32,17 @@ Manager::Manager()
 	evaluator = Evaluator::instance();
 	settings = Settings::instance();
 	clipboard = QGuiApplication::clipboard();
+
+	settings->load();
+	evaluator->initializeBuiltInVariables();
+	DMath::complexMode = settings->complexNumbers;
 }
 
-//
+//! Auto calculate expression.
+/*!
+	\param input		Expression.
+	\return				Result string.
+*/
 QString Manager::autoCalc(const QString& input)
 {
 	const QString expression = evaluator->autoFix(input);
@@ -57,7 +65,7 @@ QString Manager::autoFix(const QString& input)
 
 //! Calculate expression.
 /*!
-	\param input		Initial expression.
+	\param input		Expression.
 	\return				Result string.
 */
 QString Manager::calculate(const QString& input)
@@ -115,7 +123,7 @@ void Manager::setAngleUnit(const QString& unit)
 	if ( !unit.isEmpty() && unit.at(0) != settings->angleUnit )
 	{
 		settings->angleUnit = unit.at(0).toLatin1();
-//		qDebug() << "set angle unit: " << settings->angleUnit;
+		evaluator->initializeAngleUnits();
 		settings->save();
 	}
 }
@@ -126,8 +134,6 @@ void Manager::setAngleUnit(const QString& unit)
 */
 QString Manager::getAngleUnit() const
 {
-	settings->load();
-//	qDebug() << "get angle unit: " << settings->angleUnit;
 	return QString(settings->angleUnit);
 }
 
@@ -140,7 +146,6 @@ void Manager::setResultFormat(const QString& format)
 	if ( !format.isEmpty() && format.at(0) != settings->resultFormat )
 	{
 		settings->resultFormat = format.at(0).toLatin1();
-//		qDebug() << "set result format: " << settings->resultFormat;
 		settings->save();
 	}
 }
@@ -151,8 +156,6 @@ void Manager::setResultFormat(const QString& format)
 */
 QString Manager::getResultFormat() const
 {
-	settings->load();
-//	qDebug() << "get result format: " << settings->resultFormat;
 	return QString(settings->resultFormat);
 }
 
@@ -163,7 +166,6 @@ QString Manager::getResultFormat() const
 void Manager::setPrecision(const QString& precision)
 {
 	settings->resultPrecision = (precision.isEmpty() ? -1 : precision.toInt());
-//	qDebug() << "set precision: " << settings->resultPrecision;
 	settings->save();
 }
 
@@ -173,9 +175,36 @@ void Manager::setPrecision(const QString& precision)
 */
 QString Manager::getPrecision() const
 {
-	settings->load();
-//	qDebug() << "get precision: " << settings->resultPrecision;
 	return (settings->resultPrecision < 0 ? QString() : QString::number(settings->resultPrecision));
+}
+
+//! Set complex number mode.
+/*!
+	\param complex		Complex number mode (d, c, p).
+*/
+void Manager::setComplexNumber(const QString& complex)
+{
+	if ( complex == "d" )
+		settings->complexNumbers = false;
+	else
+	{
+		settings->complexNumbers = true;
+		settings->resultFormatComplex = complex.at(0).toLatin1();
+	}
+	evaluator->initializeBuiltInVariables();
+	DMath::complexMode = settings->complexNumbers;
+	settings->save();
+}
+
+//! Get complex number mode.
+/*!
+	\return				Complex number mode (d, c, p).
+*/
+QString Manager::getComplexNumber() const
+{
+	if ( settings->complexNumbers )
+		return QString(settings->resultFormatComplex);
+	return "d";
 }
 
 //! Set clipboard text.
@@ -184,7 +213,6 @@ QString Manager::getPrecision() const
 */
 void Manager::setClipboard(const QString& text) const
 {
-//	qDebug() << "set clipboard: " << text;
 	clipboard->setText(text);
 }
 
@@ -194,7 +222,6 @@ void Manager::setClipboard(const QString& text) const
 */
 QString Manager::getClipboard() const
 {
-//	qDebug() << "get clipboard: " << clipboard->text();
 	return clipboard->text();
 }
 
