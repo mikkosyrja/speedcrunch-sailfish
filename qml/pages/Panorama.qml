@@ -7,9 +7,6 @@ Page
 	property int buttonmargin: window.width / 50
 	property int helpmargin: buttonmargin * 2
 
-	property int buttoncolumns: 5
-	property int buttonrows: 5
-
 	property int fontsizebig: statusmargin * 2 / 3
 	property int fontsizesmall: statusmargin / 2
 	property int fontsizetiny: statusmargin / 3
@@ -20,7 +17,7 @@ Page
 	property int keyboardheight: (window.height == 960 ? 446 : window.height * 45 / 100)
 	property int historyheight: window.height - keyboardheight - textfield.height - statusmargin - resultheight
 
-	property int buttonwidth: (width - buttonmargin) / buttoncolumns - buttonmargin
+	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncolumns - buttonmargin
 	property int bulletwidth: window.width / 20
 
 	allowedOrientations: Orientation.Portrait
@@ -279,71 +276,12 @@ Page
 							onClicked: { evaluate(); }
 						}
 					}
-					Pager
+					Keyboard
 					{
 						id: keyboard
 						width: parent.width; height: keyboardheight - statusmargin; spacing: buttonmargin; color: "transparent"
 						anchors.top: textfield.bottom
-						isHorizontal: true
-						enableKeys: false
-						focus: false
-						startIndex: -1
 						indicator: footer
-//						pressDelay: 100
-						model: VisualItemModel
-						{
-							Grid	// Page 1
-							{
-								rows: buttonrows; columns: buttoncolumns
-								width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
-
-	CalcButton { id: button7; text: "7" } CalcButton { id: button8; text: "8" }
-	CalcButton { id: button9; text: "9"; value: "9"; secondary: "j" }
-	CalcButton { text: "/" } CalcButton { text: "x²"; value: "^2" }
-	CalcButton { id: button4; text: "4"; value: "4"; secondary: "D" }
-	CalcButton { id: button5; text: "5"; value: "5"; secondary: "E" }
-	CalcButton { id: button6; text: "6"; value: "6"; secondary: "F" }
-	CalcButton { text: "×"; value: "*" } CalcButton { text: "√"; value: "sqrt()" }
-	CalcButton { id: button1; text: "1"; value: "1"; secondary: "A" }
-	CalcButton { id: button2; text: "2"; value: "2"; secondary: "B" }
-	CalcButton { id: button3; text: "3"; value: "3"; secondary: "C" }
-	CalcButton { text: "-" } CalcButton { text: "1/x"; value: "1/" }
-	CalcButton { text: "0" } CalcButton { text: "." } CalcButton { text: ";" } CalcButton { text: "+" }
-	CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
-
-	CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
-	CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
-	CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
-	Backspace { color: Theme.highlightColor }
-
-							}
-							Grid	// Page 2
-							{
-								rows: buttonrows; columns: buttoncolumns
-								width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
-
-	CalcButton { text: "sin"; isFunction: true } CalcButton { text: "cos"; isFunction: true }
-	CalcButton { text: "tan"; isFunction: true } CalcButton { text: "ln"; isFunction: true }
-	CalcButton { text: "Xⁿ"; value:"^" }
-
-	CalcButton { text: "asin"; value: "arcsin()" } CalcButton { text: "acos"; value: "arccos()" }
-	CalcButton { text: "atan"; value: "arctan()" } CalcButton { text: "exp"; isFunction: true }
-	CalcButton { text: "∛"; value:"cbrt()" }
-
-	CalcButton { text: "π"; value: "pi" } CalcButton { text: "e" } CalcButton { text: "x"; secondary: "y" }
-	CalcButton { text: "X="; value: "="; secondary: "(x)=" } CalcButton { text: "!" }
-
-	CalcButton { text: "&" } CalcButton { text: "|" } CalcButton { text: "<<" } CalcButton { text: ">>" }
-	CalcButton { text: "➔"; value: "->" }
-
-	CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }
-	CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
-	CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
-	Backspace { color: Theme.highlightColor }
-
-							}
-						}
-						Component.onCompleted: keyboard.goToPage(0);
 					}
 				}
 				Item
@@ -416,185 +354,17 @@ Page
 						color: Theme.highlightColor
 					}
 				}
-				Rectangle
+				Settings
 				{
-					id: resultformatsetting
-					width: parent.width; height: settingheight; color: "transparent"
+					id: settings
+					width: parent.width; height: settingheight * 4; color: "transparent"
 					anchors.top: header3.bottom
-					z: 40
-					ComboBox
-					{
-						id: resultformatlist
-						label: "Result format"
-						menu: ContextMenu
-						{
-							MenuItem { text: "General decimal" }
-							MenuItem { text: "Fixed decimal" }
-							MenuItem { text: "Engineering decimal" }
-							MenuItem { text: "Scientific decimal" }
-							MenuItem { text: "Binary" }
-							MenuItem { text: "Octal" }
-							MenuItem { text: "Hexadecimal" }
-						}
-						onCurrentIndexChanged:
-						{
-							if ( currentIndex == 0 ) { manager.setResultFormat("g"); }
-							else if ( currentIndex == 1 ) { manager.setResultFormat("f"); }
-							else if ( currentIndex == 2 ) { manager.setResultFormat("n"); }
-							else if ( currentIndex == 3 ) { manager.setResultFormat("e"); }
-							else if ( currentIndex == 4 ) { manager.setResultFormat("b"); }
-							else if ( currentIndex == 5 ) { manager.setResultFormat("o"); }
-							else if ( currentIndex == 6 ) { manager.setResultFormat("h"); }
-							setButtonLabels()
-						}
-						function setResultFormat(format)
-						{
-							if ( format == "g" ) currentIndex = 0
-							else if ( format == "f" ) currentIndex = 1
-							else if ( format == "n" ) currentIndex = 2
-							else if ( format == "e" ) currentIndex = 3
-							else if ( format == "b" ) currentIndex = 4
-							else if ( format == "o" ) currentIndex = 5
-							else if ( format == "h" ) currentIndex = 6
-						}
-					}
 				}
-				Rectangle
-				{
-					id: precisionsetting
-					width: parent.width; height: settingheight; color: "transparent"
-					anchors.top: resultformatsetting.bottom
-					z: 30
-					ComboBox
-					{
-						id: precisionlist
-						label: "Precision"
-						menu: ContextMenu
-						{
-							MenuItem { text: "Automatic" }
-							MenuItem { text: "0" } MenuItem { text: "1" }
-							MenuItem { text: "2" } MenuItem { text: "3" }
-							MenuItem { text: "4" } MenuItem { text: "6" }
-							MenuItem { text: "8" } MenuItem { text: "12" }
-							MenuItem { text: "16" } MenuItem { text: "20" }
-						}
-						onCurrentIndexChanged:
-						{
-							if ( currentIndex == 0 )
-								manager.setPrecision("")
-							else
-								manager.setPrecision(currentItem.text)
-						}
-						function setPrecision(precision)
-						{
-							if ( precision == "0" ) currentIndex = 1
-							else if ( precision == "1" ) currentIndex = 2
-							else if ( precision == "2" ) currentIndex = 3
-							else if ( precision == "3" ) currentIndex = 4
-							else if ( precision == "4" ) currentIndex = 5
-							else if ( precision == "6" ) currentIndex = 6
-							else if ( precision == "8" ) currentIndex = 7
-							else if ( precision == "12" ) currentIndex = 8
-							else if ( precision == "16" ) currentIndex = 9
-							else if ( precision == "20" ) currentIndex = 10
-							else currentIndex = 0;
-						}
-					}
-				}
-				Rectangle
-				{
-					id: angleunitsetting
-					width: parent.width; height: settingheight; color: "transparent"
-					anchors.top: precisionsetting.bottom
-					z: 20
-					ComboBox
-					{
-						id: angleunitlist
-						label: "Angle Unit"
-						menu: ContextMenu
-						{
-							MenuItem { text: "Degree" }
-							MenuItem { text: "Radian" }
-//							MenuItem { text: "Gradian" }
-						}
-						onCurrentIndexChanged:
-						{
-							if ( currentIndex == 0 ) manager.setAngleUnit("d")
-							else if ( currentIndex == 1 ) manager.setAngleUnit("r")
-//							else if ( currentIndex == 2 ) manager.setAngleUnit("g")
-						}
-						function setAngleUnit(unit)
-						{
-							if ( unit == "d" ) currentIndex = 0
-							else if ( unit == "r" ) currentIndex = 1
-//							else if ( unit == "g" ) currentIndex = 2
-						}
-					}
-				}
-				Rectangle
-				{
-					id: complexnumbersetting
-					width: parent.width; height: settingheight; color: "transparent"
-					anchors.top: angleunitsetting.bottom
-					z: 10
-					ComboBox
-					{
-						id: complexnumberlist
-						label: "Complex numbers"
-						menu: ContextMenu
-						{
-							MenuItem { text: "Disabled" }
-							MenuItem { text: "Cartesian" }
-							MenuItem { text: "Polar" }
-						}
-						onCurrentIndexChanged:
-						{
-							if ( currentIndex == 0 ) manager.setComplexNumber("d")
-							else if ( currentIndex == 1 ) manager.setComplexNumber("c")
-							else if ( currentIndex == 2 ) manager.setComplexNumber("p")
-							setButtonLabels()
-						}
-						function setComplexNumber(complex)
-						{
-							if ( complex == "d" ) currentIndex = 0
-							else if ( complex == "c" ) currentIndex = 1
-							else if ( complex == "p" ) currentIndex = 2
-						}
-					}
-				}
-/*
-				Rectangle
-				{
-					id: expressionsetting
-					width: parent.width; height: settingheight; color: "transparent"
-					anchors.top: complexnumbersetting.bottom
-					TextSwitch
-					{
-						id: expressionswitch
-						checked: true
-						text: "Leave Last Expression"
-//						description: "Leave Last Expression"
-					}
-				}
-				Rectangle
-				{
-					id: historysetting
-					width: parent.width; height: settingheight; color: "transparent"
-					anchors.top: expressionsetting.bottom
-					TextSwitch
-					{
-						id: historyswitch
-						checked: true
-						text: "Save History on Exit"
-//						description: "Save History on Exit"
-					}
-				}
-*/
 				Text
 				{
 					id: helptitle
 					width: parent.width; color: "white"
-					anchors { top: complexnumbersetting.bottom; left: parent.left; leftMargin: helpmargin }
+					anchors { top: settings.bottom; left: parent.left; leftMargin: helpmargin }
 					text: "Tips:"
 					font.pixelSize: Theme.fontSizeSmall
 				}
@@ -646,11 +416,6 @@ Page
 	{
 		textfield.softwareInputPanelEnabled = false
 		textfield.forceActiveFocus()
-
-		angleunitlist.setAngleUnit(manager.getAngleUnit())
-		resultformatlist.setResultFormat(manager.getResultFormat())
-		precisionlist.setPrecision(manager.getPrecision())
-		complexnumberlist.setComplexNumber(manager.getComplexNumber())
 	}
 
 	function evaluate()
@@ -667,28 +432,5 @@ Page
 			resultsview.currentIndex = resultsview.count - 1
 			textfield.text = ""
 		}
-	}
-
-	function setButtonLabels()
-	{
-		var format = manager.getResultFormat()
-		if ( format == "h" )
-		{
-			button1.text = "1 A"; button2.text = "2 B"; button3.text = "3 C"
-			button4.text = "4 D"; button5.text = "5 E"; button6.text = "6 F"
-		}
-		else
-		{
-			button1.text = "1"; button2.text = "2"; button3.text = "3"
-			button4.text = "4"; button5.text = "5"; button6.text = "6"
-		}
-		if ( format == "h" || format == "b" || format == "o" )
-			buttonbase.text = "0x 0b"
-		else
-			buttonbase.text = "0x"
-		if ( manager.getComplexNumber() != "d" )
-			button9.text = "9 j"
-		else
-			button9.text = "9"
 	}
 }
