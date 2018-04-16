@@ -5,6 +5,9 @@ unit conversions, radix systems, complex numbers and user defined variables.
 
 Sailfish port of [SpeedCrunch](http://speedcrunch.org) calculator.
 
+Based on the original port by @qwazix. Updated to the latest SpeenCrunch engine and fixed UI for
+Sailfish X. Currently tested in Jolla 1 and Sony Xperia.
+
 Features:
 - Calculations with up to 50 digits of precision
 - History stack with value or expression recall
@@ -13,6 +16,9 @@ Features:
 - Decimal, binary, octal and hexadecimal bases
 - Built-in functions, constants and units with search
 - User defined variables and functions
+
+UI is generally quite cramped in Jolla 1, because standard Sailfish buttons seem to have fixed
+height regardless of screen size. Will not fix it, but try to keep it somehow usable for now.
 
 ### Usage
 
