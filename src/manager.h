@@ -35,10 +35,14 @@ class Manager : public QObject
 public:
 	Manager();
 
+	Q_INVOKABLE void saveSession();
+
 	Q_INVOKABLE QString autoCalc(const QString& input);
 	Q_INVOKABLE QString autoFix(const QString& input);
 	Q_INVOKABLE QString calculate(const QString& input);
-	Q_INVOKABLE QString getFunctions(const QString& filter);
+
+	Q_INVOKABLE QString getHistory(int);
+	Q_INVOKABLE QString getFunctions(const QString& filter, const QString& type, int);
 
 	Q_INVOKABLE void setAngleUnit(const QString& unit);
 	Q_INVOKABLE QString getAngleUnit() const;
@@ -49,10 +53,18 @@ public:
 	Q_INVOKABLE void setComplexNumber(const QString& complex);
 	Q_INVOKABLE QString getComplexNumber() const;
 
+	Q_INVOKABLE void setSessionSave(bool save);
+	Q_INVOKABLE bool getSessionSave() const;
+	Q_INVOKABLE void clearHistory();
+
+	Q_INVOKABLE void clearVariable(const QString& variable);
+	Q_INVOKABLE void clearFunction(const QString& function);
+
 	Q_INVOKABLE void setClipboard(const QString& text) const;
 	Q_INVOKABLE QString getClipboard() const;
 
 private:
+	Session* session;
 	Evaluator* evaluator;
 	Settings* settings;
 	QClipboard* clipboard;

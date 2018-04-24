@@ -17,8 +17,8 @@ Features:
 - Built-in functions, constants and units with search
 - User defined variables and functions
 
-UI is generally quite cramped in Jolla 1, because standard Sailfish buttons seem to have fixed
-height regardless of screen size. Will not fix it, but try to keep it somehow usable for now.
+UI is little bit cramped in Jolla 1, because standard Sailfish buttons seem to have fixed height
+regardless of screen size. Should still be usable.
 
 ### Usage
 
@@ -29,12 +29,17 @@ between pages or between keyboard panes.
 
 #### Function and settings pages
 
-Leftmost page has function list containing all SpeedCrunch engine functions, constants and units.
-Topmost field can be used to filter names. Pointing function name inserts it to the expression
-editing field and activates the main calculator page.
+Leftmost page has function list containing all SpeedCrunch engine functions, constants, units and
+user defined items. Topmost filter list selection can be used to show only built-in functions,
+units, constants or user defined variables and functions. Search field below it performs additional
+filtering by name.
+
+Pointing list item inserts it to the expression editing field and activates the main calculator
+page. Long press opens context menu with same option and additional possibility to delete user
+defined function or variable.
 
 Rightmost page contains some settings. These are same as desktop version settings and mostly
-self-explanatory.
+self-explanatory. Note that user defined variables and functions are saved with the history list.
 
 #### Expression editing and history list
 

@@ -58,3 +58,21 @@
 - Fixed application initialization for Jolla Harbour QA
 - Resubmitted to Jolla Store
 
+### 0.3.2 (2018-04-24)
+
+- Function list uses Silica list view with quick scroll
+- Function list shows also user variables and functions
+- Added setting for filtering function list items:
+	- All shows all items
+	- Functions shows only built-in functions
+	- Units shows only built-in units
+	- Constants shows only built-in constants
+	- User defined shows only user variables and functions
+- Added function list item context menus:
+	- Activated normally with long press
+	- Insert to expression inserts item to expression
+	- Delete user defined deletes user defined item
+- History list is now managed by the engine
+- Result format change affects to history items
+- Added setting for saving session history on exit
+

@@ -34,7 +34,6 @@ int main(int argc, char *argv[])
 	QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
 	QScopedPointer<QQuickView> view(SailfishApp::createView());
 
-	Manager manager;
 	qmlRegisterType<Manager>("harbour.speedcrunch.Manager", 1, 0, "Manager");
 
 	view->setSource(SailfishApp::pathToMainQml());

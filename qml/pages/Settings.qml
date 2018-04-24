@@ -3,6 +3,9 @@ import Sailfish.Silica 1.0
 
 Rectangle
 {
+	property alias resultformat: resultformatlist.value
+	property alias angleunit: angleunitlist.value
+
 	Rectangle
 	{
 		id: resultformatsetting
@@ -25,14 +28,15 @@ Rectangle
 			}
 			onCurrentIndexChanged:
 			{
-				if ( currentIndex == 0 ) { manager.setResultFormat("g"); }
-				else if ( currentIndex == 1 ) { manager.setResultFormat("f"); }
-				else if ( currentIndex == 2 ) { manager.setResultFormat("n"); }
-				else if ( currentIndex == 3 ) { manager.setResultFormat("e"); }
-				else if ( currentIndex == 4 ) { manager.setResultFormat("b"); }
-				else if ( currentIndex == 5 ) { manager.setResultFormat("o"); }
-				else if ( currentIndex == 6 ) { manager.setResultFormat("h"); }
+				if ( currentIndex == 0 ) { manager.setResultFormat("g") }
+				else if ( currentIndex == 1 ) { manager.setResultFormat("f") }
+				else if ( currentIndex == 2 ) { manager.setResultFormat("n") }
+				else if ( currentIndex == 3 ) { manager.setResultFormat("e") }
+				else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
+				else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
+				else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
 				keyboard.setButtonLabels()
+				resultsview.updateHistory()
 			}
 			function setResultFormat(format)
 			{
@@ -71,6 +75,7 @@ Rectangle
 					manager.setPrecision("")
 				else
 					manager.setPrecision(currentItem.text)
+				resultsview.updateHistory()
 			}
 			function setPrecision(precision)
 			{
@@ -140,6 +145,7 @@ Rectangle
 				else if ( currentIndex == 1 ) manager.setComplexNumber("c")
 				else if ( currentIndex == 2 ) manager.setComplexNumber("p")
 				keyboard.setButtonLabels()
+				resultsview.updateHistory()
 			}
 			function setComplexNumber(complex)
 			{
@@ -149,34 +155,21 @@ Rectangle
 			}
 		}
 	}
-/*
 	Rectangle
 	{
-		id: expressionsetting
+		id: historysavesetting
 		width: parent.width; height: settingheight; color: "transparent"
 		anchors.top: complexnumbersetting.bottom
 		TextSwitch
 		{
-			id: expressionswitch
-			checked: true
-			text: "Leave Last Expression"
-//			description: "Leave Last Expression"
-		}
-	}
-	Rectangle
-	{
-		id: historysetting
-		width: parent.width; height: settingheight; color: "transparent"
-		anchors.top: expressionsetting.bottom
-		TextSwitch
-		{
-			id: historyswitch
+			id: historysaveswitch
 			checked: true
 			text: "Save History on Exit"
 //			description: "Save History on Exit"
+			onCheckedChanged: { manager.setSessionSave(checked) }
+			function setHistorySave(save) { checked = save }
 		}
 	}
-*/
 
 	Component.onCompleted:
 	{
@@ -184,5 +177,6 @@ Rectangle
 		resultformatlist.setResultFormat(manager.getResultFormat())
 		precisionlist.setPrecision(manager.getPrecision())
 		complexnumberlist.setComplexNumber(manager.getComplexNumber())
+		historysaveswitch.setHistorySave(manager.getSessionSave())
 	}
 }
