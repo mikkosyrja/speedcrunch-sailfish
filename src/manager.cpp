@@ -18,9 +18,13 @@
 // Boston, MA 02110-1301, USA.
 
 #include "manager.h"
+
 #include <QFile>
 #include <QDir>
 #include <QGuiApplication>
+#include <QJsonDocument>
+
+#include "core/session.h"
 #include "core/functions.h"
 #include "core/constants.h"
 #include "core/numberformatter.h"
@@ -29,13 +33,49 @@
 //! Default constructor.
 Manager::Manager()
 {
-	evaluator = Evaluator::instance();
-	settings = Settings::instance();
-	clipboard = QGuiApplication::clipboard();
+	session = new Session;
 
+	evaluator = Evaluator::instance();
+	evaluator->setSession(session);
+
+	settings = Settings::instance();
 	settings->load();
+
 	evaluator->initializeBuiltInVariables();
 	DMath::complexMode = settings->complexNumbers;
+
+	QString path = Settings::getConfigPath();
+	QDir directory;
+	directory.mkpath(path);
+	path.append("/history.json");
+
+	QFile file(path);
+	if ( file.open(QIODevice::ReadOnly) )
+	{
+		QByteArray data = file.readAll();
+		QJsonDocument doc(QJsonDocument::fromJson(data));
+		session->deSerialize(doc.object(), true);
+		file.close();
+	}
+
+	clipboard = QGuiApplication::clipboard();
+}
+
+//! Save session on exit.
+void Manager::saveSession()
+{
+	QString path = Settings::getConfigPath();
+	path.append("/history.json");
+
+	QFile file(path);
+	if ( file.open(QIODevice::WriteOnly) )
+	{
+		QJsonObject json;
+		session->serialize(json);
+		QJsonDocument document(json);
+		file.write(document.toJson());
+		file.close();
+	}
 }
 
 //! Auto calculate expression.
@@ -72,44 +112,96 @@ QString Manager::calculate(const QString& input)
 {
 	const QString expression = evaluator->autoFix(input);
 	evaluator->setExpression(expression);
-//	Quantity quantity = evaluator->eval();
 	Quantity quantity = evaluator->evalUpdateAns();
-//	Quantity quantity = evaluator->evalNoAssign();
-
+	session->addHistoryEntry(HistoryEntry(expression, quantity));
 	return NumberFormatter::format(quantity);
+}
+
+//! Get history list.
+/*!
+	\return				History list in JavaScript format.
+
+	Last integer parameter is just for triggering update in QML.
+*/
+QString Manager::getHistory(int)
+{
+	QString result = "[";
+	for ( const auto& entry : session->historyToList() )
+		result += "{expression:\"" + entry.expr() + "\",value:\"" + NumberFormatter::format(entry.result()) + "\"},";
+	return result += "]";
 }
 
 //! Get functions, constants and units.
 /*!
 	\param filter		Filter string.
+	\param type			Function type (a, f, u, c, v).
 	\return				Function list in JavaScript format.
+
+	Last integer parameter is just for triggering update in QML.
 */
-QString Manager::getFunctions(const QString& filter)
+QString Manager::getFunctions(const QString& filter, const QString& type, int)
 {
 	QString result = "[";
-	QStringList functions = FunctionRepo::instance()->getIdentifiers();
-	for ( int index = 0; index < functions.count(); ++index )
+	if ( type == "a" || type == "f" )	// functions
 	{
-		if ( Function* function = FunctionRepo::instance()->find(functions.at(index)) )
+		QStringList functions = FunctionRepo::instance()->getIdentifiers();
+		for ( int index = 0; index < functions.count(); ++index )
 		{
-			if ( filter == "" || function->name().toLower().contains(filter.toLower())
-				|| function->identifier().toLower().contains(filter.toLower()))
+			if ( Function* function = FunctionRepo::instance()->find(functions.at(index)) )
 			{
-				QString usage = function->identifier() + "(" + function->usage() + ")";
-				usage.remove("<sub>").remove("</sub>");
-				result += "{value:\"" + function->identifier() + "\",name:\"" + function->name() + "\",usage:\"" + usage + "\"},";
+				if ( filter == "" || function->name().contains(filter, Qt::CaseInsensitive)
+					|| function->identifier().contains(filter, Qt::CaseInsensitive))
+				{
+					QString usage = function->identifier() + "(" + function->usage() + ")";
+					usage.remove("<sub>").remove("</sub>");
+					result += "{value:\"" + function->identifier() + "\",name:\""
+						+ function->name() + "\",usage:\"" + usage + "\",user:false},";
+				}
 			}
 		}
 	}
-	for ( const auto& unit : Units::getList() )
+	if ( type == "a" || type == "u" )	// units
 	{
-		if ( filter == "" || unit.name.contains(filter, Qt::CaseInsensitive))
-			result += "{value:\"" + unit.name + "\", name:\"" + unit.name + "\",usage:\"\"},";
+		for ( const auto& unit : Units::getList() )
+		{
+			if ( filter == "" || unit.name.contains(filter, Qt::CaseInsensitive))
+				result += "{value:\"" + unit.name + "\", name:\""
+					+ unit.name + "\",usage:\"\",user:false},";
+		}
 	}
-	for ( const auto& constant : Constants::instance()->list() )
+	if ( type == "a" || type == "c" )	// constants
 	{
-		if ( filter == "" || constant.value.contains(filter, Qt::CaseInsensitive) || constant.name.contains(filter, Qt::CaseInsensitive))
-			result += "{value:\"" + constant.value + "\",name:\"" + constant.name + "\",usage:\"\"},";
+		for ( const auto& constant : Constants::instance()->list() )
+		{
+			if ( filter == "" || constant.value.contains(filter, Qt::CaseInsensitive)
+				|| constant.name.contains(filter, Qt::CaseInsensitive))
+				result += "{value:\"" + constant.value + "\",name:\""
+					+ constant.name + "\",usage:\"\",user:false},";
+		}
+	}
+	if ( type == "a" || type == "v" )	// variables and user functions
+	{
+		for ( const auto& variable : evaluator->getVariables() )
+		{
+			if ( variable.type() == Variable::UserDefined )
+			{
+				if ( filter == "" || variable.identifier().contains(filter, Qt::CaseInsensitive) )
+					result += "{value:\"" + variable.identifier() + "\",name:\""
+						+ variable.identifier() + "\",usage:\"\",user:true},";
+			}
+		}
+		for ( const auto& function : evaluator->getUserFunctions() )
+		{
+			QString usage = function.name() + "(";
+			for ( const auto& argument : function.arguments() )
+				usage += argument + ";";
+			if ( usage.at(usage.size() - 1) == ';')
+				usage.chop(1);
+			usage += ")";
+			if ( filter == "" || function.name().contains(filter, Qt::CaseInsensitive) )
+				result += "{value:\"" + function.name() + "\",name:\""
+					+ usage + "\",usage:\"" + usage + "\",user:true},";
+		}
 	}
 	return result += "]";
 }
@@ -205,6 +297,43 @@ QString Manager::getComplexNumber() const
 	if ( settings->complexNumbers )
 		return QString(settings->resultFormatComplex);
 	return "d";
+}
+
+//! Set session save setting.
+/*!
+	\param save			Session save setting.
+*/
+void Manager::setSessionSave(bool save)
+{
+	settings->sessionSave = save;
+	settings->save();
+}
+
+//! Get session save setting.
+/*!
+	\return				Session save setting.
+*/
+bool Manager::getSessionSave() const
+{
+	return settings->sessionSave;
+}
+
+//! Clear history.
+void Manager::clearHistory()
+{
+	session->clearHistory();
+}
+
+//
+void Manager::clearVariable(const QString& variable)
+{
+	evaluator->unsetVariable(variable);
+}
+
+//
+void Manager::clearFunction(const QString& function)
+{
+	evaluator->unsetUserFunction(function);
 }
 
 //! Set clipboard text.

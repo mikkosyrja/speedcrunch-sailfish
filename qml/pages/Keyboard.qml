@@ -30,6 +30,7 @@ Pager
 	CalcButton { id: button3; text: "3"; value: "3"; secondary: "C" }
 	CalcButton { text: "-" } CalcButton { text: "1/x"; value: "1/" }
 	CalcButton { text: "0" } CalcButton { text: "." } CalcButton { text: ";" } CalcButton { text: "+" }
+	// long press: 0 -> °(degree), . -> '(minute), ; -> :(minute), where to put "(second)?
 	CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
 
 	CalcButton { text: "("; color: Theme.highlightColor } CalcButton { text: ")"; color: Theme.highlightColor }

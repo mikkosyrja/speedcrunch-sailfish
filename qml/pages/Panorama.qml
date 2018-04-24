@@ -7,10 +7,10 @@ Page
 	property int buttonmargin: window.width / 50
 	property int helpmargin: buttonmargin * 2
 
-	property int fontsizebig: statusmargin * 2 / 3
+//	property int fontsizebig: statusmargin * 2 / 3
 	property int fontsizesmall: statusmargin / 2
 	property int fontsizetiny: statusmargin / 3
-	property int lineheight: fontsizesmall * 1.3
+	property int lineheight: fontsizesmall * 1.5
 	property int settingheight: statusmargin * 1.3
 
 	property int resultheight: lineheight
@@ -82,11 +82,39 @@ Page
 					font.pixelSize: Theme.fontSizeLarge
 				}
 			}
+			Rectangle
+			{
+				id: filterrectangle
+				width: parent.width; height: settingheight; color: "transparent"
+				anchors { top: header1.bottom; }
+				z: 10
+				ComboBox
+				{
+					id: filterlist
+					label: "Filter"
+					menu: ContextMenu
+					{
+						MenuItem { text: "All" }
+						MenuItem { text: "Functions" }
+						MenuItem { text: "Units" }
+						MenuItem { text: "Constants" }
+						MenuItem { text: "User defined" }
+					}
+					onCurrentIndexChanged:
+					{
+						if ( currentIndex == 0 ) { functionlist.filtertype = "a" }
+						else if ( currentIndex == 1 ) { functionlist.filtertype = "f" }
+						else if ( currentIndex == 2 ) { functionlist.filtertype = "u" }
+						else if ( currentIndex == 3 ) { functionlist.filtertype = "c" }
+						else if ( currentIndex == 4 ) { functionlist.filtertype = "v" }
+					}
+				}
+			}
 			Item
 			{
 				id: searchrectangle
 				width: parent.width; height: searchfunctions.height;
-				anchors { top: header1.bottom; }
+				anchors { top: filterrectangle.bottom; }
 				TextField
 				{
 					id: searchfunctions
@@ -112,43 +140,78 @@ Page
 					}
 				}
 			}
-			ListView
+			SilicaListView
 			{
-				id: functions
+				property string filtertype: "a"
+				property int updatemodel: 0
+				id: functionlist
 				width: parent.width
 				anchors { top: searchrectangle.bottom; bottom: parent.bottom }
 				clip: true
-				model: { eval(manager.getFunctions(searchfunctions.text)) }
-				delegate: Rectangle
+				model: { eval(manager.getFunctions(searchfunctions.text, filtertype, updatemodel)) }
+				delegate: Component
 				{
-					property bool isCurrentItem: ListView.isCurrentItem
-					width: parent.width; height: lineheight; color: "transparent"
-					Text
+					ListItem
 					{
-						id:textitem
-						width: parent.width - 40; color: "white"
-						anchors.centerIn: parent
-						text: modelData.name
-						font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
-						MouseArea
+						id: functionitem
+						contentHeight: lineheight
+						RemorseItem { id: remorse }
+						menu: Component
 						{
-							anchors.fill: parent
-							onClicked:
+							ContextMenu
 							{
-								functions.currentIndex = index;
-								var value = modelData.value + (modelData.usage != "" ? "()" : "")
-								var text = textfield.text
-								var pos = textfield.cursorPosition
-								textfield.text = text.substring(0, pos) + value + text.substring(pos, text.length)
-								textfield.cursorPosition = pos + value.length
-								if ( modelData.usage != "" )
+								MenuItem
 								{
-									textfield.label = modelData.usage
-									textfield.cursorPosition--
+									text: "Insert to expression"
+									onClicked: insert()
 								}
-								screen.goToPage(1)
-								mouse.accepted = true;
+/*
+								MenuItem
+								{
+									text: "Remove from recent"
+									onClicked:
+									{
+										//##
+									}
+								}
+*/
+								MenuItem
+								{
+									text: "Delete user defined"
+									visible: modelData.user
+									onClicked: remorse.execute(functionitem, "Deleting", deleteVariable)
+								}
 							}
+						}
+						onClicked: insert()
+						Text
+						{
+							id:textitem
+							width: parent.width - 40; color: "white"
+							anchors.centerIn: parent
+							text: modelData.name
+							font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
+						}
+						function deleteVariable()
+						{
+							manager.clearVariable(modelData.name)
+							functionlist.updatemodel++
+						}
+						function insert()
+						{
+							functionlist.currentIndex = index;
+							var value = modelData.value + (modelData.usage != "" ? "()" : "")
+							var text = textfield.text
+							var pos = textfield.cursorPosition
+							textfield.text = text.substring(0, pos) + value + text.substring(pos, text.length)
+							textfield.cursorPosition = pos + value.length
+							if ( modelData.usage != "" )
+							{
+								textfield.label = modelData.usage
+								textfield.cursorPosition--
+							}
+							screen.goToPage(1)
+							mouse.accepted = true;
 						}
 					}
 				}
@@ -163,7 +226,6 @@ Page
 				Column
 				{
 					anchors { fill: parent; margins: 10 }
-					ListModel { id: resultslist }
 					Rectangle
 					{
 						id: header2
@@ -181,37 +243,44 @@ Page
 					Rectangle
 					{
 						width: parent.width; height: historyheight; color: "transparent"
-						ListView
+						SilicaListView
 						{
+							property int updatehistory: 0
 							id: resultsview
 							width: parent.width; height: parent.height
 							snapMode: "SnapOneItem"
 							clip: true
-							model: resultslist
-							delegate: Rectangle
+							model: { eval(manager.getHistory(updatehistory)) }
+							delegate: Component
 							{
-								property bool isCurrentItem: ListView.isCurrentItem
-								width: parent.width; height: lineheight; color: "transparent"
-								Text
+								ListItem
 								{
 									id: resultitem
-									width: parent.width - 40; color: "white"
-									anchors.centerIn: parent
-									text: model.text
-									font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
-									MouseArea
+									contentHeight: lineheight
+									onClicked: insert()
+									Text
 									{
-										anchors.fill: parent
-										onClicked:
-										{
-											var text = textfield.text
-											var pos = textfield.cursorPosition
-											textfield.text = text.substring(0, pos) + model.value + text.substring(pos, text.length)
-											textfield.cursorPosition = pos + model.value.length
-										}
-										onPressAndHold: { textfield.text = model.steps }
+										id:textitem
+										width: parent.width - 40; color: "white"
+										anchors.centerIn: parent
+										text: modelData.expression + " = " + modelData.value
+										font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
 									}
+									function insert()
+									{
+										var text = textfield.text
+										var pos = textfield.cursorPosition
+										textfield.text = text.substring(0, pos) + modelData.value + text.substring(pos, text.length)
+										textfield.cursorPosition = pos + modelData.value.length
+									}
+									onPressAndHold: { textfield.text = modelData.expression }
 								}
+							}
+							function updateHistory()
+							{
+								resultsview.updatehistory++
+								resultsview.positionViewAtEnd()
+								resultsview.currentIndex = resultsview.count - 1
 							}
 						}
 						ScrollDecorator { flickable: resultsview }
@@ -304,7 +373,7 @@ Page
 						anchors { bottom: parent.bottom; left: footer.right; leftMargin: buttonmargin }
 						verticalAlignment: Text.AlignVCenter
 						font.pixelSize: Theme.fontSizeExtraSmall
-						text: resultformatlist.value
+						text: settings.resultformat
 					}
 					Label
 					{
@@ -313,7 +382,7 @@ Page
 						anchors { bottom: parent.bottom; right: parent.right; rightMargin: buttonmargin }
 						verticalAlignment: Text.AlignVCenter
 						font.pixelSize: Theme.fontSizeExtraSmall
-						text: angleunitlist.value
+						text: settings.angleunit
 					}
 				}
 				PushUpMenu
@@ -330,7 +399,11 @@ Page
 							textfield.cursorPosition = pos + value.length
 						}
 					}
-					MenuItem { text: "Clear history"; onClicked: resultslist.clear() }
+					MenuItem
+					{
+						text: "Clear history"
+						onClicked: { manager.clearHistory(); resultsview.updateHistory() }
+					}
 				}
 			}
 		}
@@ -357,7 +430,7 @@ Page
 				Settings
 				{
 					id: settings
-					width: parent.width; height: settingheight * 4; color: "transparent"
+					width: parent.width; height: settingheight * 5; color: "transparent"
 					anchors.top: header3.bottom
 				}
 				Text
@@ -416,6 +489,12 @@ Page
 	{
 		textfield.softwareInputPanelEnabled = false
 		textfield.forceActiveFocus()
+		resultsview.updateHistory()
+	}
+
+	Component.onDestruction:
+	{
+		manager.saveSession();
 	}
 
 	function evaluate()
@@ -424,12 +503,8 @@ Page
 		{
 			window.latestExpression = manager.autoFix(textfield.text)
 			window.latestResult = manager.calculate(textfield.text);
-			if ( window.latestResult !== "" )
-				resultslist.append({"text": window.latestExpression + " = " + window.latestResult, "value" : window.latestResult, "steps" : window.latestExpression})
-			else
-				resultslist.append({"text": window.latestExpression, "value" : "", "steps": window.latestExpression})
-			resultsview.positionViewAtEnd()
-			resultsview.currentIndex = resultsview.count - 1
+			resultsview.updateHistory()
+			functionlist.updatemodel++
 			textfield.text = ""
 		}
 	}
