@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
+import org.nemomobile.notifications 1.0
 
 Page
 {
@@ -19,6 +20,8 @@ Page
 
 	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncolumns - buttonmargin
 	property int bulletwidth: window.width / 20
+
+	property bool needsupdate: false
 
 	allowedOrientations: Orientation.Portrait
 
@@ -52,7 +55,13 @@ Page
 			interval: 250; running: false; repeat: false
 			onTriggered:
 			{
-				if ( screen.index == 1 )
+				if ( screen.index == 0 )
+				{
+					if ( needsupdate )
+						functionlist.updatemodel++
+					needsupdate = false
+				}
+				else if ( screen.index == 1 )
 				{
 					textfield.softwareInputPanelEnabled = false
 					textfield.forceActiveFocus()
@@ -165,21 +174,17 @@ Page
 									text: "Insert to expression"
 									onClicked: insert()
 								}
-/*
 								MenuItem
 								{
 									text: "Remove from recent"
-									onClicked:
-									{
-										//##
-									}
+									visible: modelData.recent
+									onClicked: remorse.execute(functionitem, "Removing", removeRecent)
 								}
-*/
 								MenuItem
 								{
 									text: "Delete user defined"
 									visible: modelData.user
-									onClicked: remorse.execute(functionitem, "Deleting", deleteVariable)
+									onClicked: remorse.execute(functionitem, "Deleting", deleteUserDefined)
 								}
 							}
 						}
@@ -192,9 +197,15 @@ Page
 							text: modelData.name
 							font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
 						}
-						function deleteVariable()
+						function removeRecent()
 						{
-							manager.clearVariable(modelData.name)
+							manager.removeRecent(modelData.value)
+							functionlist.updatemodel++
+						}
+						function deleteUserDefined()
+						{
+							manager.clearFunction(modelData.value)
+							manager.clearVariable(modelData.value)
 							functionlist.updatemodel++
 						}
 						function insert()
@@ -210,6 +221,8 @@ Page
 								textfield.label = modelData.usage
 								textfield.cursorPosition--
 							}
+							if ( manager.updateRecent(modelData.value) )
+								needsupdate = true
 							screen.goToPage(1)
 							mouse.accepted = true;
 						}
@@ -316,7 +329,7 @@ Page
 								if ( manager.autoCalc(text) !== "NaN" )
 									label = "=" + result
 								else
-									label = ""
+									label = manager.getError()
 							}
 						}
 						Image	// clear button
@@ -485,6 +498,12 @@ Page
 		}
 	}
 
+	Notification
+	{
+		id: notification
+		category: "x-jolla.store.error"
+	}
+
 	Component.onCompleted:
 	{
 		textfield.softwareInputPanelEnabled = false
@@ -492,17 +511,20 @@ Page
 		resultsview.updateHistory()
 	}
 
-	Component.onDestruction:
-	{
-		manager.saveSession();
-	}
+	Component.onDestruction: { manager.saveSession(); }
 
 	function evaluate()
 	{
 		if ( textfield.text != "" )
 		{
 			window.latestExpression = manager.autoFix(textfield.text)
-			window.latestResult = manager.calculate(textfield.text);
+			window.latestResult = manager.calculate(textfield.text)
+			if ( window.latestResult == "NaN" )
+			{
+				notification.previewSummary = "Evaluation"
+				notification.previewBody = manager.getError()
+				notification.publish()
+			}
 			resultsview.updateHistory()
 			functionlist.updatemodel++
 			textfield.text = ""

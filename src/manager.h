@@ -28,6 +28,8 @@
 #include <QDebug>
 #include <QClipboard>
 
+#include "notification.h"
+
 class Manager : public QObject
 {
 	Q_OBJECT
@@ -40,6 +42,7 @@ public:
 	Q_INVOKABLE QString autoCalc(const QString& input);
 	Q_INVOKABLE QString autoFix(const QString& input);
 	Q_INVOKABLE QString calculate(const QString& input);
+	Q_INVOKABLE QString getError();
 
 	Q_INVOKABLE QString getHistory(int);
 	Q_INVOKABLE QString getFunctions(const QString& filter, const QString& type, int);
@@ -60,14 +63,21 @@ public:
 	Q_INVOKABLE void clearVariable(const QString& variable);
 	Q_INVOKABLE void clearFunction(const QString& function);
 
+	Q_INVOKABLE bool updateRecent(const QString& name);
+	Q_INVOKABLE bool removeRecent(const QString& name);
+
 	Q_INVOKABLE void setClipboard(const QString& text) const;
 	Q_INVOKABLE QString getClipboard() const;
 
 private:
-	Session* session;
-	Evaluator* evaluator;
-	Settings* settings;
-	QClipboard* clipboard;
+	bool checkRecent(const QString& name) const;
+
+	Session* session;						//!< Current session.
+	Evaluator* evaluator;					//!< Expression evaluator.
+	Settings* settings;						//!< Settings storage.
+	QClipboard* clipboard;					//!< System clipboard.
+	QStringList recent;						//!< Recent functions.
+	Notification notification;
 };
 
 #endif

@@ -58,6 +58,10 @@ Manager::Manager()
 		file.close();
 	}
 
+	path = Settings::getConfigPath();
+	path.append("/recent.json");
+	// load recent
+
 	clipboard = QGuiApplication::clipboard();
 }
 
@@ -67,14 +71,27 @@ void Manager::saveSession()
 	QString path = Settings::getConfigPath();
 	path.append("/history.json");
 
-	QFile file(path);
-	if ( file.open(QIODevice::WriteOnly) )
+	QFile historyfile(path);
+	if ( historyfile.open(QIODevice::WriteOnly) )
 	{
 		QJsonObject json;
 		session->serialize(json);
 		QJsonDocument document(json);
-		file.write(document.toJson());
-		file.close();
+		historyfile.write(document.toJson());
+		historyfile.close();
+	}
+
+	path = Settings::getConfigPath();
+	path.append("/recent.json");
+
+	QFile recentfile(path);
+	if ( recentfile.open(QIODevice::WriteOnly) )
+	{
+		QJsonObject json;
+//		session->serialize(json);
+		QJsonDocument document(json);
+		recentfile.write(document.toJson());
+		recentfile.close();
 	}
 }
 
@@ -88,9 +105,9 @@ QString Manager::autoCalc(const QString& input)
 	const QString expression = evaluator->autoFix(input);
 	evaluator->setExpression(expression);
 	Quantity quantity = evaluator->evalNoAssign();
-	if ( evaluator->error().isEmpty() )
-		return NumberFormatter::format(quantity);
-	return "NaN";
+	if ( quantity.isNan() )
+		return "NaN";
+	return NumberFormatter::format(quantity);
 }
 
 //! Auto fix expression.
@@ -113,8 +130,22 @@ QString Manager::calculate(const QString& input)
 	const QString expression = evaluator->autoFix(input);
 	evaluator->setExpression(expression);
 	Quantity quantity = evaluator->evalUpdateAns();
+	if ( quantity.isNan() )
+	{
+//		notification.setBody("foo");
+//		notification.publish();
+		return "NaN";
+	}
 	session->addHistoryEntry(HistoryEntry(expression, quantity));
 	return NumberFormatter::format(quantity);
+}
+
+//
+QString Manager::getError()
+{
+	QString error = evaluator->error();
+	error.remove("<b>").remove("</b>");
+	return error;
 }
 
 //! Get history list.
@@ -144,10 +175,9 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 	QString result = "[";
 	if ( type == "a" || type == "f" )	// functions
 	{
-		QStringList functions = FunctionRepo::instance()->getIdentifiers();
-		for ( int index = 0; index < functions.count(); ++index )
+		for ( const auto& item : recent )	// recent functions
 		{
-			if ( Function* function = FunctionRepo::instance()->find(functions.at(index)) )
+			if ( const Function* function = FunctionRepo::instance()->find(item) )
 			{
 				if ( filter == "" || function->name().contains(filter, Qt::CaseInsensitive)
 					|| function->identifier().contains(filter, Qt::CaseInsensitive))
@@ -155,7 +185,26 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 					QString usage = function->identifier() + "(" + function->usage() + ")";
 					usage.remove("<sub>").remove("</sub>");
 					result += "{value:\"" + function->identifier() + "\",name:\""
-						+ function->name() + "\",usage:\"" + usage + "\",user:false},";
+						+ function->name() + "\",usage:\"" + usage + "\",user:false,recent:true},";
+				}
+			}
+		}
+		QStringList functions = FunctionRepo::instance()->getIdentifiers();
+//		functions.sort(Qt::CaseInsensitive);
+		for ( int index = 0; index < functions.count(); ++index )
+		{
+			if ( const Function* function = FunctionRepo::instance()->find(functions.at(index)) )
+			{
+				if ( filter == "" || function->name().contains(filter, Qt::CaseInsensitive)
+					|| function->identifier().contains(filter, Qt::CaseInsensitive))
+				{
+					if ( !checkRecent(function->identifier()) )
+					{
+						QString usage = function->identifier() + "(" + function->usage() + ")";
+						usage.remove("<sub>").remove("</sub>");
+						result += "{value:\"" + function->identifier() + "\",name:\""
+							+ function->name() + "\",usage:\"" + usage + "\",user:false,recent:false},";
+					}
 				}
 			}
 		}
@@ -166,7 +215,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 		{
 			if ( filter == "" || unit.name.contains(filter, Qt::CaseInsensitive))
 				result += "{value:\"" + unit.name + "\", name:\""
-					+ unit.name + "\",usage:\"\",user:false},";
+					+ unit.name + "\",usage:\"\",user:false,recent:false},";
 		}
 	}
 	if ( type == "a" || type == "c" )	// constants
@@ -176,7 +225,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 			if ( filter == "" || constant.value.contains(filter, Qt::CaseInsensitive)
 				|| constant.name.contains(filter, Qt::CaseInsensitive))
 				result += "{value:\"" + constant.value + "\",name:\""
-					+ constant.name + "\",usage:\"\",user:false},";
+					+ constant.name + "\",usage:\"\",user:false,recent:false},";
 		}
 	}
 	if ( type == "a" || type == "v" )	// variables and user functions
@@ -187,7 +236,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 			{
 				if ( filter == "" || variable.identifier().contains(filter, Qt::CaseInsensitive) )
 					result += "{value:\"" + variable.identifier() + "\",name:\""
-						+ variable.identifier() + "\",usage:\"\",user:true},";
+						+ variable.identifier() + "\",usage:\"\",user:true,recent:false},";
 			}
 		}
 		for ( const auto& function : evaluator->getUserFunctions() )
@@ -200,7 +249,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 			usage += ")";
 			if ( filter == "" || function.name().contains(filter, Qt::CaseInsensitive) )
 				result += "{value:\"" + function.name() + "\",name:\""
-					+ usage + "\",usage:\"" + usage + "\",user:true},";
+					+ usage + "\",usage:\"" + usage + "\",user:true,recent:false},";
 		}
 	}
 	return result += "]";
@@ -318,22 +367,67 @@ bool Manager::getSessionSave() const
 	return settings->sessionSave;
 }
 
-//! Clear history.
+//! Clear whole history.
 void Manager::clearHistory()
 {
 	session->clearHistory();
 }
 
-//
+//! Clear user variable.
+/*!
+	\param variable		Variable name.
+*/
 void Manager::clearVariable(const QString& variable)
 {
 	evaluator->unsetVariable(variable);
 }
 
-//
+//! Clear user function.
+/*!
+	\param function		Function name.
+*/
 void Manager::clearFunction(const QString& function)
 {
 	evaluator->unsetUserFunction(function);
+}
+
+//! Update recent list.
+/*!
+	\param name			Item name.
+	\return				True if list needs update.
+*/
+bool Manager::updateRecent(const QString& name)
+{
+	for ( auto iterator = recent.begin(); iterator != recent.end(); ++iterator )
+	{
+		if ( *iterator == name )
+		{
+			if ( iterator == recent.begin() )	// already first
+				return false;
+			recent.erase(iterator);
+			break;
+		}
+	}
+	recent.insert(recent.begin(), name);
+	return true;
+}
+
+//! Remove item from recent list.
+/*!
+	\param name			Item name.
+	\return				True if list needs update.
+*/
+bool Manager::removeRecent(const QString& name)
+{
+	for ( auto iterator = recent.begin(); iterator != recent.end(); ++iterator )
+	{
+		if ( *iterator == name )
+		{
+			recent.erase(iterator);
+			return true;
+		}
+	}
+	return false;
 }
 
 //! Set clipboard text.
@@ -352,5 +446,16 @@ void Manager::setClipboard(const QString& text) const
 QString Manager::getClipboard() const
 {
 	return clipboard->text();
+}
+
+//
+bool Manager::checkRecent(const QString& name) const
+{
+	for ( auto iterator = recent.begin(); iterator != recent.end(); ++iterator )
+	{
+		if ( *iterator == name )
+			return true;
+	}
+	return false;
 }
 

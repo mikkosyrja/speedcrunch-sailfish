@@ -76,3 +76,10 @@
 - Result format change affects to history items
 - Added setting for saving session history on exit
 
+### 0.3.3 (2018-07-xx)
+
+- Fixed user defined function removing.
+- Added error message displaying:
+	- Autocalc errors as text field label
+	- Evaluation errors as notifications
+

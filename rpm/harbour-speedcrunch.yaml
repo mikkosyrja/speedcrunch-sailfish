@@ -11,12 +11,13 @@ Description: |
 Configure: none
 Builder: qtc5
 PkgConfigBR:
-- sailfishapp
+- sailfishapp >= 1.0.2
 - Qt5Quick
 - Qt5Qml
 - Qt5Core
+- nemonotifications-qt5
 Requires:
-- sailfishsilica-qt5
+- sailfishsilica-qt5 >= 0.10.9
 Files:
 - /usr/share/harbour-speedcrunch
 - '%{_bindir}'
