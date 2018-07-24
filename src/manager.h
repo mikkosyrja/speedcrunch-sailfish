@@ -23,12 +23,13 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
-#include "core/evaluator.h"
-#include "core/settings.h"
 #include <QDebug>
 #include <QClipboard>
 
-#include "notification.h"
+#include "core/evaluator.h"
+#include "core/settings.h"
+#include "core/constants.h"
+#include "math/units.h"
 
 class Manager : public QObject
 {
@@ -76,8 +77,13 @@ private:
 	Evaluator* evaluator;					//!< Expression evaluator.
 	Settings* settings;						//!< Settings storage.
 	QClipboard* clipboard;					//!< System clipboard.
+
 	QStringList recent;						//!< Recent functions.
-	Notification notification;
+	QStringList identifiers;				//!< Function identifiers.
+	QStringList functions;					//!< Function names.
+
+	QList<Unit> units;						//!< Available units.
+	QList<Constant> constants;				//!< Available constants.
 };
 
 #endif

@@ -78,8 +78,20 @@
 
 ### 0.3.3 (2018-07-xx)
 
-- Fixed user defined function removing.
+- Fixed user defined function removing
 - Added error message displaying:
 	- Autocalc errors as text field label
 	- Evaluation errors as notifications
+- Function list context menu first item displays content:
+	- For functions usage is displayed
+	- For constants and variables value is displayed
+	- For units unit name is displayed
+	- Selecting item inserts it to the expression
+- Function list items are sorted alphabetically
+- Added support for recently used items:
+	- Single string list remembers recently used item names
+	- Recently used items are displayed first with bold text
+	- Context menu item removes item from the recent list
+	- Recent item list size is not currently limited
+
 

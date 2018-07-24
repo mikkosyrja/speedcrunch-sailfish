@@ -169,11 +169,7 @@ Page
 						{
 							ContextMenu
 							{
-								MenuItem
-								{
-									text: "Insert to expression"
-									onClicked: insert()
-								}
+								MenuItem { text: modelData.label; onClicked: insert() }
 								MenuItem
 								{
 									text: "Remove from recent"
@@ -195,11 +191,11 @@ Page
 							width: parent.width - 40; color: "white"
 							anchors.centerIn: parent
 							text: modelData.name
-							font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
+							font { pixelSize: fontsizesmall; weight: (modelData.recent ? Font.Bold: Font.Light) }
 						}
 						function removeRecent()
 						{
-							manager.removeRecent(modelData.value)
+							manager.removeRecent(modelData.name)
 							functionlist.updatemodel++
 						}
 						function deleteUserDefined()
@@ -211,7 +207,7 @@ Page
 						function insert()
 						{
 							functionlist.currentIndex = index;
-							var value = modelData.value + (modelData.usage != "" ? "()" : "")
+							var value = modelData.value
 							var text = textfield.text
 							var pos = textfield.cursorPosition
 							textfield.text = text.substring(0, pos) + value + text.substring(pos, text.length)
@@ -221,7 +217,7 @@ Page
 								textfield.label = modelData.usage
 								textfield.cursorPosition--
 							}
-							if ( manager.updateRecent(modelData.value) )
+							if ( manager.updateRecent(modelData.name) )
 								needsupdate = true
 							screen.goToPage(1)
 							mouse.accepted = true;

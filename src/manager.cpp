@@ -26,9 +26,7 @@
 
 #include "core/session.h"
 #include "core/functions.h"
-#include "core/constants.h"
 #include "core/numberformatter.h"
-#include "math/units.h"
 
 //! Default constructor.
 Manager::Manager()
@@ -44,25 +42,54 @@ Manager::Manager()
 	evaluator->initializeBuiltInVariables();
 	DMath::complexMode = settings->complexNumbers;
 
-	QString path = Settings::getConfigPath();
-	QDir directory;
-	directory.mkpath(path);
-	path.append("/history.json");
+	QDir directory;		// configuration path
+	QString configpath = Settings::getConfigPath();
+	directory.mkpath(configpath);
 
-	QFile file(path);
-	if ( file.open(QIODevice::ReadOnly) )
+	QString historypath = configpath + "/history.json";
+	QFile historyfile(historypath);
+	if ( historyfile.open(QIODevice::ReadOnly) )
 	{
-		QByteArray data = file.readAll();
+		QByteArray data = historyfile.readAll();
 		QJsonDocument doc(QJsonDocument::fromJson(data));
 		session->deSerialize(doc.object(), true);
-		file.close();
+		historyfile.close();
 	}
 
-	path = Settings::getConfigPath();
-	path.append("/recent.json");
-	// load recent
+	QString recentpath = configpath + "/recent.json";
+	QFile recentfile(recentpath);
+	if ( recentfile.open(QIODevice::ReadOnly) )
+	{
+		QByteArray data = recentfile.readAll();
+		QJsonDocument doc(QJsonDocument::fromJson(data));
+		QJsonObject json = doc.object();
+		if ( json.contains("recent") )
+		{
+			QJsonArray entries = json["recent"].toArray();
+			int count = entries.size();
+			for( int index = 0; index < count; ++index )
+				recent.push_back(entries[index].toObject()["item"].toString());
+		}
+		recentfile.close();
+	}
 
 	clipboard = QGuiApplication::clipboard();
+
+	identifiers = FunctionRepo::instance()->getIdentifiers();
+	for ( int index = 0; index < identifiers.count(); ++index )
+	{
+		if ( const Function* function = FunctionRepo::instance()->find(identifiers.at(index)) )
+			functions.push_back(function->name());
+	}
+	functions.sort(Qt::CaseInsensitive);
+
+	units = Units::getList();
+	qSort(units.begin(), units.end(), [](const Unit& first, const Unit& second)
+		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
+
+	constants = Constants::instance()->list();
+	qSort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
+		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 }
 
 //! Save session on exit.
@@ -88,7 +115,14 @@ void Manager::saveSession()
 	if ( recentfile.open(QIODevice::WriteOnly) )
 	{
 		QJsonObject json;
-//		session->serialize(json);
+		QJsonArray entries;
+		for ( const auto& item : recent )
+		{
+			QJsonObject object;
+			object["item"] = item;
+			entries.append(object);
+		}
+		json["recent"] = entries;
 		QJsonDocument document(json);
 		recentfile.write(document.toJson());
 		recentfile.close();
@@ -131,16 +165,15 @@ QString Manager::calculate(const QString& input)
 	evaluator->setExpression(expression);
 	Quantity quantity = evaluator->evalUpdateAns();
 	if ( quantity.isNan() )
-	{
-//		notification.setBody("foo");
-//		notification.publish();
 		return "NaN";
-	}
 	session->addHistoryEntry(HistoryEntry(expression, quantity));
 	return NumberFormatter::format(quantity);
 }
 
-//
+//! Get latest error as string.
+/*!
+	\return				Error string.
+*/
 QString Manager::getError()
 {
 	QString error = evaluator->error();
@@ -172,86 +205,197 @@ QString Manager::getHistory(int)
 */
 QString Manager::getFunctions(const QString& filter, const QString& type, int)
 {
+	QList<Variable> variables = evaluator->getVariables();
+	qSort(variables.begin(), variables.end(), [](const Variable& first, const Variable& second)
+		{ return first.identifier().compare(second.identifier(), Qt::CaseInsensitive) < 0; });
+
+	QList<UserFunction> userfunctions = evaluator->getUserFunctions();
+	qSort(userfunctions.begin(), userfunctions.end(), [](const UserFunction& first, const UserFunction& second)
+		{ return first.name().compare(second.name(), Qt::CaseInsensitive) < 0; });
+
 	QString result = "[";
-	if ( type == "a" || type == "f" )	// functions
+
+	auto appendfunction = [&](const Function* function, bool recent)
 	{
-		for ( const auto& item : recent )	// recent functions
+		if ( filter.isEmpty() || function->name().contains(filter, Qt::CaseInsensitive)
+			|| function->identifier().contains(filter, Qt::CaseInsensitive) )
 		{
-			if ( const Function* function = FunctionRepo::instance()->find(item) )
+			QString usage = function->identifier() + "(" + function->usage() + ")";
+			usage.remove("<sub>").remove("</sub>");
+			result += "{value:\"" + function->identifier() + "()"
+				+ "\",name:\"" + function->name() + "\",usage:\"" + usage
+				+ "\",label:\"" + usage + "\",user:false,"
+				+ "recent:" + (recent ? "true" : "false") + "},";
+		}
+	};
+
+	auto findfunction = [&](const QString& name) -> const Function*
+	{
+		for ( int index = 0; index < identifiers.count(); ++index )
+		{
+			if ( const Function* function = FunctionRepo::instance()->find(identifiers.at(index)) )
 			{
-				if ( filter == "" || function->name().contains(filter, Qt::CaseInsensitive)
-					|| function->identifier().contains(filter, Qt::CaseInsensitive))
-				{
-					QString usage = function->identifier() + "(" + function->usage() + ")";
-					usage.remove("<sub>").remove("</sub>");
-					result += "{value:\"" + function->identifier() + "\",name:\""
-						+ function->name() + "\",usage:\"" + usage + "\",user:false,recent:true},";
-				}
+				if ( function->name() == name )
+					return function;
 			}
 		}
-		QStringList functions = FunctionRepo::instance()->getIdentifiers();
-//		functions.sort(Qt::CaseInsensitive);
-		for ( int index = 0; index < functions.count(); ++index )
-		{
-			if ( const Function* function = FunctionRepo::instance()->find(functions.at(index)) )
-			{
-				if ( filter == "" || function->name().contains(filter, Qt::CaseInsensitive)
-					|| function->identifier().contains(filter, Qt::CaseInsensitive))
-				{
-					if ( !checkRecent(function->identifier()) )
-					{
-						QString usage = function->identifier() + "(" + function->usage() + ")";
-						usage.remove("<sub>").remove("</sub>");
-						result += "{value:\"" + function->identifier() + "\",name:\""
-							+ function->name() + "\",usage:\"" + usage + "\",user:false,recent:false},";
-					}
-				}
-			}
-		}
-	}
-	if ( type == "a" || type == "u" )	// units
+		return nullptr;
+	};
+
+	auto appendunit = [&](const Unit& unit, bool recent)
 	{
-		for ( const auto& unit : Units::getList() )
-		{
-			if ( filter == "" || unit.name.contains(filter, Qt::CaseInsensitive))
-				result += "{value:\"" + unit.name + "\", name:\""
-					+ unit.name + "\",usage:\"\",user:false,recent:false},";
-		}
-	}
-	if ( type == "a" || type == "c" )	// constants
+		if ( filter.isEmpty() || unit.name.contains(filter, Qt::CaseInsensitive))
+			result += "{value:\"" + unit.name
+				+ "\", name:\"" + unit.name + "\",usage:\""
+				+ "\",label:\"" + unit.name + "\",user:false,"
+				+ "recent:" + (recent ? "true" : "false") + "},";
+	};
+
+	auto findunit = [&](const QString& name) -> const Unit*
 	{
-		for ( const auto& constant : Constants::instance()->list() )
-		{
-			if ( filter == "" || constant.value.contains(filter, Qt::CaseInsensitive)
-				|| constant.name.contains(filter, Qt::CaseInsensitive))
-				result += "{value:\"" + constant.value + "\",name:\""
-					+ constant.name + "\",usage:\"\",user:false,recent:false},";
-		}
-	}
-	if ( type == "a" || type == "v" )	// variables and user functions
+		for ( const auto& unit : units ) if ( unit.name == name )
+			return &unit;
+		return nullptr;
+	};
+
+	auto appendconstant = [&](const Constant& constant, bool recent)
 	{
-		for ( const auto& variable : evaluator->getVariables() )
+		if ( filter.isEmpty() || constant.value.contains(filter, Qt::CaseInsensitive)
+			|| constant.name.contains(filter, Qt::CaseInsensitive))
+			result += "{value:\"" + constant.value
+				+ "\",name:\"" + constant.name + "\",usage:\""
+				+ "\",label:\"" + constant.value + "\",user:false,"
+				+ "recent:" + (recent ? "true" : "false") + "},";
+	};
+
+	auto findconstant = [&](const QString& name) -> const Constant*
+	{
+		for ( const auto& constant : constants ) if ( constant.name == name )
+			return &constant;
+		return nullptr;
+	};
+
+	auto appendvariable = [&](const Variable& variable, bool recent)
+	{
+		if ( variable.type() == Variable::UserDefined
+			 && (filter.isEmpty() || variable.identifier().contains(filter, Qt::CaseInsensitive)) )
 		{
-			if ( variable.type() == Variable::UserDefined )
-			{
-				if ( filter == "" || variable.identifier().contains(filter, Qt::CaseInsensitive) )
-					result += "{value:\"" + variable.identifier() + "\",name:\""
-						+ variable.identifier() + "\",usage:\"\",user:true,recent:false},";
-			}
+			QString value = DMath::format(variable.value(), HNumber::Format::Fixed());
+			result += "{value:\"" + variable.identifier()
+				+ "\",name:\"" + variable.identifier() + "\",usage:\""
+				+ "\",label:\"" + value + "\",user:true,"
+				+ "recent:" + (recent ? "true" : "false") + "},";
 		}
-		for ( const auto& function : evaluator->getUserFunctions() )
+	};
+
+	auto findvariable = [&](const QString& name) -> const Variable*
+	{
+		for ( const auto& variable : variables ) if ( variable.identifier() == name )
+			return &variable;
+		return nullptr;
+	};
+
+	auto appenduserfunction = [&](const UserFunction& function, bool recent)
+	{
+		if ( filter.isEmpty() || function.name().contains(filter, Qt::CaseInsensitive) )
 		{
 			QString usage = function.name() + "(";
 			for ( const auto& argument : function.arguments() )
 				usage += argument + ";";
-			if ( usage.at(usage.size() - 1) == ';')
+			if ( usage.at(usage.size() - 1) == ';' )
 				usage.chop(1);
 			usage += ")";
-			if ( filter == "" || function.name().contains(filter, Qt::CaseInsensitive) )
-				result += "{value:\"" + function.name() + "\",name:\""
-					+ usage + "\",usage:\"" + usage + "\",user:true,recent:false},";
+			result += "{value:\"" + function.name() + "()"
+				+ "\",name:\"" + function.name() + "()\",usage:\"" + usage
+				+ "\",label:\"" + usage + "\",user:true,"
+				+ "recent:" + (recent ? "true" : "false") + "},";
+		}
+	};
+
+	auto finduserfunction = [&](const QString& name) -> const UserFunction*
+	{
+		for ( const auto& function : userfunctions ) if ( function.name() == name )
+			return &function;
+		return nullptr;
+	};
+
+	QStringList list(recent);	// recent items first
+	for ( auto iterator = list.begin(); iterator != list.end(); )
+	{
+		if ( auto function = findfunction(*iterator) )
+		{
+			if ( type == "a" || type == "f" )
+				appendfunction(function, true);
+			iterator = list.erase(iterator);
+			continue;
+		}
+		if ( auto unit = findunit(*iterator) )
+		{
+			if ( type == "a" || type == "u" )
+				appendunit(*unit, true);
+			iterator = list.erase(iterator);
+			continue;
+		}
+		if ( auto constant = findconstant(*iterator) )
+		{
+			if ( type == "a" || type == "c" )
+				appendconstant(*constant, true);
+			iterator = list.erase(iterator);
+			continue;
+		}
+		if ( auto variable = findvariable(*iterator) )
+		{
+			if ( type == "a" || type == "v" )
+				appendvariable(*variable, true);
+			iterator = list.erase(iterator);
+			continue;
+		}
+		QString name = *iterator;
+		name.chop(2);	// chop parenthesis
+		if ( auto function = finduserfunction(name) )
+		{
+			if ( type == "a" || type == "v" )
+				appenduserfunction(*function, true);
+			iterator = list.erase(iterator);
+			continue;
+		}
+
+		++iterator;
+	}
+
+	for ( const auto& name : list )		// remove items not found from any list
+		removeRecent(name);
+
+	if ( type == "a" || type == "f" ) for ( const auto& name : functions )
+	{
+		if ( !checkRecent(name) ) if ( auto function = findfunction(name) )
+			appendfunction(function, false);
+	}
+	if ( type == "a" || type == "u" ) for ( const auto& unit : units )
+	{
+		if ( !checkRecent(unit.name) )
+			appendunit(unit, false);
+	}
+	if ( type == "a" || type == "c" ) for ( const auto& constant : constants )
+	{
+		if ( !checkRecent(constant.name) )
+			appendconstant(constant, false);
+	}
+
+	if ( type == "a" || type == "v" )	// variables and user functions
+	{
+		for ( const auto& variable : variables )
+		{
+			if ( !checkRecent(variable.identifier()) )
+				appendvariable(variable, false);
+		}
+		for ( const auto& function : userfunctions )
+		{
+			if ( !checkRecent(function.name() + "()") )
+				appenduserfunction(function, false);
 		}
 	}
+
 	return result += "]";
 }
 
@@ -451,9 +595,9 @@ QString Manager::getClipboard() const
 //
 bool Manager::checkRecent(const QString& name) const
 {
-	for ( auto iterator = recent.begin(); iterator != recent.end(); ++iterator )
+	for ( const auto& item : recent )
 	{
-		if ( *iterator == name )
+		if ( item == name )
 			return true;
 	}
 	return false;
