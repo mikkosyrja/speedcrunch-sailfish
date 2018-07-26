@@ -20,6 +20,10 @@ Features:
 UI is little bit cramped in Jolla 1, because standard Sailfish buttons seem to have fixed height
 regardless of screen size. Should still be usable.
 
+### Download
+
+Download is available at [https://openrepos.net/content/syrja/speedcrunch](https://openrepos.net/content/syrja/speedcrunch).
+
 ### Usage
 
 User interface consists three pages and two keyboard panes. Leftmost page has function list,
@@ -35,8 +39,15 @@ units, constants or user defined variables and functions. Search field below it 
 filtering by name.
 
 Pointing list item inserts it to the expression editing field and activates the main calculator
-page. Long press opens context menu with same option and additional possibility to delete user
-defined function or variable.
+page. Long press opens context menu with options. First context menu item displays list item
+content. For functions it is usage with parameter names. For constants and variables it is value
+and for units it is just unit name. Selecting first item performs same inserting as list item
+pointing.
+
+Used items are collected to recent item stack and displayed at the top of the list with bold font.
+Other items come after them in alphabetical order. Recent item stack size is not currently limited,
+but recent menu items has additional context menu item for removing them from the recent stack.
+Also, user defined functions and variables have context menu item for deleting them.
 
 Rightmost page contains some settings. These are same as desktop version settings and mostly
 self-explanatory. Note that user defined variables and functions are saved with the history list.
@@ -51,7 +62,7 @@ Below the history list is expression editing field. It can be edited either by c
 or standard Sailfish virtual keyboard. Because the expression field is always active, it must be
 pointed twice to activate the Sailfish keyboard.
 
-Below the expression editor is label field used for function syntax hints and autocalc results.
+Below the expression editor is label field used for function usage parameters and autocalc results.
 
 #### Keyboard and pulley menu
 
@@ -80,5 +91,7 @@ General Public License as published by the Free Software Foundation; either vers
 License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
-even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-General Public License for more details.
+even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+[GNU General Public License](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) for more
+details.
+

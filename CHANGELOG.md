@@ -93,5 +93,5 @@
 	- Recently used items are displayed first with bold text
 	- Context menu item removes item from the recent list
 	- Recent item list size is not currently limited
-
+- Compiled with SDK version 1804
 
