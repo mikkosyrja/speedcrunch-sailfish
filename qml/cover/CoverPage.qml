@@ -29,7 +29,7 @@ CoverBackground
 		wrapMode: Text.WrapAnywhere
 		font.pixelSize: fontsizesmall
 //		color: Theme.highlightColor
-		text: window.latestExpression == "" ? "" : window.latestExpression + " ="
+		text: window.latestExpression == "" ? "" : window.latestExpression + (window.latestResult == "" ? "" : " =")
 	}
 	Label
 	{

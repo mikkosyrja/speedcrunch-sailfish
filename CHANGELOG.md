@@ -92,6 +92,7 @@
 	- Single string list remembers recently used item names
 	- Recently used items are displayed first with bold text
 	- Context menu item removes item from the recent list
+	- New user functions and variables are automatically recent
 	- Recent item list size is not currently limited
 - Compiled with SDK version 1804
 

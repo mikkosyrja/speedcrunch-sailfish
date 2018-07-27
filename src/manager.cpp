@@ -165,7 +165,20 @@ QString Manager::calculate(const QString& input)
 	evaluator->setExpression(expression);
 	Quantity quantity = evaluator->evalUpdateAns();
 	if ( quantity.isNan() )
+	{
+		if ( evaluator->isUserFunctionAssign() )
+		{
+			updateRecent(evaluator->getAssignId() + "()");
+			session->addHistoryEntry(HistoryEntry(expression, quantity));
+		}
 		return "NaN";
+	}
+	else	// user variable
+	{
+		QString assign = evaluator->getAssignId();
+		if ( !assign.isEmpty() )
+			updateRecent(assign);
+	}
 	session->addHistoryEntry(HistoryEntry(expression, quantity));
 	return NumberFormatter::format(quantity);
 }
@@ -517,6 +530,12 @@ void Manager::clearHistory()
 	session->clearHistory();
 }
 
+//
+QString Manager::getAssignId() const
+{
+	return evaluator->getAssignId();
+}
+
 //! Clear user variable.
 /*!
 	\param variable		Variable name.
@@ -532,7 +551,9 @@ void Manager::clearVariable(const QString& variable)
 */
 void Manager::clearFunction(const QString& function)
 {
-	evaluator->unsetUserFunction(function);
+	QString name = function;
+	name.chop(2);	// remove parenthesis
+	evaluator->unsetUserFunction(name);
 }
 
 //! Update recent list.

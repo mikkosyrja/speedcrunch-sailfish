@@ -24,7 +24,7 @@ Pager
 	CalcButton { id: button4; text: "4"; value: "4"; secondary: "D" }
 	CalcButton { id: button5; text: "5"; value: "5"; secondary: "E" }
 	CalcButton { id: button6; text: "6"; value: "6"; secondary: "F" }
-	CalcButton { text: "×"; value: "*" } CalcButton { text: "√"; value: "sqrt()" }
+	CalcButton { text: "×"; value: "×" } CalcButton { text: "√"; value: "sqrt()" }
 	CalcButton { id: button1; text: "1"; value: "1"; secondary: "A" }
 	CalcButton { id: button2; text: "2"; value: "2"; secondary: "B" }
 	CalcButton { id: button3; text: "3"; value: "3"; secondary: "C" }

@@ -61,6 +61,7 @@ public:
 	Q_INVOKABLE bool getSessionSave() const;
 	Q_INVOKABLE void clearHistory();
 
+	Q_INVOKABLE QString getAssignId() const;
 	Q_INVOKABLE void clearVariable(const QString& variable);
 	Q_INVOKABLE void clearFunction(const QString& function);
 

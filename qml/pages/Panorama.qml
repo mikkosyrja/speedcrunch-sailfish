@@ -494,11 +494,7 @@ Page
 		}
 	}
 
-	Notification
-	{
-		id: notification
-		category: "x-jolla.store.error"
-	}
+	Notification { id: notification; category: "SpeedCrunch" }
 
 	Component.onCompleted:
 	{
@@ -513,17 +509,36 @@ Page
 	{
 		if ( textfield.text != "" )
 		{
-			window.latestExpression = manager.autoFix(textfield.text)
-			window.latestResult = manager.calculate(textfield.text)
-			if ( window.latestResult == "NaN" )
+			var result = manager.calculate(textfield.text)
+			var assign = manager.getAssignId()
+			if ( result == "NaN" )
 			{
-				notification.previewSummary = "Evaluation"
-				notification.previewBody = manager.getError()
+				if ( assign.length )
+				{
+					functionlist.updatemodel++
+					window.latestExpression = manager.autoFix(textfield.text)
+					window.latestResult = ""
+					resultsview.updateHistory()
+					notification.previewSummary = "Function added"
+					notification.previewBody = ""
+					textfield.text = ""
+				}
+				else
+				{
+					notification.previewSummary = "Evaluation error"
+					notification.previewBody = manager.getError()
+				}
 				notification.publish()
 			}
-			resultsview.updateHistory()
-			functionlist.updatemodel++
-			textfield.text = ""
+			else
+			{
+				window.latestExpression = manager.autoFix(textfield.text)
+				window.latestResult = result
+				resultsview.updateHistory()
+				textfield.text = ""
+				if ( assign.length )
+					functionlist.updatemodel++
+			}
 		}
 	}
 }
