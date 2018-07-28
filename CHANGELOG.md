@@ -76,7 +76,7 @@
 - Result format change affects to history items
 - Added setting for saving session history on exit
 
-### 0.3.3 (2018-07-xx)
+### 0.3.3 (2018-07-28)
 
 - Fixed user defined function removing
 - Added error message displaying:
@@ -94,5 +94,5 @@
 	- Context menu item removes item from the recent list
 	- New user functions and variables are automatically recent
 	- Recent item list size is not currently limited
-- Compiled with SDK version 1804
+- Compiled with SDK version 1804 for Sailfish 2.2.0
 

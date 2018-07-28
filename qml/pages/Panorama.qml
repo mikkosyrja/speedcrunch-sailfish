@@ -513,7 +513,13 @@ Page
 			var assign = manager.getAssignId()
 			if ( result == "NaN" )
 			{
-				if ( assign.length )
+				var error = manager.getError()
+				if ( error.length )
+				{
+					notification.previewSummary = "Evaluation error"
+					notification.previewBody = error
+				}
+				else if ( assign.length )
 				{
 					functionlist.updatemodel++
 					window.latestExpression = manager.autoFix(textfield.text)
@@ -522,11 +528,6 @@ Page
 					notification.previewSummary = "Function added"
 					notification.previewBody = ""
 					textfield.text = ""
-				}
-				else
-				{
-					notification.previewSummary = "Evaluation error"
-					notification.previewBody = manager.getError()
 				}
 				notification.publish()
 			}

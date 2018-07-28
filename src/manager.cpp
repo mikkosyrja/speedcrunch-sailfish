@@ -169,7 +169,8 @@ QString Manager::calculate(const QString& input)
 		if ( evaluator->isUserFunctionAssign() )
 		{
 			updateRecent(evaluator->getAssignId() + "()");
-			session->addHistoryEntry(HistoryEntry(expression, quantity));
+			if ( evaluator->error().isEmpty() )
+				session->addHistoryEntry(HistoryEntry(expression, quantity));
 		}
 		return "NaN";
 	}
@@ -530,7 +531,10 @@ void Manager::clearHistory()
 	session->clearHistory();
 }
 
-//
+//! Get assigned user variable or function id.
+/*!
+	\return				Variable or function id.
+*/
 QString Manager::getAssignId() const
 {
 	return evaluator->getAssignId();

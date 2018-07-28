@@ -33,7 +33,7 @@ between pages or between keyboard panes.
 
 #### Function and settings pages
 
-Leftmost page has function list containing all SpeedCrunch engine functions, constants, units and
+Leftmost page has function list containing all SpeedCrunch engine functions, units, constants and
 user defined items. Topmost filter list selection can be used to show only built-in functions,
 units, constants or user defined variables and functions. Search field below it performs additional
 filtering by name.
@@ -45,9 +45,10 @@ and for units it is just unit name. Selecting first item performs same inserting
 pointing.
 
 Used items are collected to recent item stack and displayed at the top of the list with bold font.
-Other items come after them in alphabetical order. Recent item stack size is not currently limited,
-but recent menu items has additional context menu item for removing them from the recent stack.
-Also, user defined functions and variables have context menu item for deleting them.
+Newly created user variables and functions are automatically considered recently used. Other items
+come after them in alphabetical order. Recent item stack size is not currently limited, but recent
+menu items has additional context menu item for removing them from the recent stack. Also, user
+defined functions and variables have context menu item for deleting them.
 
 Rightmost page contains some settings. These are same as desktop version settings and mostly
 self-explanatory. Note that user defined variables and functions are saved with the history list.
