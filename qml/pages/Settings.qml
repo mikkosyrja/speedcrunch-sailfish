@@ -40,13 +40,13 @@ Rectangle
 			}
 			function setResultFormat(format)
 			{
-				if ( format == "g" ) currentIndex = 0
-				else if ( format == "f" ) currentIndex = 1
-				else if ( format == "n" ) currentIndex = 2
-				else if ( format == "e" ) currentIndex = 3
-				else if ( format == "b" ) currentIndex = 4
-				else if ( format == "o" ) currentIndex = 5
-				else if ( format == "h" ) currentIndex = 6
+				if ( format === "g" ) currentIndex = 0
+				else if ( format === "f" ) currentIndex = 1
+				else if ( format === "n" ) currentIndex = 2
+				else if ( format === "e" ) currentIndex = 3
+				else if ( format === "b" ) currentIndex = 4
+				else if ( format === "o" ) currentIndex = 5
+				else if ( format === "h" ) currentIndex = 6
 			}
 		}
 	}
@@ -71,24 +71,21 @@ Rectangle
 			}
 			onCurrentIndexChanged:
 			{
-				if ( currentIndex == 0 )
-					manager.setPrecision("")
-				else
-					manager.setPrecision(currentItem.text)
+				manager.setPrecision(currentIndex == 0 ? "" : currentItem.text)
 				resultsview.updateHistory()
 			}
 			function setPrecision(precision)
 			{
-				if ( precision == "0" ) currentIndex = 1
-				else if ( precision == "1" ) currentIndex = 2
-				else if ( precision == "2" ) currentIndex = 3
-				else if ( precision == "3" ) currentIndex = 4
-				else if ( precision == "4" ) currentIndex = 5
-				else if ( precision == "6" ) currentIndex = 6
-				else if ( precision == "8" ) currentIndex = 7
-				else if ( precision == "12" ) currentIndex = 8
-				else if ( precision == "16" ) currentIndex = 9
-				else if ( precision == "20" ) currentIndex = 10
+				if ( precision === "0" ) currentIndex = 1
+				else if ( precision === "1" ) currentIndex = 2
+				else if ( precision === "2" ) currentIndex = 3
+				else if ( precision === "3" ) currentIndex = 4
+				else if ( precision === "4" ) currentIndex = 5
+				else if ( precision === "6" ) currentIndex = 6
+				else if ( precision === "8" ) currentIndex = 7
+				else if ( precision === "12" ) currentIndex = 8
+				else if ( precision === "16" ) currentIndex = 9
+				else if ( precision === "20" ) currentIndex = 10
 				else currentIndex = 0;
 			}
 		}
@@ -117,9 +114,9 @@ Rectangle
 			}
 			function setAngleUnit(unit)
 			{
-				if ( unit == "d" ) currentIndex = 0
-				else if ( unit == "r" ) currentIndex = 1
-//				else if ( unit == "g" ) currentIndex = 2
+				if ( unit === "d" ) currentIndex = 0
+				else if ( unit === "r" ) currentIndex = 1
+//				else if ( unit === "g" ) currentIndex = 2
 			}
 		}
 	}
@@ -132,7 +129,7 @@ Rectangle
 		ComboBox
 		{
 			id: complexnumberlist
-			label: "Complex numbers"
+			label: "Complex Numbers"
 			menu: ContextMenu
 			{
 				MenuItem { text: "Disabled" }
@@ -149,9 +146,9 @@ Rectangle
 			}
 			function setComplexNumber(complex)
 			{
-				if ( complex == "d" ) currentIndex = 0
-				else if ( complex == "c" ) currentIndex = 1
-				else if ( complex == "p" ) currentIndex = 2
+				if ( complex === "d" ) currentIndex = 0
+				else if ( complex === "c" ) currentIndex = 1
+				else if ( complex === "p" ) currentIndex = 2
 			}
 		}
 	}

@@ -44,12 +44,12 @@ Pager
 			rows: buttonrows; columns: buttoncolumns
 			width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
 
-	CalcButton { text: "sin"; isFunction: true } CalcButton { text: "cos"; isFunction: true }
-	CalcButton { text: "tan"; isFunction: true } CalcButton { text: "ln"; isFunction: true }
+	CalcButton { text: "sin"; value: "sin()" } CalcButton { text: "cos"; value: "cos()" }
+	CalcButton { text: "tan"; value: "tan()" } CalcButton { text: "ln"; value: "ln()" }
 	CalcButton { text: "Xⁿ"; value:"^" }
 
 	CalcButton { text: "asin"; value: "arcsin()" } CalcButton { text: "acos"; value: "arccos()" }
-	CalcButton { text: "atan"; value: "arctan()" } CalcButton { text: "exp"; isFunction: true }
+	CalcButton { text: "atan"; value: "arctan()" } CalcButton { text: "exp"; value: "exp()" }
 	CalcButton { text: "∛"; value:"cbrt()" }
 
 	CalcButton { text: "π"; value: "pi" } CalcButton { text: "e" } CalcButton { text: "x"; secondary: "y" }
@@ -71,7 +71,7 @@ Pager
 	function setButtonLabels()
 	{
 		var format = manager.getResultFormat()
-		if ( format == "h" )
+		if ( format === "h" )
 		{
 			button1.text = "1 A"; button2.text = "2 B"; button3.text = "3 C"
 			button4.text = "4 D"; button5.text = "5 E"; button6.text = "6 F"
@@ -81,11 +81,12 @@ Pager
 			button1.text = "1"; button2.text = "2"; button3.text = "3"
 			button4.text = "4"; button5.text = "5"; button6.text = "6"
 		}
-		if ( format == "h" || format == "b" || format == "o" )
+		if ( format === "h" || format === "b" || format === "o" )
 			buttonbase.text = "0x 0b"
 		else
 			buttonbase.text = "0x"
-		if ( manager.getComplexNumber() != "d" )
+		var complex = manager.getComplexNumber()
+		if ( complex === "c" || complex === "p" )
 			button9.text = "9 j"
 		else
 			button9.text = "9"

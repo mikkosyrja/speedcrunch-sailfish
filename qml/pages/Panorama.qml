@@ -15,7 +15,7 @@ Page
 	property int settingheight: statusmargin * 1.3
 
 	property int resultheight: lineheight
-	property int keyboardheight: (window.height == 960 ? 446 : window.height * 45 / 100)
+	property int keyboardheight: (window.height === 960 ? 446 : window.height * 45 / 100)
 	property int historyheight: window.height - keyboardheight - textfield.height - statusmargin - resultheight
 
 	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncolumns - buttonmargin
@@ -511,7 +511,7 @@ Page
 		{
 			var result = manager.calculate(textfield.text)
 			var assign = manager.getAssignId()
-			if ( result == "NaN" )
+			if ( result === "NaN" )
 			{
 				var error = manager.getError()
 				if ( error.length )

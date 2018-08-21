@@ -3,13 +3,10 @@ import Sailfish.Silica 1.0
 
 Button
 {
-	id: calcButton
+	signal runFunction
 
 	property bool special;
-	signal runFunction
-	signal callback
-	property bool isFunction: false
-	property string value: calcButton.text + (isFunction ? "()" : "")
+	property string value: text
 	property string secondary: value
 	property string image: ""
 
@@ -17,12 +14,12 @@ Button
 
 	Image
 	{
+		anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
 		visible: image.length
 		source: image
-		anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
 	}
 
-	text: " "
+//	text: " "
 
 	function insertValue(value)
 	{
@@ -38,13 +35,12 @@ Button
 		textfield.cursorPosition = pos + value.length
 		if ( value.slice(-2) == "()" )
 			textfield.cursorPosition--
-		calcButton.callback();
 	}
 
 	onClicked:
 	{
 		if ( special )
-			calcButton.runFunction();
+			runFunction();
 		else
 			insertValue(value)
 	}
