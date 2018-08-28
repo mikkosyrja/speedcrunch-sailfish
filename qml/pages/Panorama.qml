@@ -11,8 +11,10 @@ Page
 //	property int fontsizebig: statusmargin * 2 / 3
 	property int fontsizesmall: statusmargin / 2
 	property int fontsizetiny: statusmargin / 3
-	property int lineheight: fontsizesmall * 1.5
-	property int settingheight: statusmargin * 1.3
+
+	property int fontsizelist: fontsizesmall * 0.8
+	property int lineheight: fontsizelist * 1.5
+	property int settingheight: statusmargin * 1.2
 
 	property int resultheight: lineheight
 	property int keyboardheight: (window.height === 960 ? 446 : window.height * 45 / 100)
@@ -191,7 +193,7 @@ Page
 							width: parent.width - 40; color: "white"
 							anchors.centerIn: parent
 							text: modelData.name
-							font { pixelSize: fontsizesmall; weight: (modelData.recent ? Font.Bold: Font.Light) }
+							font { pixelSize: fontsizelist; weight: (modelData.recent ? Font.Bold: Font.Light) }
 						}
 						function removeRecent()
 						{
@@ -273,7 +275,7 @@ Page
 										width: parent.width - 40; color: "white"
 										anchors.centerIn: parent
 										text: modelData.expression + " = " + modelData.value
-										font { pixelSize: fontsizesmall; weight: (parent.isCurrentItem ? Font.Bold: Font.Light) }
+										font { pixelSize: fontsizelist; weight: (resultsview.currentItem == resultitem  ? Font.Bold: Font.Light) }
 									}
 									function insert()
 									{
@@ -439,7 +441,7 @@ Page
 				Settings
 				{
 					id: settings
-					width: parent.width; height: settingheight * 5; color: "transparent"
+					width: parent.width; height: settingheight * 6; color: "transparent"
 					anchors.top: header3.bottom
 				}
 				Text

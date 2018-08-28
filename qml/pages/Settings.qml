@@ -11,7 +11,7 @@ Rectangle
 		id: resultformatsetting
 		width: parent.width; height: settingheight; color: "transparent"
 		anchors.top: settings.top
-		z: 40
+		z: 50
 		ComboBox
 		{
 			id: resultformatlist
@@ -55,7 +55,7 @@ Rectangle
 		id: precisionsetting
 		width: parent.width; height: settingheight; color: "transparent"
 		anchors.top: resultformatsetting.bottom
-		z: 30
+		z: 40
 		ComboBox
 		{
 			id: precisionlist
@@ -95,7 +95,7 @@ Rectangle
 		id: angleunitsetting
 		width: parent.width; height: settingheight; color: "transparent"
 		anchors.top: precisionsetting.bottom
-		z: 20
+		z: 30
 		ComboBox
 		{
 			id: angleunitlist
@@ -125,7 +125,7 @@ Rectangle
 		id: complexnumbersetting
 		width: parent.width; height: settingheight; color: "transparent"
 		anchors.top: angleunitsetting.bottom
-		z: 10
+		z: 20
 		ComboBox
 		{
 			id: complexnumberlist
@@ -167,6 +167,60 @@ Rectangle
 			function setHistorySave(save) { checked = save }
 		}
 	}
+	Rectangle
+	{
+		id: listfontsizesetting
+		width: parent.width; height: settingheight; color: "transparent"
+		anchors.top: historysavesetting.bottom
+		z: 10
+		ComboBox
+		{
+			id: listfontsizelist
+			label: "List Font Size"
+			menu: ContextMenu
+			{
+				MenuItem { text: "Small" }
+				MenuItem { text: "Medium" }
+				MenuItem { text: "Large" }
+			}
+			onCurrentIndexChanged:
+			{
+				if ( currentIndex == 0 )
+				{
+					fontsizelist = fontsizesmall * 0.8
+					manager.setFontSize("s")
+				}
+				else if ( currentIndex == 1 )
+				{
+					fontsizelist = fontsizesmall
+					manager.setFontSize("m")
+				}
+				else if ( currentIndex == 2 )
+				{
+					fontsizelist = fontsizesmall * 1.2
+					manager.setFontSize("l")
+				}
+			}
+			function setFontSize(size)
+			{
+				if ( size === "s" )
+				{
+					fontsizelist = fontsizesmall * 0.8
+					currentIndex = 0
+				}
+				else if ( size === "m" )
+				{
+					fontsizelist = fontsizesmall
+					currentIndex = 1
+				}
+				else if ( size === "l" )
+				{
+					fontsizelist = fontsizesmall * 1.2
+					currentIndex = 2
+				}
+			}
+		}
+	}
 
 	Component.onCompleted:
 	{
@@ -175,5 +229,6 @@ Rectangle
 		precisionlist.setPrecision(manager.getPrecision())
 		complexnumberlist.setComplexNumber(manager.getComplexNumber())
 		historysaveswitch.setHistorySave(manager.getSessionSave())
+		listfontsizelist.setFontSize(manager.getFontSize())
 	}
 }
