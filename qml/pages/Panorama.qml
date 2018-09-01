@@ -8,11 +8,8 @@ Page
 	property int buttonmargin: window.width / 50
 	property int helpmargin: buttonmargin * 2
 
-//	property int fontsizebig: statusmargin * 2 / 3
-	property int fontsizesmall: statusmargin / 2
-	property int fontsizetiny: statusmargin / 3
-
-	property int fontsizelist: fontsizesmall * 0.8
+	property int fontsize: statusmargin / 2
+	property int fontsizelist: fontsize * 0.8
 	property int lineheight: fontsizelist * 1.5
 	property int settingheight: statusmargin * 1.2
 
@@ -97,12 +94,12 @@ Page
 			{
 				id: filterrectangle
 				width: parent.width; height: settingheight; color: "transparent"
-				anchors { top: header1.bottom; }
+				anchors.top: header1.bottom
 				z: 10
 				ComboBox
 				{
 					id: filterlist
-					label: "Filter"
+					label: "Type Filter"
 					menu: ContextMenu
 					{
 						MenuItem { text: "All" }
@@ -124,8 +121,8 @@ Page
 			Item
 			{
 				id: searchrectangle
-				width: parent.width; height: searchfunctions.height;
-				anchors { top: filterrectangle.bottom; }
+				width: parent.width; height: searchfunctions.height
+				anchors.top: filterrectangle.bottom
 				TextField
 				{
 					id: searchfunctions
@@ -147,7 +144,7 @@ Page
 					{
 						id: clearsearcharea
 						anchors { fill: parent; margins: -10 }
-						onClicked: { searchfunctions.text = ""; }
+						onClicked: { searchfunctions.text = "" }
 					}
 				}
 			}
@@ -214,7 +211,7 @@ Page
 							var pos = textfield.cursorPosition
 							textfield.text = text.substring(0, pos) + value + text.substring(pos, text.length)
 							textfield.cursorPosition = pos + value.length
-							if ( modelData.usage != "" )
+							if ( modelData.usage !== "" )
 							{
 								textfield.label = modelData.usage
 								textfield.cursorPosition--
@@ -307,7 +304,7 @@ Page
 							inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 							placeholderText: "expression"
 							softwareInputPanelEnabled: false
-							Keys.onReturnPressed: { evaluate(); }
+							Keys.onReturnPressed: { evaluate() }
 							onClicked:
 							{
 								textfield.softwareInputPanelEnabled = true
@@ -353,7 +350,7 @@ Page
 							width: buttonwidth; color: Theme.highlightColor
 							anchors { top: textfield.top; topMargin: buttonmargin; right: parent.right }
 							text: "="
-							onClicked: { evaluate(); }
+							onClicked: { evaluate() }
 						}
 					}
 					Keyboard

@@ -187,37 +187,29 @@ Rectangle
 			{
 				if ( currentIndex == 0 )
 				{
-					fontsizelist = fontsizesmall * 0.8
+					fontsizelist = fontsize * 0.8
 					manager.setFontSize("s")
 				}
 				else if ( currentIndex == 1 )
 				{
-					fontsizelist = fontsizesmall
+					fontsizelist = fontsize
 					manager.setFontSize("m")
 				}
 				else if ( currentIndex == 2 )
 				{
-					fontsizelist = fontsizesmall * 1.2
+					fontsizelist = fontsize * 1.2
 					manager.setFontSize("l")
 				}
 			}
 			function setFontSize(size)
 			{
+				setGlobalFontSize(size)
 				if ( size === "s" )
-				{
-					fontsizelist = fontsizesmall * 0.8
 					currentIndex = 0
-				}
 				else if ( size === "m" )
-				{
-					fontsizelist = fontsizesmall
 					currentIndex = 1
-				}
 				else if ( size === "l" )
-				{
-					fontsizelist = fontsizesmall * 1.2
 					currentIndex = 2
-				}
 			}
 		}
 	}
@@ -230,5 +222,12 @@ Rectangle
 		complexnumberlist.setComplexNumber(manager.getComplexNumber())
 		historysaveswitch.setHistorySave(manager.getSessionSave())
 		listfontsizelist.setFontSize(manager.getFontSize())
+	}
+
+	function setGlobalFontSize(size)
+	{
+		if ( size === "s" ) fontsizelist = fontsize * 0.8
+		else if ( size === "m" ) fontsizelist = fontsize
+		else if ( size === "l" ) fontsizelist = fontsize * 1.2
 	}
 }

@@ -513,9 +513,9 @@ QString Manager::getComplexNumber() const
 */
 void Manager::setFontSize(const QString& size)
 {
-	int pointsize = 8;
-	if ( size == "m" )
-		pointsize = 10;
+	int pointsize = 10;		// m
+	if ( size == "s" )
+		pointsize = 8;
 	else if ( size == "l" )
 		pointsize = 12;
 	QFont font("Font", pointsize);
@@ -531,11 +531,11 @@ QString Manager::getFontSize() const
 {
 	QFont font;
 	font.fromString(settings->displayFont);
-	if ( font.pointSize() == 10 )
-		return "m";
+	if ( font.pointSize() == 8 )
+		return "s";
 	if ( font.pointSize() == 12 )
 		return "l";
-	return "s";
+	return "m";
 }
 
 //! Set session save setting.

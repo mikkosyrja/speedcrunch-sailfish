@@ -19,8 +19,6 @@ Button
 		source: image
 	}
 
-//	text: " "
-
 	function insertValue(value)
 	{
 		var pos = textfield.cursorPosition
