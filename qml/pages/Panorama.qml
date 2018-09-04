@@ -304,7 +304,12 @@ Page
 							inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 							placeholderText: "expression"
 							softwareInputPanelEnabled: false
-							Keys.onReturnPressed: { evaluate() }
+//							Keys.onReturnPressed: { evaluate() }
+							Keys.onReturnPressed:
+							{
+								textfield.softwareInputPanelEnabled = false
+								textfield.forceActiveFocus()
+							}
 							onClicked:
 							{
 								textfield.softwareInputPanelEnabled = true

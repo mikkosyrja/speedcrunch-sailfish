@@ -100,4 +100,6 @@
 
 - Added setting for list font size: small, medium or large
 - Latest result in history list is displayed with bold font
-
+- Function list popup shows also user function expression
+- Virtual keyboard enter just closes keyboard without evaluation
+- New application icon.

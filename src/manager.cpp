@@ -298,7 +298,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 			QString value = DMath::format(variable.value(), HNumber::Format::Fixed());
 			result += "{value:\"" + variable.identifier()
 				+ "\",name:\"" + variable.identifier() + "\",usage:\""
-				+ "\",label:\"" + value + "\",user:true,"
+				+ "\",label:\"" + variable.identifier() + " = " + value + "\",user:true,"
 				+ "recent:" + (recent ? "true" : "false") + "},";
 		}
 	};
@@ -322,7 +322,7 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 			usage += ")";
 			result += "{value:\"" + function.name() + "()"
 				+ "\",name:\"" + function.name() + "()\",usage:\"" + usage
-				+ "\",label:\"" + usage + "\",user:true,"
+				+ "\",label:\"" + usage + " = " + function.expression() + "\",user:true,"
 				+ "recent:" + (recent ? "true" : "false") + "},";
 		}
 	};

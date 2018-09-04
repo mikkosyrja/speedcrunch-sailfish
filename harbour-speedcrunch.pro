@@ -115,5 +115,6 @@ HEADERS += \
 
 DISTFILES += \
 	CHANGELOG.md \
-	README.md
+	README.md \
+    harbour-speedcrunch.svg
 
