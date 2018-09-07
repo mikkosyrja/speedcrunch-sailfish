@@ -3,7 +3,6 @@ import Sailfish.Silica 1.0
 
 Rectangle
 {
-	property bool enableKeys: true
 	property QtObject model
 	property bool isHorizontal: false
 
@@ -12,19 +11,15 @@ Rectangle
 	property Item item: view.currentItem
 
 	property alias spacing: view.spacing
-	property alias interactive: view.interactive
 	property Item indicator
-
-//	property int pressDelay: 300
 
 	ListView
 	{
 		id: view
 		anchors.fill: parent
 		model: parent.model
-		orientation: if ( isHorizontal ) { ListView.Horizontal } else { ListView.Vertical }
+		orientation: (isHorizontal ? ListView.Horizontal : ListView.Vertical)
 		snapMode: ListView.SnapOneItem;
-//		pressDelay: parent.pressDelay
 		flickDeceleration: 500
 		maximumFlickVelocity: parent.width * 5
 		currentIndex: startIndex

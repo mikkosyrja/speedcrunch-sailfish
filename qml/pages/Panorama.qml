@@ -15,7 +15,7 @@ Page
 
 	property int resultheight: lineheight
 	property int keyboardheight: (window.height === 960 ? 446 : window.height * 45 / 100)
-	property int historyheight: window.height - keyboardheight - textfield.height - statusmargin - resultheight
+	property int historyheight: window.height - keyboardheight - textfield.height - titlebar.height - resultheight / 2
 
 	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncolumns - buttonmargin
 	property int bulletwidth: window.width / 20
@@ -24,29 +24,39 @@ Page
 
 	allowedOrientations: Orientation.Portrait
 
-	Row
+	Rectangle
 	{
-		id: header
-		height: statusmargin; spacing: bulletwidth / 2
-		anchors { top: parent.top; left: parent.left; leftMargin: spacing }
-		z: 10
-		Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: screen.goToPage(0) }
-		Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; checked: true; onClicked: screen.goToPage(1) }
-		Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: screen.goToPage(2) }
+		id: titlebar
+		width: parent.width; height: statusmargin; color: "transparent"
+		Row
+		{
+			id: headerindicator
+			width: bulletwidth * 4; height: parent.height; spacing: bulletwidth / 2
+			anchors { top: parent.top; left: parent.left; leftMargin: spacing }
+			Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: screen.goToPage(0) }
+			Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; checked: true; onClicked: screen.goToPage(1) }
+			Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: screen.goToPage(2) }
+		}
+		Text
+		{
+			width: window.width - headerindicator.width; height: parent.height; color: Theme.highlightColor
+			anchors { top: parent.top; right: parent.right; rightMargin: buttonmargin }
+			horizontalAlignment: Text.AlignRight
+			verticalAlignment: Text.AlignVCenter
+			text: "SpeedCrunch"
+			font { pixelSize: Theme.fontSizeLarge; weight: Font.Bold }
+		}
 	}
 	Pager
 	{
 		id: screen
-		color: "transparent"
-		anchors.fill: parent
+		width: parent.width; height: parent.height - statusmargin; color: "transparent"
+		anchors { top: titlebar.bottom; left: parent.left; right: parent.right }
 		isHorizontal: true
 		model: pages
-		enableKeys: true
 		focus: true
-		indicator: header
+		indicator: headerindicator
 		startIndex: 1
-//		interactive: false
-//		pressDelay: 200
 
 		Timer
 		{
@@ -76,25 +86,12 @@ Page
 		id: pages
 		Rectangle
 		{
-			width: window.width; height: window.height; color: "transparent"
-			Rectangle
-			{
-				id: header1
-				width: parent.width; height: statusmargin; color: "transparent"
-				Text
-				{
-					color: Theme.highlightColor
-					anchors { right: parent.right; rightMargin: bulletwidth / 2 }
-					anchors.verticalCenter: parent.verticalCenter
-					text: "Functions"
-					font.pixelSize: Theme.fontSizeLarge
-				}
-			}
+			width: window.width; height: window.height - statusmargin; color: "transparent"
 			Rectangle
 			{
 				id: filterrectangle
 				width: parent.width; height: settingheight; color: "transparent"
-				anchors.top: header1.bottom
+				anchors.top: parent.top
 				z: 10
 				ComboBox
 				{
@@ -227,27 +224,13 @@ Page
 		}
 		Rectangle
 		{
-			width: window.width; height: window.height; color: "transparent"
+			width: window.width; height: window.height - statusmargin; color: "transparent"
 			SilicaFlickable
 			{
-				width: window.width; height: window.height
+				anchors { fill: parent }
 				Column
 				{
 					anchors { fill: parent; margins: 10 }
-					Rectangle
-					{
-						id: header2
-						width: parent.width; height: statusmargin; color: "transparent"
-						Text
-						{
-							color: Theme.highlightColor
-							anchors { right: parent.right; rightMargin: bulletwidth / 2 }
-							anchors.verticalCenter: parent.verticalCenter
-							text: "SpeedCrunch"
-							font.pixelSize: Theme.fontSizeLarge
-						}
-					}
-					Item { width: parent.width; height: resultheight / 2 }
 					Rectangle
 					{
 						width: parent.width; height: historyheight; color: "transparent"
@@ -255,7 +238,7 @@ Page
 						{
 							property int updatehistory: 0
 							id: resultsview
-							width: parent.width; height: parent.height
+							anchors { fill: parent }
 							snapMode: "SnapOneItem"
 							clip: true
 							model: { eval(manager.getHistory(updatehistory)) }
@@ -304,7 +287,6 @@ Page
 							inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 							placeholderText: "expression"
 							softwareInputPanelEnabled: false
-//							Keys.onReturnPressed: { evaluate() }
 							Keys.onReturnPressed:
 							{
 								textfield.softwareInputPanelEnabled = false
@@ -332,7 +314,7 @@ Page
 									label = manager.getError()
 							}
 						}
-						Image	// clear button
+						Image
 						{
 							id: cleartext
 							width: buttonwidth / 3; height: buttonwidth / 3
@@ -349,7 +331,7 @@ Page
 								onClicked: { textfield.text = ""; textfield.forceActiveFocus() }
 							}
 						}
-						Button	// evaluate button
+						Button
 						{
 							id: evaluatebutton
 							width: buttonwidth; color: Theme.highlightColor
@@ -363,7 +345,7 @@ Page
 						id: keyboard
 						width: parent.width; height: keyboardheight - statusmargin; spacing: buttonmargin; color: "transparent"
 						anchors.top: textfield.bottom
-						indicator: footer
+						indicator: footerindicator
 					}
 				}
 				Item
@@ -373,7 +355,7 @@ Page
 					anchors { bottom: parent.bottom; left: parent.left }
 					Row
 					{
-						id: footer
+						id: footerindicator
 						width: buttonwidth * 2 + buttonmargin; height: statusmargin; spacing: bulletwidth / 2
 						anchors { bottom: parent.bottom; left: parent.left; leftMargin: spacing }
 						Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(0) }
@@ -383,7 +365,7 @@ Page
 					{
 						id: resultformat
 						width: buttonwidth * 2 + buttonmargin; height: statusmargin; color: Theme.highlightColor
-						anchors { bottom: parent.bottom; left: footer.right; leftMargin: buttonmargin }
+						anchors { bottom: parent.bottom; left: footerindicator.right; leftMargin: buttonmargin }
 						verticalAlignment: Text.AlignVCenter
 						font.pixelSize: Theme.fontSizeExtraSmall
 						text: settings.resultformat
@@ -422,29 +404,15 @@ Page
 		}
 		Rectangle
 		{
-			width: window.width; height: window.height; color: "transparent"
+			width: window.width; height: window.height - statusmargin; color: "transparent"
 			Column
 			{
 				anchors.fill: parent
-				Rectangle
-				{
-					id: header3
-					width: parent.width; height: statusmargin; color: "transparent"
-					anchors.top: parent.top
-					Text
-					{
-						anchors { right: parent.right; rightMargin: bulletwidth / 2 }
-						anchors.verticalCenter: parent.verticalCenter
-						text: "Settings"
-						font.pixelSize: Theme.fontSizeLarge
-						color: Theme.highlightColor
-					}
-				}
 				Settings
 				{
 					id: settings
 					width: parent.width; height: settingheight * 6; color: "transparent"
-					anchors.top: header3.bottom
+					anchors.top: parent.top
 				}
 				Text
 				{

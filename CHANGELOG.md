@@ -96,10 +96,12 @@
 	- Recent item list size is not currently limited
 - Compiled with SDK version 1804 for Sailfish 2.2.0
 
-### 0.3.4 (2018-09-xx)
+### 0.4.0 (2018-09-09)
 
 - Added setting for list font size: small, medium or large
 - Latest result in history list is displayed with bold font
 - Function list popup shows also user function expression
 - Virtual keyboard enter just closes keyboard without evaluation
+- Title line is now outside of flickable area.
 - New application icon.
+- Submitted to Jolla Store

@@ -7,10 +7,8 @@ Pager
 	property int buttonrows: 5
 
 	isHorizontal: true
-	enableKeys: false
 	focus: false
 	startIndex: -1
-//	pressDelay: 100
 	model: VisualItemModel
 	{
 		Grid	// Page 1
