@@ -96,7 +96,7 @@
 	- Recent item list size is not currently limited
 - Compiled with SDK version 1804 for Sailfish 2.2.0
 
-### 0.4.0 (2018-09-09)
+### 0.4.0 (2018-09-10)
 
 - Added setting for list font size: small, medium or large
 - Latest result in history list is displayed with bold font
