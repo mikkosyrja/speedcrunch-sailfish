@@ -162,16 +162,29 @@ Rectangle
 			id: historysaveswitch
 			checked: true
 			text: "Save History on Exit"
-//			description: "Save History on Exit"
 			onCheckedChanged: { manager.setSessionSave(checked) }
 			function setHistorySave(save) { checked = save }
 		}
 	}
 	Rectangle
 	{
-		id: listfontsizesetting
+		id: clickinsertsetting
 		width: parent.width; height: settingheight; color: "transparent"
 		anchors.top: historysavesetting.bottom
+		TextSwitch
+		{
+			id: clickinsertswitch
+			checked: true
+			text: "One Click Insert"
+			onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
+			function setClickInsert(click) { oneclickinsert = click; checked = click }
+		}
+	}
+	Rectangle
+	{
+		id: listfontsizesetting
+		width: parent.width; height: settingheight; color: "transparent"
+		anchors.top: clickinsertsetting.bottom
 		z: 10
 		ComboBox
 		{
@@ -221,6 +234,7 @@ Rectangle
 		precisionlist.setPrecision(manager.getPrecision())
 		complexnumberlist.setComplexNumber(manager.getComplexNumber())
 		historysaveswitch.setHistorySave(manager.getSessionSave())
+		clickinsertswitch.setClickInsert(manager.getClickInsert())
 		listfontsizelist.setFontSize(manager.getFontSize())
 	}
 

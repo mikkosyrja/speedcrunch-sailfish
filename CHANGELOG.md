@@ -102,6 +102,22 @@
 - Latest result in history list is displayed with bold font
 - Function list popup shows also user function expression
 - Virtual keyboard enter just closes keyboard without evaluation
-- Title line is now outside of flickable area.
+- Title line is now outside of flickable area
 - New application icon.
 - Submitted to Jolla Store
+
+### 0.4.1 (2018-09-xx)
+
+- Improved expression syntax error handling
+- History list scrolls to latest item at startup
+- Fixed Save History on Exit setting behavior
+- New setting One Click Insert:
+	- When on inserts function instantly when clicked
+	- When off inserting requires use of context menu
+- Added history list popup menu:
+	- First item inserts selected result
+	- Second item edits selected expression
+	- Third item removes line from history list
+	- Follows One Click Insert setting
+
+

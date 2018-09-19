@@ -47,31 +47,34 @@ Manager::Manager()
 	QString configpath = Settings::getConfigPath();
 	directory.mkpath(configpath);
 
-	QString historypath = configpath + "/history.json";
-	QFile historyfile(historypath);
-	if ( historyfile.open(QIODevice::ReadOnly) )
+	if ( settings->sessionSave )
 	{
-		QByteArray data = historyfile.readAll();
-		QJsonDocument doc(QJsonDocument::fromJson(data));
-		session->deSerialize(doc.object(), true);
-		historyfile.close();
-	}
-
-	QString recentpath = configpath + "/recent.json";
-	QFile recentfile(recentpath);
-	if ( recentfile.open(QIODevice::ReadOnly) )
-	{
-		QByteArray data = recentfile.readAll();
-		QJsonDocument doc(QJsonDocument::fromJson(data));
-		QJsonObject json = doc.object();
-		if ( json.contains("recent") )
+		QString historypath = configpath + "/history.json";
+		QFile historyfile(historypath);
+		if ( historyfile.open(QIODevice::ReadOnly) )
 		{
-			QJsonArray entries = json["recent"].toArray();
-			int count = entries.size();
-			for( int index = 0; index < count; ++index )
-				recent.push_back(entries[index].toObject()["item"].toString());
+			QByteArray data = historyfile.readAll();
+			QJsonDocument doc(QJsonDocument::fromJson(data));
+			session->deSerialize(doc.object(), true);
+			historyfile.close();
 		}
-		recentfile.close();
+
+		QString recentpath = configpath + "/recent.json";
+		QFile recentfile(recentpath);
+		if ( recentfile.open(QIODevice::ReadOnly) )
+		{
+			QByteArray data = recentfile.readAll();
+			QJsonDocument doc(QJsonDocument::fromJson(data));
+			QJsonObject json = doc.object();
+			if ( json.contains("recent") )
+			{
+				QJsonArray entries = json["recent"].toArray();
+				int count = entries.size();
+				for( int index = 0; index < count; ++index )
+					recent.push_back(entries[index].toObject()["item"].toString());
+			}
+			recentfile.close();
+		}
 	}
 
 	clipboard = QGuiApplication::clipboard();
@@ -96,37 +99,40 @@ Manager::Manager()
 //! Save session on exit.
 void Manager::saveSession()
 {
-	QString path = Settings::getConfigPath();
-	path.append("/history.json");
-
-	QFile historyfile(path);
-	if ( historyfile.open(QIODevice::WriteOnly) )
+	if ( settings->sessionSave )
 	{
-		QJsonObject json;
-		session->serialize(json);
-		QJsonDocument document(json);
-		historyfile.write(document.toJson());
-		historyfile.close();
-	}
+		QString path = Settings::getConfigPath();
+		path.append("/history.json");
 
-	path = Settings::getConfigPath();
-	path.append("/recent.json");
-
-	QFile recentfile(path);
-	if ( recentfile.open(QIODevice::WriteOnly) )
-	{
-		QJsonObject json;
-		QJsonArray entries;
-		for ( const auto& item : recent )
+		QFile historyfile(path);
+		if ( historyfile.open(QIODevice::WriteOnly) )
 		{
-			QJsonObject object;
-			object["item"] = item;
-			entries.append(object);
+			QJsonObject json;
+			session->serialize(json);
+			QJsonDocument document(json);
+			historyfile.write(document.toJson());
+			historyfile.close();
 		}
-		json["recent"] = entries;
-		QJsonDocument document(json);
-		recentfile.write(document.toJson());
-		recentfile.close();
+
+		path = Settings::getConfigPath();
+		path.append("/recent.json");
+
+		QFile recentfile(path);
+		if ( recentfile.open(QIODevice::WriteOnly) )
+		{
+			QJsonObject json;
+			QJsonArray entries;
+			for ( const auto& item : recent )
+			{
+				QJsonObject object;
+				object["item"] = item;
+				entries.append(object);
+			}
+			json["recent"] = entries;
+			QJsonDocument document(json);
+			recentfile.write(document.toJson());
+			recentfile.close();
+		}
 	}
 }
 
@@ -140,7 +146,7 @@ QString Manager::autoCalc(const QString& input)
 	const QString expression = evaluator->autoFix(input);
 	evaluator->setExpression(expression);
 	Quantity quantity = evaluator->evalNoAssign();
-	if ( quantity.isNan() )
+	if ( quantity.isNan() || !evaluator->error().isEmpty() )
 		return "NaN";
 	return NumberFormatter::format(quantity);
 }
@@ -165,6 +171,8 @@ QString Manager::calculate(const QString& input)
 	const QString expression = evaluator->autoFix(input);
 	evaluator->setExpression(expression);
 	Quantity quantity = evaluator->evalUpdateAns();
+	if ( !evaluator->error().isEmpty() )
+		return "NaN";
 	if ( quantity.isNan() )
 	{
 		if ( evaluator->isUserFunctionAssign() )
@@ -172,6 +180,7 @@ QString Manager::calculate(const QString& input)
 			updateRecent(evaluator->getAssignId() + "()");
 			if ( evaluator->error().isEmpty() )
 				session->addHistoryEntry(HistoryEntry(expression, quantity));
+			return "0";
 		}
 		return "NaN";
 	}
@@ -555,6 +564,34 @@ void Manager::setSessionSave(bool save)
 bool Manager::getSessionSave() const
 {
 	return settings->sessionSave;
+}
+
+//! Set one click insert setting.
+/*!
+	\param click		One click insert setting.
+*/
+void Manager::setClickInsert(bool click)
+{
+	settings->windowAlwaysOnTop = click;	//##
+	settings->save();
+}
+
+//! Get one click insert setting.
+/*!
+	\return				One click insert setting.
+*/
+bool Manager::getClickInsert() const
+{
+	return settings->windowAlwaysOnTop;		//##
+}
+
+//! Remove single history item.
+/*!
+	\param index		History item index.
+*/
+void Manager::removeHistory(int index)
+{
+	session->removeHistoryEntryAt(index);
 }
 
 //! Clear whole history.

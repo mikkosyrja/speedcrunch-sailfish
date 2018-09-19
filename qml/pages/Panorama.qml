@@ -21,8 +21,10 @@ Page
 	property int bulletwidth: window.width / 20
 
 	property bool needsupdate: false
+	property bool oneclickinsert: false
 
-	allowedOrientations: Orientation.Portrait
+//	allowedOrientations: Orientation.Portrait
+	allowedOrientations: Orientation.All
 
 	Rectangle
 	{
@@ -60,7 +62,7 @@ Page
 
 		Timer
 		{
-			id: screentimer
+			id: functionstimer
 			interval: 250; running: false; repeat: false
 			onTriggered:
 			{
@@ -78,7 +80,14 @@ Page
 			}
 		}
 
-		onIndexChanged: { screentimer.running = true }
+		Timer
+		{
+			id: historytimer
+			interval: 250; running: false; repeat: false
+			onTriggered: { resultsview.updateHistory() }
+		}
+
+		onIndexChanged: { functionstimer.running = true }
 	}
 
 	VisualItemModel
@@ -149,9 +158,11 @@ Page
 			{
 				property string filtertype: "a"
 				property int updatemodel: 0
+
 				id: functionlist
 				width: parent.width
 				anchors { top: searchrectangle.bottom; bottom: parent.bottom }
+				snapMode: "SnapOneItem"
 				clip: true
 				model: { eval(manager.getFunctions(searchfunctions.text, filtertype, updatemodel)) }
 				delegate: Component
@@ -160,27 +171,6 @@ Page
 					{
 						id: functionitem
 						contentHeight: lineheight
-						RemorseItem { id: remorse }
-						menu: Component
-						{
-							ContextMenu
-							{
-								MenuItem { text: modelData.label; onClicked: insert() }
-								MenuItem
-								{
-									text: "Remove from recent"
-									visible: modelData.recent
-									onClicked: remorse.execute(functionitem, "Removing", removeRecent)
-								}
-								MenuItem
-								{
-									text: "Delete user defined"
-									visible: modelData.user
-									onClicked: remorse.execute(functionitem, "Deleting", deleteUserDefined)
-								}
-							}
-						}
-						onClicked: insert()
 						Text
 						{
 							id:textitem
@@ -189,6 +179,31 @@ Page
 							text: modelData.name
 							font { pixelSize: fontsizelist; weight: (modelData.recent ? Font.Bold: Font.Light) }
 						}
+						RemorseItem { id: functionremorse }
+						menu: Component
+						{
+							ContextMenu
+							{
+								MenuItem
+								{
+									text: "Insert: " + modelData.label
+									onClicked: insertitem()
+								}
+								MenuItem
+								{
+									text: "Remove from recent"
+									visible: modelData.recent
+									onClicked: functionremorse.execute(functionitem, "Removing", removeRecent)
+								}
+								MenuItem
+								{
+									text: "Delete user defined"
+									visible: modelData.user
+									onClicked: functionremorse.execute(functionitem, "Deleting", deleteUserDefined)
+								}
+							}
+						}
+						onClicked: { if ( oneclickinsert ) insertitem() }
 						function removeRecent()
 						{
 							manager.removeRecent(modelData.name)
@@ -200,12 +215,11 @@ Page
 							manager.clearVariable(modelData.value)
 							functionlist.updatemodel++
 						}
-						function insert()
+						function insertitem()
 						{
 							functionlist.currentIndex = index;
 							var value = modelData.value
-							var text = textfield.text
-							var pos = textfield.cursorPosition
+							var text = textfield.text; var pos = textfield.cursorPosition
 							textfield.text = text.substring(0, pos) + value + text.substring(pos, text.length)
 							textfield.cursorPosition = pos + value.length
 							if ( modelData.usage !== "" )
@@ -227,54 +241,75 @@ Page
 			width: window.width; height: window.height - statusmargin; color: "transparent"
 			SilicaFlickable
 			{
-				anchors { fill: parent }
+				anchors.fill: parent
 				Column
 				{
 					anchors { fill: parent; margins: 10 }
-					Rectangle
+					SilicaListView
 					{
-						width: parent.width; height: historyheight; color: "transparent"
-						SilicaListView
+						property int updatehistory: 0
+
+						id: resultsview
+						width: parent.width; height: historyheight
+						snapMode: "SnapOneItem"
+						clip: true
+						model: { eval(manager.getHistory(updatehistory)) }
+						delegate: Component
 						{
-							property int updatehistory: 0
-							id: resultsview
-							anchors { fill: parent }
-							snapMode: "SnapOneItem"
-							clip: true
-							model: { eval(manager.getHistory(updatehistory)) }
-							delegate: Component
+							ListItem
 							{
-								ListItem
+								id: resultitem
+								contentHeight: lineheight
+								Text
 								{
-									id: resultitem
-									contentHeight: lineheight
-									onClicked: insert()
-									Text
+									id:textitem
+									width: parent.width - 40; color: "white"
+									anchors.centerIn: parent
+									text: modelData.expression + " = " + modelData.value
+									font { pixelSize: fontsizelist; weight: (resultsview.currentItem == resultitem  ? Font.Bold: Font.Light) }
+								}
+								RemorseItem { id: historyremorse }
+								menu: Component
+								{
+									ContextMenu
 									{
-										id:textitem
-										width: parent.width - 40; color: "white"
-										anchors.centerIn: parent
-										text: modelData.expression + " = " + modelData.value
-										font { pixelSize: fontsizelist; weight: (resultsview.currentItem == resultitem  ? Font.Bold: Font.Light) }
+										MenuItem
+										{
+											text: "Insert: " + modelData.value
+											onClicked: insertitem()
+										}
+										MenuItem
+										{
+											text: "Edit: " + modelData.expression
+											onClicked: { textfield.text = modelData.expression }
+										}
+										MenuItem
+										{
+											text: "Remove from history"
+											onClicked: historyremorse.execute(resultitem, "Removing", removeHistory)
+										}
 									}
-									function insert()
-									{
-										var text = textfield.text
-										var pos = textfield.cursorPosition
-										textfield.text = text.substring(0, pos) + modelData.value + text.substring(pos, text.length)
-										textfield.cursorPosition = pos + modelData.value.length
-									}
-									onPressAndHold: { textfield.text = modelData.expression }
+								}
+								onClicked: { if ( oneclickinsert ) insertitem() }
+								function removeHistory()
+								{
+									manager.removeHistory(index)
+									historytimer.running = true
+								}
+								function insertitem()
+								{
+									var text = textfield.text; var pos = textfield.cursorPosition
+									textfield.text = text.substring(0, pos) + modelData.value + text.substring(pos, text.length)
+									textfield.cursorPosition = pos + modelData.value.length
 								}
 							}
-							function updateHistory()
-							{
-								resultsview.updatehistory++
-								resultsview.positionViewAtEnd()
-								resultsview.currentIndex = resultsview.count - 1
-							}
 						}
-						ScrollDecorator { flickable: resultsview }
+						function updateHistory()
+						{
+							updatehistory++
+							currentIndex = count - 1
+							positionViewAtEnd()
+						}
 					}
 					Item { width: parent.width; height: resultheight / 2 }
 					Item
@@ -309,7 +344,7 @@ Page
 							{
 								var result = manager.autoCalc(text);
 								if ( manager.autoCalc(text) !== "NaN" )
-									label = "=" + result
+									label = "= " + result
 								else
 									label = manager.getError()
 							}
@@ -411,7 +446,7 @@ Page
 				Settings
 				{
 					id: settings
-					width: parent.width; height: settingheight * 6; color: "transparent"
+					width: parent.width; height: settingheight * 7; color: "transparent"
 					anchors.top: parent.top
 				}
 				Text
@@ -437,21 +472,7 @@ Page
 					{
 						width: parent.width - (helpmargin * 3); color: "white"
 						anchors.horizontalCenter: parent.horizontalCenter
-						text: "Tap on the expression twice to edit it with the full\nkeyboard, for advanced formulas."
-						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
-					}
-					Text
-					{
-						width: parent.width - (helpmargin * 3); color: "white"
-						anchors.horizontalCenter: parent.horizontalCenter
-						text: "Tap on any line on the history to insert result value\nto the running expression."
-						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
-					}
-					Text
-					{
-						width: parent.width - (helpmargin * 3); color: "white"
-						anchors.horizontalCenter: parent.horizontalCenter
-						text: "Tap and hold on any line on the history to replace\nthe running expression with it."
+						text: "Tap on the expression twice to edit it with the virtual\nkeyboard."
 						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
 					}
 					Text
@@ -472,7 +493,7 @@ Page
 	{
 		textfield.softwareInputPanelEnabled = false
 		textfield.forceActiveFocus()
-		resultsview.updateHistory()
+		historytimer.running = true
 	}
 
 	Component.onDestruction: { manager.saveSession(); }
@@ -482,7 +503,6 @@ Page
 		if ( textfield.text != "" )
 		{
 			var result = manager.calculate(textfield.text)
-			var assign = manager.getAssignId()
 			if ( result === "NaN" )
 			{
 				var error = manager.getError()
@@ -490,8 +510,13 @@ Page
 				{
 					notification.previewSummary = "Evaluation error"
 					notification.previewBody = error
+					notification.publish()
 				}
-				else if ( assign.length )
+			}
+			else
+			{
+				var assign = manager.getAssignId()
+				if ( assign.length )
 				{
 					functionlist.updatemodel++
 					window.latestExpression = manager.autoFix(textfield.text)
@@ -499,18 +524,15 @@ Page
 					resultsview.updateHistory()
 					notification.previewSummary = "Function added"
 					notification.previewBody = ""
-					textfield.text = ""
+					notification.publish()
 				}
-				notification.publish()
-			}
-			else
-			{
-				window.latestExpression = manager.autoFix(textfield.text)
-				window.latestResult = result
-				resultsview.updateHistory()
+				else
+				{
+					window.latestExpression = manager.autoFix(textfield.text)
+					window.latestResult = result
+					resultsview.updateHistory()
+				}
 				textfield.text = ""
-				if ( assign.length )
-					functionlist.updatemodel++
 			}
 		}
 	}
