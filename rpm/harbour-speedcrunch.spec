@@ -12,7 +12,7 @@ Name:       harbour-speedcrunch
 %{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
-Summary:    Port of the SpeedCrunch calculator to Sailfish OS
+Summary:    Port of the SpeedCrunch calculator for Sailfish OS
 Version:    0.4.1
 Release:    1
 Group:      Qt/Qt
@@ -28,7 +28,7 @@ BuildRequires:  pkgconfig(nemonotifications-qt5)
 BuildRequires:  desktop-file-utils
 
 %description
-Port of the SpeedCrunch calculator to Sailfish OS
+Port of the SpeedCrunch calculator for Sailfish OS
 
 
 %prep
@@ -67,6 +67,6 @@ desktop-file-install --delete-original       \
 %{_bindir}
 %{_datadir}/%{name}/qml
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/hicolor/86x86/apps/%{name}.png
+%{_datadir}/icons/hicolor/*/apps/%{name}.png
 # >> files
 # << files

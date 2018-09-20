@@ -1,5 +1,5 @@
 Name: harbour-speedcrunch
-Summary: Port of the SpeedCrunch calculator to Sailfish OS
+Summary: Port of the SpeedCrunch calculator for Sailfish OS
 Version: 0.4.1
 Release: 1
 Group: Qt/Qt
@@ -7,7 +7,7 @@ License: LICENSE
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
- Port of the SpeedCrunch calculator to Sailfish OS
+ Port of the SpeedCrunch calculator for Sailfish OS
 Configure: none
 Builder: qtc5
 PkgConfigBR:
@@ -23,5 +23,5 @@ Files:
 - '%{_bindir}'
 - '%{_datadir}/%{name}/qml'
 - '%{_datadir}/applications/%{name}.desktop'
-- '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
+- '%{_datadir}/icons/hicolor/*/apps/%{name}.png'
 PkgBR: []

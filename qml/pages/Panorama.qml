@@ -293,7 +293,7 @@ Page
 								onClicked: { if ( oneclickinsert ) insertitem() }
 								function removeHistory()
 								{
-									manager.removeHistory(index)
+									manager.clearHistory(index)
 									historytimer.running = true
 								}
 								function insertitem()
@@ -432,7 +432,7 @@ Page
 					MenuItem
 					{
 						text: "Clear history"
-						onClicked: { manager.clearHistory(); resultsview.updateHistory() }
+						onClicked: { manager.clearHistory(-1); resultsview.updateHistory() }
 					}
 				}
 			}

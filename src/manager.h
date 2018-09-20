@@ -64,8 +64,7 @@ public:
 	Q_INVOKABLE void setClickInsert(bool click);
 	Q_INVOKABLE bool getClickInsert() const;
 
-	Q_INVOKABLE void removeHistory(int index);
-	Q_INVOKABLE void clearHistory();
+	Q_INVOKABLE void clearHistory(int index);
 
 	Q_INVOKABLE QString getAssignId() const;
 	Q_INVOKABLE void clearVariable(const QString& variable);

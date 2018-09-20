@@ -585,19 +585,18 @@ bool Manager::getClickInsert() const
 	return settings->windowAlwaysOnTop;		//##
 }
 
-//! Remove single history item.
+//! Clear history item.
 /*!
 	\param index		History item index.
-*/
-void Manager::removeHistory(int index)
-{
-	session->removeHistoryEntryAt(index);
-}
 
-//! Clear whole history.
-void Manager::clearHistory()
+	Negative index clears whole history.
+*/
+void Manager::clearHistory(int index)
 {
-	session->clearHistory();
+	if ( index >= 0 )
+		session->removeHistoryEntryAt(index);
+	else
+		session->clearHistory();
 }
 
 //! Get assigned user variable or function id.

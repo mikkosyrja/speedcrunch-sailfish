@@ -119,5 +119,6 @@
 	- Second item edits selected expression
 	- Third item removes line from history list
 	- Follows One Click Insert setting
-
+- Compiled with SDK version 1807 for Sailfish 2.2.1
+- Added 108x108 and 128x128 size icons.
 

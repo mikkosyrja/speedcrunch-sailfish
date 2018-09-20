@@ -1,24 +1,8 @@
 TARGET = harbour-speedcrunch
 
+CONFIG += sailfishapp
+
 QT += quick qml dbus
-CONFIG += link_pkgconfig
-PKGCONFIG += sailfishapp nemonotifications-qt5
-INCLUDEPATH += /usr/include/sailfishapp
-
-TARGETPATH = /usr/bin
-target.path = $$TARGETPATH
-
-DEPLOYMENT_PATH = /usr/share/$$TARGET
-qml.files = qml
-qml.path = $$DEPLOYMENT_PATH
-
-desktop.files = harbour-speedcrunch.desktop
-desktop.path = /usr/share/applications
-
-icon.files = harbour-speedcrunch.png
-icon.path = /usr/share/icons/hicolor/86x86/apps
-
-INSTALLS += target icon desktop qml
 
 DEFINES += SAILFISH
 DEFINES += SPEEDCRUNCH_VERSION=\\\"master\\\"
@@ -61,19 +45,6 @@ SOURCES += \
 	core/sessionhistory.cpp \
 	math/cnumberparser.cpp
 
-OTHER_FILES += \
-	qml/cover/CoverPage.qml \
-	harbour-speedcrunch.desktop \
-	qml/pages/Pager.qml \
-	qml/pages/Panorama.qml \
-	qml/pages/CalcButton.qml \
-	qml/pages/Backspace.qml \
-	qml/pages/Keyboard.qml \
-	qml/pages/Settings.qml \
-	qml/pages/erase_to_the_left.svg \
-	qml/harbour-speedcrunch.qml \
-	rpm/harbour-speedcrunch.yaml
-
 HEADERS += \
 	math/floatcommon.h \
 	math/floatconfig.h \
@@ -113,8 +84,30 @@ HEADERS += \
 	core/sessionhistory.h \
 	math/cnumberparser.h
 
-DISTFILES += \
-	CHANGELOG.md \
-	README.md \
-    harbour-speedcrunch.svg
+OTHER_FILES += \
+	qml/cover/CoverPage.qml \
+	harbour-speedcrunch.desktop \
+	qml/pages/Pager.qml \
+	qml/pages/Panorama.qml \
+	qml/pages/CalcButton.qml \
+	qml/pages/Backspace.qml \
+	qml/pages/Keyboard.qml \
+	qml/pages/Settings.qml \
+	qml/pages/erase_to_the_left.svg \
+	qml/harbour-speedcrunch.qml \
+	rpm/harbour-speedcrunch.yaml
+
+DISTFILES += qml/harbour-speedcrunch.qml \
+	qml/cover/CoverPage.qml \
+	qml/pages/Backspace.qml \
+	qml/pages/CalcButton.qml \
+	qml/pages/Keyboard.qml \
+	qml/pages/Pager.qml \
+	qml/pages/Panorama.qml \
+	qml/pages/Settings.qml \
+	rpm/harbour-speedcrunch.spec \
+	rpm/harbour-speedcrunch.yaml \
+	harbour-speedcrunch.desktop
+
+SAILFISHAPP_ICONS = 86x86 108x108 128x128
 
