@@ -45,7 +45,6 @@ CoverBackground
 	CoverActionList
 	{
 		id: coverAction
-
 		CoverAction
 		{
 			iconSource: "../copy.png"

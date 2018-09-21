@@ -38,11 +38,10 @@ user defined items. Topmost filter list selection can be used to show only built
 units, constants or user defined variables and functions. Search field below it performs additional
 filtering by name.
 
-Pointing list item inserts it to the expression editing field and activates the main calculator
-page. Long press opens context menu with options. First context menu item displays list item
+Long press on list item opens context menu with options. First menu item displays list item
 content. For functions it is usage with parameter names. For constants and variables it is value
-and for units it is just unit name. Selecting first item performs same inserting as list item
-pointing.
+and for units it is just unit name. Selecting it inserts item to the expression editing field and
+activates the main calculator page.
 
 Used items are collected to recent item stack and displayed at the top of the list with bold font.
 Newly created user variables and functions are automatically considered recently used. Other items
@@ -50,18 +49,23 @@ come after them in alphabetical order. Recent item stack size is not currently l
 menu items has additional context menu item for removing them from the recent stack. Also, user
 defined functions and variables have context menu item for deleting them.
 
-Rightmost page contains some settings. These are same as desktop version settings and mostly
-self-explanatory. Note that user defined variables and functions are saved with the history list.
+Rightmost page contains some settings. These are mostly same as desktop version settings and more
+or less self-explanatory. If One Click Insert setting is turned on, pointing item in function or
+history list inserts it directly to the expression edit field. Note that user defined variables and
+functions are saved with the history list.
 
 #### Expression editing and history list
 
 At the top of the main calculator page is history list. All calculated expressions and their
-results are stored there. Pointing history list line inserts result to the expression editing.
-Pointing and holding history line recalls the whole expression for editing.
+results are stored there. Latest result is displayed with bold font.
+
+Long press on list item opens context menu with three options. First item inserts result to the
+expression editing and second item recalls the whole expression for editing. Third item allows item
+removing from history list.
 
 Below the history list is expression editing field. It can be edited either by calculator key panes
-or standard Sailfish virtual keyboard. Because the expression field is always active, it must be
-pointed twice to activate the Sailfish keyboard.
+or system virtual keyboard. Enter key on the virtual keyboard just closes it. Because the edit
+field is always active, it must be pointed twice to activate virtual keyboard.
 
 Below the expression editor is label field used for function usage parameters and autocalc results.
 

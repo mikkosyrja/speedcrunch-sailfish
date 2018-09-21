@@ -59,7 +59,6 @@ Page
 		focus: true
 		indicator: headerindicator
 		startIndex: 1
-
 		Timer
 		{
 			id: functionstimer
@@ -79,17 +78,14 @@ Page
 				}
 			}
 		}
-
 		Timer
 		{
 			id: historytimer
 			interval: 250; running: false; repeat: false
 			onTriggered: { resultsview.updateHistory() }
 		}
-
 		onIndexChanged: { functionstimer.running = true }
 	}
-
 	VisualItemModel
 	{
 		id: pages
@@ -105,14 +101,14 @@ Page
 				ComboBox
 				{
 					id: filterlist
-					label: "Type Filter"
+					label: qsTr("Type Filter")
 					menu: ContextMenu
 					{
-						MenuItem { text: "All" }
-						MenuItem { text: "Functions" }
-						MenuItem { text: "Units" }
-						MenuItem { text: "Constants" }
-						MenuItem { text: "User defined" }
+						MenuItem { text: qsTr("All") }
+						MenuItem { text: qsTr("Functions") }
+						MenuItem { text: qsTr("Units") }
+						MenuItem { text: qsTr("Constants") }
+						MenuItem { text: qsTr("User defined") }
 					}
 					onCurrentIndexChanged:
 					{
@@ -158,7 +154,6 @@ Page
 			{
 				property string filtertype: "a"
 				property int updatemodel: 0
-
 				id: functionlist
 				width: parent.width
 				anchors { top: searchrectangle.bottom; bottom: parent.bottom }
@@ -186,20 +181,20 @@ Page
 							{
 								MenuItem
 								{
-									text: "Insert: " + modelData.label
+									text: qsTr("Insert: ") + modelData.label
 									onClicked: insertitem()
 								}
 								MenuItem
 								{
-									text: "Remove from recent"
+									text: qsTr("Remove from recent")
 									visible: modelData.recent
-									onClicked: functionremorse.execute(functionitem, "Removing", removeRecent)
+									onClicked: functionremorse.execute(functionitem, qsTr("Removing"), removeRecent)
 								}
 								MenuItem
 								{
-									text: "Delete user defined"
+									text: qsTr("Delete user defined")
 									visible: modelData.user
-									onClicked: functionremorse.execute(functionitem, "Deleting", deleteUserDefined)
+									onClicked: functionremorse.execute(functionitem, qsTr("Deleting"), deleteUserDefined)
 								}
 							}
 						}
@@ -248,7 +243,6 @@ Page
 					SilicaListView
 					{
 						property int updatehistory: 0
-
 						id: resultsview
 						width: parent.width; height: historyheight
 						snapMode: "SnapOneItem"
@@ -275,18 +269,18 @@ Page
 									{
 										MenuItem
 										{
-											text: "Insert: " + modelData.value
+											text: qsTr("Insert: ") + modelData.value
 											onClicked: insertitem()
 										}
 										MenuItem
 										{
-											text: "Edit: " + modelData.expression
+											text: qsTr("Edit: ") + modelData.expression
 											onClicked: { textfield.text = modelData.expression }
 										}
 										MenuItem
 										{
-											text: "Remove from history"
-											onClicked: historyremorse.execute(resultitem, "Removing", removeHistory)
+											text: qsTr("Remove from history")
+											onClicked: historyremorse.execute(resultitem, qsTr("Removing"), removeHistory)
 										}
 									}
 								}
@@ -309,6 +303,13 @@ Page
 							updatehistory++
 							currentIndex = count - 1
 							positionViewAtEnd()
+/*
+							if ( count )
+							{
+								window.latestExpression = "foo"
+//								window.latestResult = resultitem.modelData.value
+							}
+*/
 						}
 					}
 					Item { width: parent.width; height: resultheight / 2 }
@@ -320,7 +321,7 @@ Page
 							id: textfield
 							anchors { left: parent.left; right: cleartext.left }
 							inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
-							placeholderText: "expression"
+							placeholderText: qsTr("expression")
 							softwareInputPanelEnabled: false
 							Keys.onReturnPressed:
 							{
@@ -417,11 +418,11 @@ Page
 				}
 				PushUpMenu
 				{
-					MenuItem { text: "Copy result"; onClicked: manager.setClipboard(window.latestResult) }
-					MenuItem { text: "Copy expression"; onClicked: manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
+					MenuItem { text: qsTr("Copy result"); onClicked: manager.setClipboard(window.latestResult) }
+					MenuItem { text: qsTr("Copy expression"); onClicked: manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
 					MenuItem
 					{
-						text: "Paste"
+						text: qsTr("Paste")
 						onClicked:
 						{
 							var text = textfield.text; var pos = textfield.cursorPosition
@@ -431,7 +432,7 @@ Page
 					}
 					MenuItem
 					{
-						text: "Clear history"
+						text: qsTr("Clear history")
 						onClicked: { manager.clearHistory(-1); resultsview.updateHistory() }
 					}
 				}
@@ -486,18 +487,18 @@ Page
 			}
 		}
 	}
-
-	Notification { id: notification; category: "SpeedCrunch" }
-
+	Notification
+	{
+		id: notification;
+		category: "SpeedCrunch"
+	}
 	Component.onCompleted:
 	{
 		textfield.softwareInputPanelEnabled = false
 		textfield.forceActiveFocus()
 		historytimer.running = true
 	}
-
 	Component.onDestruction: { manager.saveSession(); }
-
 	function evaluate()
 	{
 		if ( textfield.text != "" )
@@ -508,7 +509,7 @@ Page
 				var error = manager.getError()
 				if ( error.length )
 				{
-					notification.previewSummary = "Evaluation error"
+					notification.previewSummary = qsTr("Evaluation error")
 					notification.previewBody = error
 					notification.publish()
 				}
@@ -522,7 +523,7 @@ Page
 					window.latestExpression = manager.autoFix(textfield.text)
 					window.latestResult = ""
 					resultsview.updateHistory()
-					notification.previewSummary = "Function added"
+					notification.previewSummary = qsTr("Function added")
 					notification.previewBody = ""
 					notification.publish()
 				}

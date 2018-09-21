@@ -15,16 +15,16 @@ Rectangle
 		ComboBox
 		{
 			id: resultformatlist
-			label: "Result format"
+			label: qsTr("Result format")
 			menu: ContextMenu
 			{
-				MenuItem { text: "General decimal" }
-				MenuItem { text: "Fixed decimal" }
-				MenuItem { text: "Engineering decimal" }
-				MenuItem { text: "Scientific decimal" }
-				MenuItem { text: "Binary" }
-				MenuItem { text: "Octal" }
-				MenuItem { text: "Hexadecimal" }
+				MenuItem { text: qsTr("General decimal") }
+				MenuItem { text: qsTr("Fixed decimal") }
+				MenuItem { text: qsTr("Engineering decimal") }
+				MenuItem { text: qsTr("Scientific decimal") }
+				MenuItem { text: qsTr("Binary") }
+				MenuItem { text: qsTr("Octal") }
+				MenuItem { text: qsTr("Hexadecimal") }
 			}
 			onCurrentIndexChanged:
 			{
@@ -99,11 +99,11 @@ Rectangle
 		ComboBox
 		{
 			id: angleunitlist
-			label: "Angle Unit"
+			label: qsTr("Angle Unit")
 			menu: ContextMenu
 			{
-				MenuItem { text: "Degree" }
-				MenuItem { text: "Radian" }
+				MenuItem { text: qsTr("Degree") }
+				MenuItem { text: qsTr("Radian") }
 //				MenuItem { text: "Gradian" }
 			}
 			onCurrentIndexChanged:
@@ -129,12 +129,12 @@ Rectangle
 		ComboBox
 		{
 			id: complexnumberlist
-			label: "Complex Numbers"
+			label: qsTr("Complex Numbers")
 			menu: ContextMenu
 			{
-				MenuItem { text: "Disabled" }
-				MenuItem { text: "Cartesian" }
-				MenuItem { text: "Polar" }
+				MenuItem { text: qsTr("Disabled") }
+				MenuItem { text: qsTr("Cartesian") }
+				MenuItem { text: qsTr("Polar") }
 			}
 			onCurrentIndexChanged:
 			{
@@ -161,7 +161,7 @@ Rectangle
 		{
 			id: historysaveswitch
 			checked: true
-			text: "Save History on Exit"
+			text: qsTr("Save History on Exit")
 			onCheckedChanged: { manager.setSessionSave(checked) }
 			function setHistorySave(save) { checked = save }
 		}
@@ -175,7 +175,7 @@ Rectangle
 		{
 			id: clickinsertswitch
 			checked: true
-			text: "One Click Insert"
+			text: qsTr("One Click Insert")
 			onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
 			function setClickInsert(click) { oneclickinsert = click; checked = click }
 		}
@@ -189,12 +189,12 @@ Rectangle
 		ComboBox
 		{
 			id: listfontsizelist
-			label: "List Font Size"
+			label: qsTr("List Font Size")
 			menu: ContextMenu
 			{
-				MenuItem { text: "Small" }
-				MenuItem { text: "Medium" }
-				MenuItem { text: "Large" }
+				MenuItem { text: qsTr("Small") }
+				MenuItem { text: qsTr("Medium") }
+				MenuItem { text: qsTr("Large") }
 			}
 			onCurrentIndexChanged:
 			{
@@ -226,7 +226,6 @@ Rectangle
 			}
 		}
 	}
-
 	Component.onCompleted:
 	{
 		angleunitlist.setAngleUnit(manager.getAngleUnit())
@@ -237,7 +236,6 @@ Rectangle
 		clickinsertswitch.setClickInsert(manager.getClickInsert())
 		listfontsizelist.setFontSize(manager.getFontSize())
 	}
-
 	function setGlobalFontSize(size)
 	{
 		if ( size === "s" ) fontsizelist = fontsize * 0.8

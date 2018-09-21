@@ -1,5 +1,3 @@
 *~
-RPMS/
-*.o
-moc_*
+*.spec
 *.pro.user*

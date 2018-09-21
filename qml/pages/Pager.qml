@@ -32,7 +32,6 @@ Rectangle
 		onCurrentIndexChanged: parent.indexChanged()
 		Component.onCompleted: { positionViewAtIndex(startIndex, ListView.Contain) }
 	}
-
 	Timer
 	{
 		id: pagertimer
@@ -44,9 +43,7 @@ Rectangle
 			indicator.children[parent.index].checked = true
 		}
 	}
-
 	onIndexChanged: { pagertimer.running = true }
-
 	function goToPage(page)
 	{
 		view.currentIndex = page
