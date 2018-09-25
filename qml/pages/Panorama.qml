@@ -129,7 +129,7 @@ Page
 				{
 					id: searchfunctions
 					anchors { top: searchrectangle.top; left: parent.left; right: clearsearch.left }
-					placeholderText: "search"
+					placeholderText: qsTr("search")
 					inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 				}
 				Image	// clear button
@@ -157,7 +157,7 @@ Page
 				id: functionlist
 				width: parent.width
 				anchors { top: searchrectangle.bottom; bottom: parent.bottom }
-				snapMode: "SnapOneItem"
+				snapMode: "SnapToItem"
 				clip: true
 				model: { eval(manager.getFunctions(searchfunctions.text, filtertype, updatemodel)) }
 				delegate: Component

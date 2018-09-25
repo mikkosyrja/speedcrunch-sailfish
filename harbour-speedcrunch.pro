@@ -1,6 +1,7 @@
 TARGET = harbour-speedcrunch
 
 CONFIG += sailfishapp
+CONFIG += sailfishapp_i18n
 
 QT += quick qml dbus
 
@@ -107,7 +108,10 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	qml/pages/Settings.qml \
 	rpm/harbour-speedcrunch.spec \
 	rpm/harbour-speedcrunch.yaml \
-	harbour-speedcrunch.desktop
+	harbour-speedcrunch.desktop \
+    translations/harbour-speedcrunch-fi.ts
+
+TRANSLATIONS += translations/harbour-speedcrunch-fi.ts
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128
 

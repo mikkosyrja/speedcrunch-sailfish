@@ -59,10 +59,10 @@ Rectangle
 		ComboBox
 		{
 			id: precisionlist
-			label: "Precision"
+			label: qsTr("Precision")
 			menu: ContextMenu
 			{
-				MenuItem { text: "Automatic" }
+				MenuItem { text: qsTr("Automatic") }
 				MenuItem { text: "0" } MenuItem { text: "1" }
 				MenuItem { text: "2" } MenuItem { text: "3" }
 				MenuItem { text: "4" } MenuItem { text: "6" }
