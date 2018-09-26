@@ -113,5 +113,9 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 
 TRANSLATIONS += translations/harbour-speedcrunch-fi.ts
 
+locale.files = locale
+locale.path = /usr/share/$${TARGET}
+INSTALLS += locale
+
 SAILFISHAPP_ICONS = 86x86 108x108 128x128
 

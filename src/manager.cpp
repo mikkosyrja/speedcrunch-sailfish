@@ -79,11 +79,24 @@ Manager::Manager()
 
 	clipboard = QGuiApplication::clipboard();
 
+//	translator.load("/usr/share/harbour-speedcrunch/locale/speedcrunch-fi");
+
 	identifiers = FunctionRepo::instance()->getIdentifiers();
 	for ( int index = 0; index < identifiers.count(); ++index )
 	{
 		if ( const Function* function = FunctionRepo::instance()->find(identifiers.at(index)) )
-			functions.push_back(function->name());
+		{
+			QString name = function->name();
+/*
+			if ( !translator.isEmpty() )
+			{
+				QString text = translator.translate("FunctionRepo", name.toStdString().c_str());
+				if ( !text.isEmpty() )
+					name = text;
+			}
+*/
+			functions.push_back(name);
+		}
 	}
 	functions.sort(Qt::CaseInsensitive);
 
@@ -244,12 +257,12 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 		if ( filter.isEmpty() || function->name().contains(filter, Qt::CaseInsensitive)
 			|| function->identifier().contains(filter, Qt::CaseInsensitive) )
 		{
+			QString name = function->name();
 			QString usage = function->identifier() + "(" + function->usage() + ")";
 			usage.remove("<sub>").remove("</sub>");
-			result += "{value:\"" + function->identifier() + "()"
-				+ "\",name:\"" + function->name() + "\",usage:\"" + usage
-				+ "\",label:\"" + usage + "\",user:false,"
-				+ "recent:" + (recent ? "true" : "false") + "},";
+			result += "{value:\"" + function->identifier() + "()\""
+				+ ",name:\"" + translate("FunctionRepo", name) + "\",usage:\"" + usage
+				+ "\",label:\"" + usage + "\",user:false," + "recent:" + (recent ? "true" : "false") + "},";
 		}
 	};
 
@@ -269,10 +282,11 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 	auto appendunit = [&](const Unit& unit, bool recent)
 	{
 		if ( filter.isEmpty() || unit.name.contains(filter, Qt::CaseInsensitive))
-			result += "{value:\"" + unit.name
-				+ "\", name:\"" + unit.name + "\",usage:\""
-				+ "\",label:\"" + unit.name + "\",user:false,"
+		{
+			result += "{value:\"" + unit.name + "\", name:\"" + unit.name
+				+ "\",usage:\"\",label:\"" + unit.name + "\",user:false,"
 				+ "recent:" + (recent ? "true" : "false") + "},";
+		}
 	};
 
 	auto findunit = [&](const QString& name) -> const Unit*
@@ -286,10 +300,12 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 	{
 		if ( filter.isEmpty() || constant.value.contains(filter, Qt::CaseInsensitive)
 			|| constant.name.contains(filter, Qt::CaseInsensitive))
-			result += "{value:\"" + constant.value
-				+ "\",name:\"" + constant.name + "\",usage:\""
-				+ "\",label:\"" + constant.value + "\",user:false,"
+		{
+			QString name = constant.name;
+			result += "{value:\"" + constant.value + "\",name:\"" + translate("Constants", name)
+				+ "\",usage:\"\",label:\"" + constant.value + "\",user:false,"
 				+ "recent:" + (recent ? "true" : "false") + "},";
+		}
 	};
 
 	auto findconstant = [&](const QString& name) -> const Constant*
@@ -305,10 +321,9 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 			 && (filter.isEmpty() || variable.identifier().contains(filter, Qt::CaseInsensitive)) )
 		{
 			QString value = DMath::format(variable.value(), HNumber::Format::Fixed());
-			result += "{value:\"" + variable.identifier()
-				+ "\",name:\"" + variable.identifier() + "\",usage:\""
-				+ "\",label:\"" + variable.identifier() + " = " + value + "\",user:true,"
-				+ "recent:" + (recent ? "true" : "false") + "},";
+			result += "{value:\"" + variable.identifier() + "\",name:\"" + variable.identifier()
+				+ "\",usage:\"\",label:\"" + variable.identifier() + " = " + value
+				+ "\",user:true,recent:" + (recent ? "true" : "false") + "},";
 		}
 	};
 
@@ -329,10 +344,9 @@ QString Manager::getFunctions(const QString& filter, const QString& type, int)
 			if ( usage.at(usage.size() - 1) == ';' )
 				usage.chop(1);
 			usage += ")";
-			result += "{value:\"" + function.name() + "()"
-				+ "\",name:\"" + function.name() + "()\",usage:\"" + usage
-				+ "\",label:\"" + usage + " = " + function.expression() + "\",user:true,"
-				+ "recent:" + (recent ? "true" : "false") + "},";
+			result += "{value:\"" + function.name() + "()" + "\",name:\"" + function.name() + "()\""
+				+ ",usage:\"" + usage + "\",label:\"" + usage + " = " + function.expression()
+				+ "\",user:true,recent:" + (recent ? "true" : "false") + "},";
 		}
 	};
 
@@ -694,5 +708,17 @@ bool Manager::checkRecent(const QString& name) const
 			return true;
 	}
 	return false;
+}
+
+//
+QString& Manager::translate(const char* context, QString& name) const
+{
+	if ( !translator.isEmpty() )
+	{
+		QString text = translator.translate(context, name.toStdString().c_str());
+		if ( !text.isEmpty() )
+			name = text;
+	}
+	return name;
 }
 
