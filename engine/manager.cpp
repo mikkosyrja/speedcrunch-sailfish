@@ -101,11 +101,11 @@ Manager::Manager()
 	functions.sort(Qt::CaseInsensitive);
 
 	units = Units::getList();
-	qSort(units.begin(), units.end(), [](const Unit& first, const Unit& second)
+	std::sort(units.begin(), units.end(), [](const Unit& first, const Unit& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 
 	constants = Constants::instance()->list();
-	qSort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
+	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 }
 
@@ -243,11 +243,11 @@ QString Manager::getHistory(int)
 QString Manager::getFunctions(const QString& filter, const QString& type, int)
 {
 	QList<Variable> variables = evaluator->getVariables();
-	qSort(variables.begin(), variables.end(), [](const Variable& first, const Variable& second)
+	std::sort(variables.begin(), variables.end(), [](const Variable& first, const Variable& second)
 		{ return first.identifier().compare(second.identifier(), Qt::CaseInsensitive) < 0; });
 
 	QList<UserFunction> userfunctions = evaluator->getUserFunctions();
-	qSort(userfunctions.begin(), userfunctions.end(), [](const UserFunction& first, const UserFunction& second)
+	std::sort(userfunctions.begin(), userfunctions.end(), [](const UserFunction& first, const UserFunction& second)
 		{ return first.name().compare(second.name(), Qt::CaseInsensitive) < 0; });
 
 	QString result = "[";

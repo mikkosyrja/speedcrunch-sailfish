@@ -27,7 +27,7 @@
 #include <QQuickView>
 
 #include "core/evaluator.h"
-#include "src/manager.h"
+#include "manager.h"
 
 int main(int argc, char *argv[])
 {
