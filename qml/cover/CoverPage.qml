@@ -47,7 +47,7 @@ CoverBackground
 		id: coverAction
 		CoverAction
 		{
-			iconSource: "../copy.png"
+			iconSource: "copy.png"
 			onTriggered: { manager.setClipboard(window.latestResult) }
 		}
 //		CoverAction

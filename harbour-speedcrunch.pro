@@ -85,19 +85,6 @@ HEADERS += \
 	core/sessionhistory.h \
 	math/cnumberparser.h
 
-OTHER_FILES += \
-	qml/cover/CoverPage.qml \
-	harbour-speedcrunch.desktop \
-	qml/pages/Pager.qml \
-	qml/pages/Panorama.qml \
-	qml/pages/CalcButton.qml \
-	qml/pages/Backspace.qml \
-	qml/pages/Keyboard.qml \
-	qml/pages/Settings.qml \
-	qml/pages/erase_to_the_left.svg \
-	qml/harbour-speedcrunch.qml \
-	rpm/harbour-speedcrunch.yaml
-
 DISTFILES += qml/harbour-speedcrunch.qml \
 	qml/cover/CoverPage.qml \
 	qml/pages/Backspace.qml \
@@ -109,7 +96,10 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	rpm/harbour-speedcrunch.spec \
 	rpm/harbour-speedcrunch.yaml \
 	harbour-speedcrunch.desktop \
-    translations/harbour-speedcrunch-fi.ts
+	translations/harbour-speedcrunch-fi.ts \
+	icons/harbour-speedcrunch.svg \
+	icons/back.svg \
+	icons/clear.svg
 
 TRANSLATIONS += translations/harbour-speedcrunch-fi.ts
 

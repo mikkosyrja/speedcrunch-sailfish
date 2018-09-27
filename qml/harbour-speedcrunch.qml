@@ -5,14 +5,14 @@ import harbour.speedcrunch.Manager 1.0
 
 ApplicationWindow
 {
-	id: window
-
-	initialPage: Qt.resolvedUrl("pages/Panorama.qml")
-
 	property string latestExpression: ""
 	property string latestResult: ""
 
+	id: window
+
+	initialPage: Qt.resolvedUrl("pages/Panorama.qml")
 	cover: Qt.resolvedUrl("cover/CoverPage.qml")
+	allowedOrientations: Orientation.All
 
 	Manager { id: manager }
 }

@@ -3,7 +3,7 @@ import Sailfish.Silica 1.0
 
 CalcButton
 {
-	image: "erase_to_the_left.png"
+	image: "back.png"
 	special: true
 
 	onRunFunction:
