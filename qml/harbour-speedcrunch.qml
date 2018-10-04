@@ -12,7 +12,9 @@ ApplicationWindow
 
 	initialPage: Qt.resolvedUrl("pages/Panorama.qml")
 	cover: Qt.resolvedUrl("cover/CoverPage.qml")
-	allowedOrientations: Orientation.All
+
+	allowedOrientations: Orientation.Portrait
+//	allowedOrientations: Orientation.All
 
 	Manager { id: manager }
 }

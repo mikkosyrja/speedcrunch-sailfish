@@ -11,8 +11,8 @@ DEFINES += SPEEDCRUNCH_VERSION=\\\"master\\\"
 INCLUDEPATH += engine
 
 SOURCES += \
-	engine/math/cnumberparser.cpp \
 	engine/math/cmath.cpp \
+	engine/math/cnumberparser.cpp \
 	engine/math/floatcommon.c \
 	engine/math/floatconst.c \
 	engine/math/floatconvert.c \
@@ -38,19 +38,19 @@ SOURCES += \
 	engine/core/constants.cpp \
 	engine/core/evaluator.cpp \
 	engine/core/functions.cpp \
-	engine/core/settings.cpp \
 	engine/core/numberformatter.cpp \
 	engine/core/opcode.cpp \
-	engine/core/variable.cpp \
-	engine/core/userfunction.cpp \
 	engine/core/session.cpp \
 	engine/core/sessionhistory.cpp \
+	engine/core/settings.cpp \
+	engine/core/userfunction.cpp \
+	engine/core/variable.cpp \
 	engine/manager.cpp \
 	src/harbour-speedcrunch.cpp
 
 HEADERS += \
-	engine/math/cnumberparser.h \
 	engine/math/cmath.h \
+	engine/math/cnumberparser.h \
 	engine/math/floatcommon.h \
 	engine/math/floatconfig.h \
 	engine/math/floatconst.h \
@@ -78,13 +78,13 @@ HEADERS += \
 	engine/core/errors.h \
 	engine/core/evaluator.h \
 	engine/core/functions.h \
-	engine/core/settings.h \
 	engine/core/numberformatter.h \
 	engine/core/opcode.h \
-	engine/core/variable.h \
-	engine/core/userfunction.h \
 	engine/core/session.h \
 	engine/core/sessionhistory.h \
+	engine/core/settings.h \
+	engine/core/userfunction.h \
+	engine/core/variable.h \
 	engine/manager.h
 
 DISTFILES += qml/harbour-speedcrunch.qml \
@@ -97,13 +97,15 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	qml/pages/Settings.qml \
 	rpm/harbour-speedcrunch.spec \
 	rpm/harbour-speedcrunch.yaml \
-	harbour-speedcrunch.desktop \
-	translations/harbour-speedcrunch-fi.ts \
 	icons/harbour-speedcrunch.svg \
 	icons/back.svg \
-	icons/clear.svg
+	icons/clear.svg \
+	harbour-speedcrunch.desktop \
+	translations/harbour-speedcrunch-fi.ts \
+	CHANGELOG.md \
+	README.md
 
-TRANSLATIONS += translations/harbour-speedcrunch-fi.ts
+TRANSLATIONS += translations/harbour-speedcrunch.fi.ts
 
 locale.files = locale
 locale.path = /usr/share/$${TARGET}

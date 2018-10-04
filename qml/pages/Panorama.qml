@@ -23,8 +23,8 @@ Page
 	property bool needsupdate: false
 	property bool oneclickinsert: false
 
-//	allowedOrientations: Orientation.Portrait
-	allowedOrientations: Orientation.All
+	allowedOrientations: Orientation.Portrait
+//	allowedOrientations: Orientation.All
 
 	Rectangle
 	{
