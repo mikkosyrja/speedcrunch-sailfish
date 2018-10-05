@@ -1,1 +1,1 @@
-lupdate-qt5 -locations none qml/pages/*.qml -ts translations/harbour-speedcrunch.*.ts
+lupdate-qt5 -locations none qml -ts locale/mobile.*.ts

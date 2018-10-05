@@ -101,6 +101,7 @@ Page
 				ComboBox
 				{
 					id: filterlist
+					//: Setting title
 					label: qsTrId("id-type-filter")
 					menu: ContextMenu
 					{
@@ -129,6 +130,7 @@ Page
 				{
 					id: searchfunctions
 					anchors { top: searchrectangle.top; left: parent.left; right: clearsearch.left }
+					//: Placeholder
 					placeholderText: qsTrId("id-search")
 					inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 				}
@@ -181,19 +183,24 @@ Page
 							{
 								MenuItem
 								{
+									//: Popup menu item
 									text: qsTrId("id-insert-item") + modelData.label
 									onClicked: insertitem()
 								}
 								MenuItem
 								{
+									//: Popup menu item
 									text: qsTrId("id-remove-from-recent")
 									visible: modelData.recent
+									//: Remorse timer title
 									onClicked: functionremorse.execute(functionitem, qsTrId("id-removing"), removeRecent)
 								}
 								MenuItem
 								{
+									//: Popup menu item
 									text: qsTrId("id-delete-user-defined")
 									visible: modelData.user
+									//: Remorse timer title
 									onClicked: functionremorse.execute(functionitem, qsTrId("id-deleting"), deleteUserDefined)
 								}
 							}
@@ -269,16 +276,19 @@ Page
 									{
 										MenuItem
 										{
+											//: Popup menu item
 											text: qsTrId("id-insert-item") + modelData.value
 											onClicked: insertitem()
 										}
 										MenuItem
 										{
+											//: Popup menu item
 											text: qsTrId("id-edit-item") + modelData.expression
 											onClicked: { textfield.text = modelData.expression }
 										}
 										MenuItem
 										{
+											//: Popup menu item
 											text: qsTrId("id-remove-from-history")
 											onClicked: historyremorse.execute(resultitem, qsTrId("id-removing"), removeHistory)
 										}
@@ -321,6 +331,7 @@ Page
 							id: textfield
 							anchors { left: parent.left; right: cleartext.left }
 							inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
+							//: Placeholder
 							placeholderText: qsTrId("id-expression")
 							softwareInputPanelEnabled: false
 							Keys.onReturnPressed:
@@ -418,10 +429,13 @@ Page
 				}
 				PushUpMenu
 				{
+					//: Menu item
 					MenuItem { text: qsTrId("id-copy-result"); onClicked: manager.setClipboard(window.latestResult) }
+					//: Menu item
 					MenuItem { text: qsTrId("id-copy-expression"); onClicked: manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
 					MenuItem
 					{
+						//: Menu item
 						text: qsTrId("id-paste")
 						onClicked:
 						{
@@ -432,6 +446,7 @@ Page
 					}
 					MenuItem
 					{
+						//: Menu item
 						text: qsTrId("id-clear-history")
 						onClicked: { manager.clearHistory(-1); resultsview.updateHistory() }
 					}
@@ -509,6 +524,7 @@ Page
 				var error = manager.getError()
 				if ( error.length )
 				{
+					//: Notification message
 					notification.previewSummary = qsTrId("id-evaluation-error")
 					notification.previewBody = error
 					notification.publish()
@@ -523,6 +539,7 @@ Page
 					window.latestExpression = manager.autoFix(textfield.text)
 					window.latestResult = ""
 					resultsview.updateHistory()
+					//: Notification message
 					notification.previewSummary = qsTrId("id-function-added")
 					notification.previewBody = ""
 					notification.publish()

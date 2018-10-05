@@ -5,179 +5,202 @@
     <name></name>
     <message id="id-expression">
         <source></source>
-        <translation>expression</translation>
+        <extracomment>Placeholder</extracomment>
+        <translation>lauseke</translation>
     </message>
     <message id="id-insert-item">
         <source></source>
-        <translation>Insert: </translation>
+        <extracomment>Popup menu item</extracomment>
+        <translation>Lisää: </translation>
     </message>
     <message id="id-edit-item">
         <source></source>
-        <translation>Edit: </translation>
+        <extracomment>Popup menu item</extracomment>
+        <translation>Muokkaa: </translation>
     </message>
     <message id="id-remove-from-history">
         <source></source>
-        <translation>Remove from history</translation>
+        <extracomment>Popup menu item</extracomment>
+        <translation>Poista historiasta</translation>
     </message>
     <message id="id-result-format">
         <source></source>
-        <translation>Result Format</translation>
+        <extracomment>Setting title</extracomment>
+        <translation>Tuloksen muoto</translation>
     </message>
     <message id="id-general-decimal">
         <source></source>
-        <translation>General decimal</translation>
+        <translation>Yleinen desimaali</translation>
     </message>
     <message id="id-fixed-decimal">
         <source></source>
-        <translation>Fixed decimal</translation>
+        <translation>Kiinteä desimaali</translation>
     </message>
     <message id="id-engineering-decimal">
         <source></source>
-        <translation>Engineering decimal</translation>
+        <translation>Tekninen desimaali</translation>
     </message>
     <message id="id-scientific-decimal">
         <source></source>
-        <translation>Scientific decimal</translation>
+        <translation>Tieteellinen desimaali</translation>
     </message>
     <message id="id-binary">
         <source></source>
-        <translation>Binary</translation>
+        <translation>Binääri</translation>
     </message>
     <message id="id-octal">
         <source></source>
-        <translation>Octal</translation>
+        <translation>Oktaali</translation>
     </message>
     <message id="id-hexadecimal">
         <source></source>
-        <translation>Hexadecimal</translation>
+        <translation>Heksadesimaali</translation>
     </message>
     <message id="id-precision">
         <source></source>
-        <translation>Precision</translation>
+        <extracomment>Setting title</extracomment>
+        <translation>Desimaalit</translation>
     </message>
     <message id="id-automatic">
         <source></source>
-        <translation>Automatic</translation>
+        <translation>Automaattinen</translation>
     </message>
     <message id="id-angle-unit">
         <source></source>
-        <translation>Angle Unit</translation>
+        <extracomment>Setting title</extracomment>
+        <translation>Kulmayksikkö</translation>
     </message>
     <message id="id-degree">
         <source></source>
-        <translation>Degree</translation>
+        <translation>Aste</translation>
     </message>
     <message id="id-radian">
         <source></source>
-        <translation>Radian</translation>
+        <translation>Radiaani</translation>
     </message>
     <message id="id-complex-numbers">
         <source></source>
-        <translation>Complex Numbers</translation>
+        <extracomment>Setting title</extracomment>
+        <translation>Kompleksiluvut</translation>
     </message>
     <message id="id-disabled">
         <source></source>
-        <translation>Disabled</translation>
+        <translation>Ei käytössä</translation>
     </message>
     <message id="id-cartesian">
         <source></source>
-        <translation>Cartesian</translation>
+        <translation>Suorakulmainen</translation>
     </message>
     <message id="id-polar">
         <source></source>
-        <translation>Polar</translation>
+        <translation>Napakoordinaatisto</translation>
     </message>
     <message id="id-save-history-on-exit">
         <source></source>
-        <translation>Save History on Exit</translation>
+        <extracomment>Setting title</extracomment>
+        <translation>Tallenna historia lopetettaessa</translation>
     </message>
     <message id="id-direct-insert-from-lists">
         <source></source>
-        <translation>Direct Insert from Lists</translation>
+        <extracomment>Setting title</extracomment>
+        <translation>Suora lisäys listoista</translation>
     </message>
     <message id="id-list-font-size">
         <source></source>
-        <translation>List Font Size</translation>
+        <extracomment>Setting title</extracomment>
+        <translation>Listatekstin koko</translation>
     </message>
     <message id="id-small">
         <source></source>
-        <translation>Small</translation>
+        <translation>Pieni</translation>
     </message>
     <message id="id-medium">
         <source></source>
-        <translation>Medium</translation>
+        <translation>Keskikoko</translation>
     </message>
     <message id="id-large">
         <source></source>
-        <translation>Large</translation>
+        <translation>Suuri</translation>
     </message>
     <message id="id-type-filter">
         <source></source>
-        <translation>Type Filter</translation>
+        <extracomment>Setting title</extracomment>
+        <translation>Tyyppisuodatus</translation>
     </message>
     <message id="id-all">
         <source></source>
-        <translation>All</translation>
+        <translation>Kaikki</translation>
     </message>
     <message id="id-functions">
         <source></source>
-        <translation>Functions</translation>
+        <translation>Funktiot</translation>
     </message>
     <message id="id-units">
         <source></source>
-        <translation>Units</translation>
+        <translation>Yksiköt</translation>
     </message>
     <message id="id-constants">
         <source></source>
-        <translation>Constants</translation>
+        <translation>Vakiot</translation>
     </message>
     <message id="id-user-defined">
         <source></source>
-        <translation>User defined</translation>
+        <translation>Käyttäjän omat</translation>
     </message>
     <message id="id-remove-from-recent">
         <source></source>
-        <translation>Remove from Recent</translation>
+        <extracomment>Popup menu item</extracomment>
+        <translation>Poista viimeksi käytetyistä</translation>
     </message>
     <message id="id-delete-user-defined">
         <source></source>
-        <translation>Delete User Defined</translation>
+        <extracomment>Popup menu item</extracomment>
+        <translation>Poista käyttäjän oma</translation>
     </message>
     <message id="id-copy-result">
         <source></source>
-        <translation>Copy Result</translation>
+        <extracomment>Menu item</extracomment>
+        <translation>Kopioi tulos</translation>
     </message>
     <message id="id-copy-expression">
         <source></source>
-        <translation>Copy Expression</translation>
+        <extracomment>Menu item</extracomment>
+        <translation>Kopioi lauseke</translation>
     </message>
     <message id="id-paste">
         <source></source>
-        <translation>Paste</translation>
+        <extracomment>Menu item</extracomment>
+        <translation>Liitä</translation>
     </message>
     <message id="id-clear-history">
         <source></source>
-        <translation>Clear History</translation>
+        <extracomment>Menu item</extracomment>
+        <translation>Tyhjennä historia</translation>
     </message>
     <message id="id-search">
         <source></source>
-        <translation>search</translation>
+        <extracomment>Placeholder</extracomment>
+        <translation>haku</translation>
     </message>
     <message id="id-removing">
         <source></source>
-        <translation>Removing</translation>
+        <extracomment>Remorse timer title</extracomment>
+        <translation>Poistetaan</translation>
     </message>
     <message id="id-deleting">
         <source></source>
-        <translation>Deleting</translation>
+        <extracomment>Remorse timer title</extracomment>
+        <translation>Poistetaan</translation>
     </message>
     <message id="id-evaluation-error">
         <source></source>
-        <translation>Evaluation error</translation>
+        <extracomment>Notification message</extracomment>
+        <translation>Laskentavirhe</translation>
     </message>
     <message id="id-function-added">
         <source></source>
-        <translation>Function added</translation>
+        <extracomment>Notification message</extracomment>
+        <translation>Funktio lisätty</translation>
     </message>
 </context>
 </TS>

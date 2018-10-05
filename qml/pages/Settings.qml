@@ -15,6 +15,7 @@ Rectangle
 		ComboBox
 		{
 			id: resultformatlist
+			//: Setting title
 			label: qsTrId("id-result-format")
 			menu: ContextMenu
 			{
@@ -62,6 +63,7 @@ Rectangle
 		ComboBox
 		{
 			id: precisionlist
+			//: Setting title
 			label: qsTrId("id-precision")
 			menu: ContextMenu
 			{
@@ -102,6 +104,7 @@ Rectangle
 		ComboBox
 		{
 			id: angleunitlist
+			//: Setting title
 			label: qsTrId("id-angle-unit")
 			menu: ContextMenu
 			{
@@ -132,6 +135,7 @@ Rectangle
 		ComboBox
 		{
 			id: complexnumberlist
+			//: Setting title
 			label: qsTrId("id-complex-numbers")
 			menu: ContextMenu
 			{
@@ -164,6 +168,7 @@ Rectangle
 		{
 			id: historysaveswitch
 			checked: true
+			//: Setting title
 			text: qsTrId("id-save-history-on-exit")
 			onCheckedChanged: { manager.setSessionSave(checked) }
 			function setHistorySave(save) { checked = save }
@@ -178,6 +183,7 @@ Rectangle
 		{
 			id: clickinsertswitch
 			checked: true
+			//: Setting title
 			text: qsTrId("id-direct-insert-from-lists")
 			onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
 			function setClickInsert(click) { oneclickinsert = click; checked = click }
@@ -192,6 +198,7 @@ Rectangle
 		ComboBox
 		{
 			id: listfontsizelist
+			//: Setting title
 			label: qsTrId("id-list-font-size")
 			menu: ContextMenu
 			{

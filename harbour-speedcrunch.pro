@@ -104,16 +104,12 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	README.md \
     lrelease.sh \
     lupdate.sh \
-    translations/harbour-speedcrunch.en.ts \
-    translations/harbour-speedcrunch.fi.ts
+	locale/mobile.en.ts \
+	locale/mobile.fi.ts
 
-locale.files = locale
-locale.path = /usr/share/$${TARGET}
+locale.files = locale/*.qm
+locale.path = /usr/share/$${TARGET}/locale
 INSTALLS += locale
-
-translations.files = translations
-translations.path = /usr/share/$${TARGET}
-INSTALLS += translations
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128
 

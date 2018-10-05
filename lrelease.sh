@@ -1,2 +1,2 @@
-lrelease-qt5 -idbased translations/harbour-speedcrunch.*.ts
+lrelease-qt5 -idbased locale/mobile.*.ts
  

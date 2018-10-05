@@ -80,7 +80,9 @@ Manager::Manager()
 	clipboard = QGuiApplication::clipboard();
 
 	QLocale locale;
-	if ( uiTranslator.load(locale, "/usr/share/harbour-speedcrunch/translations/harbour-speedcrunch.") )
+	if ( uiTranslator.load(locale, "/usr/share/harbour-speedcrunch/locale/mobile.") )
+		QGuiApplication::installTranslator(&uiTranslator);
+	else if ( uiTranslator.load("/usr/share/harbour-speedcrunch/locale/mobile.en.qm") )
 		QGuiApplication::installTranslator(&uiTranslator);
 	if ( engineTranslator.load(locale, "/usr/share/harbour-speedcrunch/locale/speedcrunch.") )
 		QGuiApplication::installTranslator(&engineTranslator);

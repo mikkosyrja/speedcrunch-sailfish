@@ -111,7 +111,7 @@
 - Improved expression syntax error handling
 - History list scrolls to latest item at startup
 - Fixed Save History on Exit setting behavior
-- New setting One Click Insert:
+- New setting Direct Insert from Lists:
 	- When on inserts function instantly when clicked
 	- When off inserting requires use of context menu
 - Added history list popup menu:
@@ -121,4 +121,6 @@
 	- Follows One Click Insert setting
 - Compiled with SDK version 1807 for Sailfish 2.2.1
 - Added 108x108 and 128x128 size icons.
-
+- Initial localization support:
+	- Function and constant translations from desktop version.
+	- Currently english and finnish translations.
