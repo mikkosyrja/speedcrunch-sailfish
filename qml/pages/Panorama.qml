@@ -101,14 +101,14 @@ Page
 				ComboBox
 				{
 					id: filterlist
-					label: qsTr("Type Filter")
+					label: qsTrId("id-type-filter")
 					menu: ContextMenu
 					{
-						MenuItem { text: qsTr("All") }
-						MenuItem { text: qsTr("Functions") }
-						MenuItem { text: qsTr("Units") }
-						MenuItem { text: qsTr("Constants") }
-						MenuItem { text: qsTr("User defined") }
+						MenuItem { text: qsTrId("id-all") }
+						MenuItem { text: qsTrId("id-functions") }
+						MenuItem { text: qsTrId("id-units") }
+						MenuItem { text: qsTrId("id-constants") }
+						MenuItem { text: qsTrId("id-user-defined") }
 					}
 					onCurrentIndexChanged:
 					{
@@ -129,7 +129,7 @@ Page
 				{
 					id: searchfunctions
 					anchors { top: searchrectangle.top; left: parent.left; right: clearsearch.left }
-					placeholderText: qsTr("search")
+					placeholderText: qsTrId("id-search")
 					inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
 				}
 				Image	// clear button
@@ -181,20 +181,20 @@ Page
 							{
 								MenuItem
 								{
-									text: qsTr("Insert: ") + modelData.label
+									text: qsTrId("id-insert-item") + modelData.label
 									onClicked: insertitem()
 								}
 								MenuItem
 								{
-									text: qsTr("Remove from recent")
+									text: qsTrId("id-remove-from-recent")
 									visible: modelData.recent
-									onClicked: functionremorse.execute(functionitem, qsTr("Removing"), removeRecent)
+									onClicked: functionremorse.execute(functionitem, qsTrId("id-removing"), removeRecent)
 								}
 								MenuItem
 								{
-									text: qsTr("Delete user defined")
+									text: qsTrId("id-delete-user-defined")
 									visible: modelData.user
-									onClicked: functionremorse.execute(functionitem, qsTr("Deleting"), deleteUserDefined)
+									onClicked: functionremorse.execute(functionitem, qsTrId("id-deleting"), deleteUserDefined)
 								}
 							}
 						}
@@ -269,18 +269,18 @@ Page
 									{
 										MenuItem
 										{
-											text: qsTr("Insert: ") + modelData.value
+											text: qsTrId("id-insert-item") + modelData.value
 											onClicked: insertitem()
 										}
 										MenuItem
 										{
-											text: qsTr("Edit: ") + modelData.expression
+											text: qsTrId("id-edit-item") + modelData.expression
 											onClicked: { textfield.text = modelData.expression }
 										}
 										MenuItem
 										{
-											text: qsTr("Remove from history")
-											onClicked: historyremorse.execute(resultitem, qsTr("Removing"), removeHistory)
+											text: qsTrId("id-remove-from-history")
+											onClicked: historyremorse.execute(resultitem, qsTrId("id-removing"), removeHistory)
 										}
 									}
 								}
@@ -321,7 +321,7 @@ Page
 							id: textfield
 							anchors { left: parent.left; right: cleartext.left }
 							inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
-							placeholderText: qsTr("expression")
+							placeholderText: qsTrId("id-expression")
 							softwareInputPanelEnabled: false
 							Keys.onReturnPressed:
 							{
@@ -418,11 +418,11 @@ Page
 				}
 				PushUpMenu
 				{
-					MenuItem { text: qsTr("Copy result"); onClicked: manager.setClipboard(window.latestResult) }
-					MenuItem { text: qsTr("Copy expression"); onClicked: manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
+					MenuItem { text: qsTrId("id-copy-result"); onClicked: manager.setClipboard(window.latestResult) }
+					MenuItem { text: qsTrId("id-copy-expression"); onClicked: manager.setClipboard(window.latestExpression + " = " + window.latestResult) }
 					MenuItem
 					{
-						text: qsTr("Paste")
+						text: qsTrId("id-paste")
 						onClicked:
 						{
 							var text = textfield.text; var pos = textfield.cursorPosition
@@ -432,7 +432,7 @@ Page
 					}
 					MenuItem
 					{
-						text: qsTr("Clear history")
+						text: qsTrId("id-clear-history")
 						onClicked: { manager.clearHistory(-1); resultsview.updateHistory() }
 					}
 				}
@@ -509,7 +509,7 @@ Page
 				var error = manager.getError()
 				if ( error.length )
 				{
-					notification.previewSummary = qsTr("Evaluation error")
+					notification.previewSummary = qsTrId("id-evaluation-error")
 					notification.previewBody = error
 					notification.publish()
 				}
@@ -523,7 +523,7 @@ Page
 					window.latestExpression = manager.autoFix(textfield.text)
 					window.latestResult = ""
 					resultsview.updateHistory()
-					notification.previewSummary = qsTr("Function added")
+					notification.previewSummary = qsTrId("id-function-added")
 					notification.previewBody = ""
 					notification.publish()
 				}

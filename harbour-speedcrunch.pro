@@ -1,7 +1,6 @@
 TARGET = harbour-speedcrunch
 
 CONFIG += sailfishapp
-CONFIG += sailfishapp_i18n
 
 QT += quick qml dbus
 
@@ -101,15 +100,20 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	icons/back.svg \
 	icons/clear.svg \
 	harbour-speedcrunch.desktop \
-	translations/harbour-speedcrunch-fi.ts \
 	CHANGELOG.md \
-	README.md
-
-TRANSLATIONS += translations/harbour-speedcrunch.fi.ts
+	README.md \
+    lrelease.sh \
+    lupdate.sh \
+    translations/harbour-speedcrunch.en.ts \
+    translations/harbour-speedcrunch.fi.ts
 
 locale.files = locale
 locale.path = /usr/share/$${TARGET}
 INSTALLS += locale
+
+translations.files = translations
+translations.path = /usr/share/$${TARGET}
+INSTALLS += translations
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128
 

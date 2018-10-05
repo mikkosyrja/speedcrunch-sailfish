@@ -31,7 +31,7 @@ Button
 		else
 			textfield.text = textfield.text.slice(0, pos) + value + textfield.text.slice(pos)
 		textfield.cursorPosition = pos + value.length
-		if ( value.slice(-2) == "()" )
+		if ( value.slice(-2) === "()" )
 			textfield.cursorPosition--
 	}
 

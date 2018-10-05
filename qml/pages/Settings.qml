@@ -15,16 +15,17 @@ Rectangle
 		ComboBox
 		{
 			id: resultformatlist
-			label: qsTr("Result format")
+			label: qsTrId("id-result-format")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTr("General decimal") }
-				MenuItem { text: qsTr("Fixed decimal") }
-				MenuItem { text: qsTr("Engineering decimal") }
-				MenuItem { text: qsTr("Scientific decimal") }
-				MenuItem { text: qsTr("Binary") }
-				MenuItem { text: qsTr("Octal") }
-				MenuItem { text: qsTr("Hexadecimal") }
+				MenuItem { text: qsTrId("id-general-decimal") }
+				MenuItem { text: qsTrId("id-fixed-decimal") }
+				MenuItem { text: qsTrId("id-engineering-decimal") }
+				MenuItem { text: qsTrId("id-scientific-decimal") }
+				MenuItem { text: qsTrId("id-binary") }
+				MenuItem { text: qsTrId("id-octal") }
+				MenuItem { text: qsTrId("id-hexadecimal") }
+//				MenuItem { text: qsTrId("id-sexagesimal") }
 			}
 			onCurrentIndexChanged:
 			{
@@ -35,6 +36,7 @@ Rectangle
 				else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
 				else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
 				else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
+//				else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
 				keyboard.setButtonLabels()
 				resultsview.updateHistory()
 			}
@@ -47,6 +49,7 @@ Rectangle
 				else if ( format === "b" ) currentIndex = 4
 				else if ( format === "o" ) currentIndex = 5
 				else if ( format === "h" ) currentIndex = 6
+//				else if ( format === "s" ) currentIndex = 7
 			}
 		}
 	}
@@ -59,10 +62,10 @@ Rectangle
 		ComboBox
 		{
 			id: precisionlist
-			label: qsTr("Precision")
+			label: qsTrId("id-precision")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTr("Automatic") }
+				MenuItem { text: qsTrId("id-automatic") }
 				MenuItem { text: "0" } MenuItem { text: "1" }
 				MenuItem { text: "2" } MenuItem { text: "3" }
 				MenuItem { text: "4" } MenuItem { text: "6" }
@@ -99,12 +102,12 @@ Rectangle
 		ComboBox
 		{
 			id: angleunitlist
-			label: qsTr("Angle Unit")
+			label: qsTrId("id-angle-unit")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTr("Degree") }
-				MenuItem { text: qsTr("Radian") }
-//				MenuItem { text: "Gradian" }
+				MenuItem { text: qsTrId("id-degree") }
+				MenuItem { text: qsTrId("id-radian") }
+//				MenuItem { text: qsTrId("id-gradian") }
 			}
 			onCurrentIndexChanged:
 			{
@@ -129,12 +132,12 @@ Rectangle
 		ComboBox
 		{
 			id: complexnumberlist
-			label: qsTr("Complex Numbers")
+			label: qsTrId("id-complex-numbers")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTr("Disabled") }
-				MenuItem { text: qsTr("Cartesian") }
-				MenuItem { text: qsTr("Polar") }
+				MenuItem { text: qsTrId("id-disabled") }
+				MenuItem { text: qsTrId("id-cartesian") }
+				MenuItem { text: qsTrId("id-polar") }
 			}
 			onCurrentIndexChanged:
 			{
@@ -161,7 +164,7 @@ Rectangle
 		{
 			id: historysaveswitch
 			checked: true
-			text: qsTr("Save History on Exit")
+			text: qsTrId("id-save-history-on-exit")
 			onCheckedChanged: { manager.setSessionSave(checked) }
 			function setHistorySave(save) { checked = save }
 		}
@@ -175,7 +178,7 @@ Rectangle
 		{
 			id: clickinsertswitch
 			checked: true
-			text: qsTr("One Click Insert")
+			text: qsTrId("id-direct-insert-from-lists")
 			onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
 			function setClickInsert(click) { oneclickinsert = click; checked = click }
 		}
@@ -189,12 +192,12 @@ Rectangle
 		ComboBox
 		{
 			id: listfontsizelist
-			label: qsTr("List Font Size")
+			label: qsTrId("id-list-font-size")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTr("Small") }
-				MenuItem { text: qsTr("Medium") }
-				MenuItem { text: qsTr("Large") }
+				MenuItem { text: qsTrId("id-small") }
+				MenuItem { text: qsTrId("id-medium") }
+				MenuItem { text: qsTrId("id-large") }
 			}
 			onCurrentIndexChanged:
 			{
