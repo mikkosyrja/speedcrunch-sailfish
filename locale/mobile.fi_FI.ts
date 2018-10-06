@@ -184,12 +184,12 @@
     </message>
     <message id="id-removing">
         <source></source>
-        <extracomment>Remorse timer title</extracomment>
+        <extracomment>Remorse timer</extracomment>
         <translation>Poistetaan</translation>
     </message>
     <message id="id-deleting">
         <source></source>
-        <extracomment>Remorse timer title</extracomment>
+        <extracomment>Remorse timer</extracomment>
         <translation>Poistetaan</translation>
     </message>
     <message id="id-evaluation-error">

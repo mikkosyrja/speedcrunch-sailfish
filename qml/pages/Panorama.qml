@@ -192,7 +192,7 @@ Page
 									//: Popup menu item
 									text: qsTrId("id-remove-from-recent")
 									visible: modelData.recent
-									//: Remorse timer title
+									//: Remorse timer
 									onClicked: functionremorse.execute(functionitem, qsTrId("id-removing"), removeRecent)
 								}
 								MenuItem
@@ -200,7 +200,7 @@ Page
 									//: Popup menu item
 									text: qsTrId("id-delete-user-defined")
 									visible: modelData.user
-									//: Remorse timer title
+									//: Remorse timer
 									onClicked: functionremorse.execute(functionitem, qsTrId("id-deleting"), deleteUserDefined)
 								}
 							}
