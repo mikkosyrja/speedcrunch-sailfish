@@ -105,7 +105,13 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	lrelease.sh \
 	lupdate.sh \
 	locale/mobile.en_GB.ts \
-	locale/mobile.fi_FI.ts
+	locale/mobile.fi_FI.ts \
+	locale/mobile.de_DE.ts \
+	locale/mobile.it_IT.ts \
+	locale/mobile.fr_FR.ts \
+	locale/mobile.ru_RU.ts \
+	locale/mobile.es_ES.ts \
+	locale/mobile.sv_SE.ts
 
 locale.files = locale/*.qm
 locale.path = /usr/share/$${TARGET}/locale

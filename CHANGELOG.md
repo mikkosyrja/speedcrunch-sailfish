@@ -106,7 +106,7 @@
 - New application icon.
 - Submitted to Jolla Store
 
-### 0.4.1 (2018-09-xx)
+### 0.4.1 (2018-10-xx)
 
 - Improved expression syntax error handling
 - History list scrolls to latest item at startup
@@ -123,4 +123,7 @@
 - Added 108x108 and 128x128 size icons.
 - Initial localization support:
 	- Function and constant translations from desktop version.
+	- Id based UI translations with english as a backup.
 	- Currently english and finnish translations.
+	- Empty ts files for de_DE, it_IT, fr_FR, es_ES, ru_RU and sv_SV
+- Removed tips from settings page.

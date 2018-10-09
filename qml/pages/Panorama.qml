@@ -465,40 +465,6 @@ Page
 					width: parent.width; height: settingheight * 7; color: "transparent"
 					anchors.top: parent.top
 				}
-				Text
-				{
-					id: helptitle
-					width: parent.width; color: "white"
-					anchors { top: settings.bottom; left: parent.left; leftMargin: helpmargin }
-					text: "Tips:"
-					font.pixelSize: Theme.fontSizeSmall
-				}
-				Column
-				{
-					spacing: buttonmargin
-					anchors { top: helptitle.bottom; topMargin: 20 }
-					Text
-					{
-						width: parent.width - (helpmargin * 3); color: "white"
-						anchors.horizontalCenter: parent.horizontalCenter
-						text: "Swipe left/right on the keypad for more functions."
-						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
-					}
-					Text
-					{
-						width: parent.width - (helpmargin * 3); color: "white"
-						anchors.horizontalCenter: parent.horizontalCenter
-						text: "Tap on the expression twice to edit it with the virtual\nkeyboard."
-						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
-					}
-					Text
-					{
-						width: parent.width - (helpmargin * 3); color: "white"
-						anchors.horizontalCenter: parent.horizontalCenter
-						text: "Tap and hold on buttons 1-6 to insert hexadecimal\nletters A-F. Tap and hold on 0x to insert 0b."
-						font.pixelSize: Theme.fontSizeExtraSmall; wrapMode: Text.WordWrap
-					}
-				}
 			}
 		}
 	}
