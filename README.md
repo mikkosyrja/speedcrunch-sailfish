@@ -20,6 +20,8 @@ Features:
 UI is little bit cramped in Jolla 1, because standard Sailfish buttons seem to have fixed height
 regardless of screen size. Should still be usable.
 
+Translations in [Transifex](https://www.transifex.com/mikkosyrja/speedcrunch-mobile)
+
 ### Download
 
 Download is available at [https://openrepos.net/content/syrja/speedcrunch](https://openrepos.net/content/syrja/speedcrunch).

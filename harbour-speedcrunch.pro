@@ -111,7 +111,8 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	locale/mobile.fr_FR.ts \
 	locale/mobile.ru_RU.ts \
 	locale/mobile.es_ES.ts \
-	locale/mobile.sv_SE.ts
+	locale/mobile.sv_SE.ts \
+	locale/mobile.ts
 
 locale.files = locale/*.qm
 locale.path = /usr/share/$${TARGET}/locale

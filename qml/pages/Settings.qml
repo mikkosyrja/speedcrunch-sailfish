@@ -161,9 +161,15 @@ Rectangle
 	}
 	Rectangle
 	{
-		id: historysavesetting
+		id: settingseparator
 		width: parent.width; height: settingheight; color: "transparent"
 		anchors.top: complexnumbersetting.bottom
+	}
+	Rectangle
+	{
+		id: historysavesetting
+		width: parent.width; height: settingheight; color: "transparent"
+		anchors.top: settingseparator.bottom
 		TextSwitch
 		{
 			id: historysaveswitch

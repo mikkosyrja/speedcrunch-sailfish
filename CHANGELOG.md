@@ -118,12 +118,15 @@
 	- First item inserts selected result
 	- Second item edits selected expression
 	- Third item removes line from history list
-	- Follows One Click Insert setting
+	- Follows Direct Insert from Lists setting
 - Compiled with SDK version 1807 for Sailfish 2.2.1
 - Added 108x108 and 128x128 size icons.
 - Initial localization support:
 	- Function and constant translations from desktop version.
 	- Id based UI translations with english as a backup.
+	- https://www.transifex.com/mikkosyrja/speedcrunch-mobile/
 	- Currently english and finnish translations.
-	- Empty ts files for de_DE, it_IT, fr_FR, es_ES, ru_RU and sv_SV
+	- Currently en_GB (source) and fi_FI translations.
+	- Added languages de_DE, it_IT, fr_FR, es_ES, ru_RU and sv_SE
 - Removed tips from settings page.
+- Added some gap between calculation and general settings.

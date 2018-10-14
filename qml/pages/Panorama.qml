@@ -252,7 +252,7 @@ Page
 						property int updatehistory: 0
 						id: resultsview
 						width: parent.width; height: historyheight
-						snapMode: "SnapOneItem"
+						snapMode: "SnapToItem"
 						clip: true
 						model: { eval(manager.getHistory(updatehistory)) }
 						delegate: Component
