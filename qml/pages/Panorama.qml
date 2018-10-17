@@ -54,11 +54,10 @@ Page
 		id: screen
 		width: parent.width; height: parent.height - statusmargin; color: "transparent"
 		anchors { top: titlebar.bottom; left: parent.left; right: parent.right }
-		isHorizontal: true
 		model: pages
 		focus: true
-		indicator: headerindicator
 		startIndex: 1
+		indicator: headerindicator
 		Timer
 		{
 			id: functionstimer
@@ -89,7 +88,7 @@ Page
 	VisualItemModel
 	{
 		id: pages
-		Rectangle
+		Rectangle	// functions page
 		{
 			width: window.width; height: window.height - statusmargin; color: "transparent"
 			Rectangle
@@ -97,7 +96,6 @@ Page
 				id: filterrectangle
 				width: parent.width; height: settingheight; color: "transparent"
 				anchors.top: parent.top
-				z: 10
 				ComboBox
 				{
 					id: filterlist
@@ -152,13 +150,14 @@ Page
 					}
 				}
 			}
-			SilicaListView
+			SilicaListView		// functions
 			{
 				property string filtertype: "a"
 				property int updatemodel: 0
 				id: functionlist
 				width: parent.width
 				anchors { top: searchrectangle.bottom; bottom: parent.bottom }
+				z: 100	// for remorse
 				snapMode: "SnapToItem"
 				clip: true
 				model: { eval(manager.getFunctions(searchfunctions.text, filtertype, updatemodel)) }
@@ -192,7 +191,6 @@ Page
 									//: Popup menu item
 									text: qsTrId("id-remove-from-recent")
 									visible: modelData.recent
-									//: Remorse timer
 									onClicked: functionremorse.execute(functionitem, qsTrId("id-removing"), removeRecent)
 								}
 								MenuItem
@@ -200,7 +198,6 @@ Page
 									//: Popup menu item
 									text: qsTrId("id-delete-user-defined")
 									visible: modelData.user
-									//: Remorse timer
 									onClicked: functionremorse.execute(functionitem, qsTrId("id-deleting"), deleteUserDefined)
 								}
 							}
@@ -238,162 +235,161 @@ Page
 				}
 			}
 		}
-		Rectangle
+		Rectangle	// calculator page
 		{
 			width: window.width; height: window.height - statusmargin; color: "transparent"
-			SilicaFlickable
+			SilicaFlickable		// for pull-up
 			{
 				anchors.fill: parent
-				Column
+				SilicaListView		// history
 				{
-					anchors { fill: parent; margins: 10 }
-					SilicaListView
+					property int updatehistory: 0
+					id: resultsview
+					width: parent.width; height: historyheight
+					anchors { top: parent.top; leftMargin: 10; rightMargin: 10; topMargin: 10 }
+					z: 100	// for remorse
+					snapMode: "SnapToItem"
+					clip: true
+					model: { eval(manager.getHistory(updatehistory)) }
+					delegate: Component
 					{
-						property int updatehistory: 0
-						id: resultsview
-						width: parent.width; height: historyheight
-						snapMode: "SnapToItem"
-						clip: true
-						model: { eval(manager.getHistory(updatehistory)) }
-						delegate: Component
+						ListItem
 						{
-							ListItem
+							id: resultitem
+							contentHeight: lineheight
+							Text
 							{
-								id: resultitem
-								contentHeight: lineheight
-								Text
+								id:textitem
+								width: parent.width - 40; color: "white"
+								anchors.centerIn: parent
+								text: modelData.expression + " = " + modelData.value
+								font { pixelSize: fontsizelist; weight: (resultsview.currentItem == resultitem  ? Font.Bold: Font.Light) }
+							}
+							RemorseItem { id: historyremorse }
+							menu: Component
+							{
+								ContextMenu
 								{
-									id:textitem
-									width: parent.width - 40; color: "white"
-									anchors.centerIn: parent
-									text: modelData.expression + " = " + modelData.value
-									font { pixelSize: fontsizelist; weight: (resultsview.currentItem == resultitem  ? Font.Bold: Font.Light) }
-								}
-								RemorseItem { id: historyremorse }
-								menu: Component
-								{
-									ContextMenu
+									MenuItem
 									{
-										MenuItem
-										{
-											//: Popup menu item
-											text: qsTrId("id-insert-item") + modelData.value
-											onClicked: insertitem()
-										}
-										MenuItem
-										{
-											//: Popup menu item
-											text: qsTrId("id-edit-item") + modelData.expression
-											onClicked: { textfield.text = modelData.expression }
-										}
-										MenuItem
-										{
-											//: Popup menu item
-											text: qsTrId("id-remove-from-history")
-											onClicked: historyremorse.execute(resultitem, qsTrId("id-removing"), removeHistory)
-										}
+										//: Popup menu item
+										text: qsTrId("id-insert-item") + modelData.value
+										onClicked: insertitem()
+									}
+									MenuItem
+									{
+										//: Popup menu item
+										text: qsTrId("id-edit-item") + modelData.expression
+										onClicked: { textfield.text = modelData.expression }
+									}
+									MenuItem
+									{
+										//: Popup menu item
+										text: qsTrId("id-remove-from-history")
+										onClicked: historyremorse.execute(resultitem, qsTrId("id-removing"), removeHistory)
 									}
 								}
-								onClicked: { if ( oneclickinsert ) insertitem() }
-								function removeHistory()
-								{
-									manager.clearHistory(index)
-									historytimer.running = true
-								}
-								function insertitem()
-								{
-									var text = textfield.text; var pos = textfield.cursorPosition
-									textfield.text = text.substring(0, pos) + modelData.value + text.substring(pos, text.length)
-									textfield.cursorPosition = pos + modelData.value.length
-								}
 							}
-						}
-						function updateHistory()
-						{
-							updatehistory++
-							currentIndex = count - 1
-							positionViewAtEnd()
-/*
-							if ( count )
+							onClicked: { if ( oneclickinsert ) insertitem() }
+							function removeHistory()
 							{
-								window.latestExpression = "foo"
-//								window.latestResult = resultitem.modelData.value
+								manager.clearHistory(index)
+								historytimer.running = true
 							}
-*/
+							function insertitem()
+							{
+								var text = textfield.text; var pos = textfield.cursorPosition
+								textfield.text = text.substring(0, pos) + modelData.value + text.substring(pos, text.length)
+								textfield.cursorPosition = pos + modelData.value.length
+							}
 						}
 					}
-					Item { width: parent.width; height: resultheight / 2 }
-					Item
+					function updateHistory()
 					{
-						width: parent.width; height: textfield.height
-						TextField
+						updatehistory++
+						currentIndex = count - 1
+						positionViewAtEnd()
+/*
+						if ( count )
 						{
-							id: textfield
-							anchors { left: parent.left; right: cleartext.left }
-							inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
-							//: Placeholder
-							placeholderText: qsTrId("id-expression")
-							softwareInputPanelEnabled: false
-							Keys.onReturnPressed:
+							window.latestExpression = "foo"
+//							window.latestResult = resultitem.modelData.value
+						}
+*/
+					}
+				}
+				Rectangle
+				{
+					id: textrow
+					width: parent.width; height: textfield.height; color: "transparent"
+					anchors { top: resultsview.bottom; leftMargin: 10; rightMargin: 10; topMargin: resultheight / 2 }
+					TextField
+					{
+						id: textfield
+						anchors { left: parent.left; right: cleartext.left }
+						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
+						//: Placeholder
+						placeholderText: qsTrId("id-expression")
+						softwareInputPanelEnabled: false
+						Keys.onReturnPressed:
+						{
+							textfield.softwareInputPanelEnabled = false
+							textfield.forceActiveFocus()
+						}
+						onClicked:
+						{
+							textfield.softwareInputPanelEnabled = true
+							textfield.forceActiveFocus()
+						}
+						onFocusChanged:
+						{
+							if ( textfield.softwareInputPanelEnabled )
 							{
 								textfield.softwareInputPanelEnabled = false
 								textfield.forceActiveFocus()
 							}
-							onClicked:
-							{
-								textfield.softwareInputPanelEnabled = true
-								textfield.forceActiveFocus()
-							}
-							onFocusChanged:
-							{
-								if ( textfield.softwareInputPanelEnabled )
-								{
-									textfield.softwareInputPanelEnabled = false
-									textfield.forceActiveFocus()
-								}
-							}
-							onTextChanged:
-							{
-								var result = manager.autoCalc(text);
-								if ( manager.autoCalc(text) !== "NaN" )
-									label = "= " + result
-								else
-									label = manager.getError()
-							}
 						}
-						Image
+						onTextChanged:
 						{
-							id: cleartext
-							width: buttonwidth / 3; height: buttonwidth / 3
-							anchors { right: evaluatebutton.left; rightMargin: buttonmargin * 2 }
-							anchors.verticalCenter: evaluatebutton.verticalCenter
-							fillMode: Image.PreserveAspectFit
-							smooth: true;
-							visible: textfield.text
-							source: "clear.png"
-							MouseArea
-							{
-								id: cleararea
-								anchors { fill: parent; margins: -10 }
-								onClicked: { textfield.text = ""; textfield.forceActiveFocus() }
-							}
-						}
-						Button
-						{
-							id: evaluatebutton
-							width: buttonwidth; color: Theme.highlightColor
-							anchors { top: textfield.top; topMargin: buttonmargin; right: parent.right }
-							text: "="
-							onClicked: { evaluate() }
+							var result = manager.autoCalc(text);
+							if ( manager.autoCalc(text) !== "NaN" )
+								label = "= " + result
+							else
+								label = manager.getError()
 						}
 					}
-					Keyboard
+					Image
 					{
-						id: keyboard
-						width: parent.width; height: keyboardheight - statusmargin; spacing: buttonmargin; color: "transparent"
-						anchors.top: textfield.bottom
-						indicator: footerindicator
+						id: cleartext
+						width: buttonwidth / 3; height: buttonwidth / 3
+						anchors { right: evaluatebutton.left; rightMargin: buttonmargin * 2 }
+						anchors.verticalCenter: evaluatebutton.verticalCenter
+						fillMode: Image.PreserveAspectFit; smooth: true;
+						visible: textfield.text
+						source: "clear.png"
+						MouseArea
+						{
+							id: cleararea
+							anchors { fill: parent; margins: -10 }
+							onClicked: { textfield.text = ""; textfield.forceActiveFocus() }
+						}
 					}
+					Button
+					{
+						id: evaluatebutton
+						width: buttonwidth; color: Theme.highlightColor
+						anchors { top: textfield.top; topMargin: buttonmargin; right: parent.right }
+						text: "="
+						onClicked: { evaluate() }
+					}
+				}
+				Keyboard
+				{
+					id: keyboard
+					width: parent.width; height: keyboardheight - statusmargin; color: "transparent"
+					anchors { top: textrow.bottom; leftMargin: 10; rightMargin: 10; bottomMargin: 10 }
+					indicator: footerindicator
+					spacing: buttonmargin
 				}
 				Item
 				{
@@ -453,7 +449,7 @@ Page
 				}
 			}
 		}
-		Rectangle
+		Rectangle	// settings page
 		{
 			width: window.width; height: window.height - statusmargin; color: "transparent"
 			Column

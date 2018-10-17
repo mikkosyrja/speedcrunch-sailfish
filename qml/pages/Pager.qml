@@ -4,31 +4,28 @@ import Sailfish.Silica 1.0
 Rectangle
 {
 	property QtObject model
-	property bool isHorizontal: false
 
 	property int index: view.currentIndex
-	property int startIndex
-	property Item item: view.currentItem
+	property int startIndex: 0
+	property Item indicator
 
 	property alias spacing: view.spacing
-	property Item indicator
 
 	ListView
 	{
 		id: view
 		anchors.fill: parent
 		model: parent.model
-		orientation: (isHorizontal ? ListView.Horizontal : ListView.Vertical)
+		orientation: ListView.Horizontal
 		snapMode: ListView.SnapOneItem;
 		flickDeceleration: 500
 		maximumFlickVelocity: parent.width * 5
-		currentIndex: startIndex
 		boundsBehavior: Flickable.StopAtBounds
 		highlightFollowsCurrentItem: true
 		highlightRangeMode: ListView.StrictlyEnforceRange
 		preferredHighlightBegin: 0
 		preferredHighlightEnd: 0
-		cacheBuffer: width;
+//		cacheBuffer: width;
 		onCurrentIndexChanged: parent.indexChanged()
 		Component.onCompleted: { positionViewAtIndex(startIndex, ListView.Contain) }
 	}

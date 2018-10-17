@@ -6,9 +6,7 @@ Pager
 	property int buttoncolumns: 5
 	property int buttonrows: 5
 
-	isHorizontal: true
 	focus: false
-	startIndex: -1
 	model: VisualItemModel
 	{
 		Grid	// Page 1
