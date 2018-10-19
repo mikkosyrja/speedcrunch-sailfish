@@ -106,7 +106,7 @@
 - New application icon.
 - Submitted to Jolla Store
 
-### 0.4.1 (2018-10-xx)
+### 0.4.1 (2018-10-19)
 
 - Improved expression syntax error handling
 - History list scrolls to latest item at startup
@@ -125,8 +125,7 @@
 	- Function and constant translations from desktop version.
 	- Id based UI translations with english as a backup.
 	- https://www.transifex.com/mikkosyrja/speedcrunch-mobile/
-	- Currently english and finnish translations.
 	- Currently en_GB (source) and fi_FI translations.
 	- Added languages de_DE, it_IT, fr_FR, es_ES, ru_RU and sv_SE
 - Removed tips from settings page.
-- Added some gap between calculation and general settings.
+- Moved system settings to the bottom of settings page.

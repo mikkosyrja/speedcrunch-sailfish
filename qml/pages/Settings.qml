@@ -162,7 +162,7 @@ Rectangle
 	Rectangle
 	{
 		id: settingseparator
-		width: parent.width; height: settingheight; color: "transparent"
+		width: parent.width; height: parent.height - settingheight * 7 - statusmargin; color: "transparent"
 		anchors.top: complexnumbersetting.bottom
 	}
 	Rectangle

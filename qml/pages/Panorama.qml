@@ -452,15 +452,10 @@ Page
 		Rectangle	// settings page
 		{
 			width: window.width; height: window.height - statusmargin; color: "transparent"
-			Column
+			Settings
 			{
-				anchors.fill: parent
-				Settings
-				{
-					id: settings
-					width: parent.width; height: settingheight * 7; color: "transparent"
-					anchors.top: parent.top
-				}
+				id: settings
+				anchors.fill: parent; color: "transparent"
 			}
 		}
 	}
