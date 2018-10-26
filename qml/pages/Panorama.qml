@@ -95,6 +95,7 @@ Page
 			{
 				id: filterrectangle
 				width: parent.width; height: settingheight; color: "transparent"
+				z: 200
 				anchors.top: parent.top
 				ComboBox
 				{

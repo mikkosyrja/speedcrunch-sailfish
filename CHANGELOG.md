@@ -103,7 +103,7 @@
 - Function list popup shows also user function expression
 - Virtual keyboard enter just closes keyboard without evaluation
 - Title line is now outside of flickable area
-- New application icon.
+- New application icon
 - Submitted to Jolla Store
 
 ### 0.4.1 (2018-10-19)
@@ -120,12 +120,18 @@
 	- Third item removes line from history list
 	- Follows Direct Insert from Lists setting
 - Compiled with SDK version 1807 for Sailfish 2.2.1
-- Added 108x108 and 128x128 size icons.
+- Added 108x108 and 128x128 size icons
 - Initial localization support:
-	- Function and constant translations from desktop version.
+	- Function and constant translations from desktop version
 	- Id based UI translations with english as a backup.
 	- https://www.transifex.com/mikkosyrja/speedcrunch-mobile/
-	- Currently en_GB (source) and fi_FI translations.
+	- Currently en_GB (source) and fi_FI translations
 	- Added languages de_DE, it_IT, fr_FR, es_ES, ru_RU and sv_SE
-- Removed tips from settings page.
-- Moved system settings to the bottom of settings page.
+- Removed tips from settings page
+- Moved system settings to the bottom of settings page
+
+### 0.4.2 (2018-11-xx)
+
+- Added spanish translations
+- Added support for portuguese
+
