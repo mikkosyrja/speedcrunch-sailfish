@@ -132,6 +132,8 @@
 
 ### 0.4.2 (2018-11-xx)
 
-- Added spanish translations
+- Added spanish translation
 - Added support for portuguese
+- Initial landscape keyboard support:
+	- Uses 3x10 button keyboard in landscape mode
 

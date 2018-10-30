@@ -91,6 +91,7 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	qml/pages/Backspace.qml \
 	qml/pages/CalcButton.qml \
 	qml/pages/Keyboard.qml \
+	qml/pages/Landscape.qml \
 	qml/pages/Pager.qml \
 	qml/pages/Panorama.qml \
 	qml/pages/Settings.qml \

@@ -3,10 +3,13 @@ import Sailfish.Silica 1.0
 
 Pager
 {
+	property int buttonheight: button1.height
 	property int buttoncolumns: 5
 	property int buttonrows: 5
 
 	focus: false
+	color: "transparent"
+
 	model: VisualItemModel
 	{
 		Grid	// Page 1

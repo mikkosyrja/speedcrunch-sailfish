@@ -4,9 +4,8 @@ import Nemo.Notifications 1.0
 
 Page
 {
-	property int statusmargin: window.height / 16
+	property int statusmargin: height / (isLandscape ? 12 : 16)
 	property int buttonmargin: window.width / 50
-	property int helpmargin: buttonmargin * 2
 
 	property int fontsize: statusmargin / 2
 	property int fontsizelist: fontsize * 0.8
@@ -14,17 +13,21 @@ Page
 	property int settingheight: statusmargin * 1.2
 
 	property int resultheight: lineheight
-	property int keyboardheight: (window.height === 960 ? 446 : window.height * 45 / 100)
-	property int historyheight: window.height - keyboardheight - textfield.height - titlebar.height - resultheight / 2
+//	property int keyboardheight: (window.height === 960 ? 446 : height * 45 / 100)
+	property int keyboardheight: (keyboard.buttonheight + buttonmargin) * keyboard.buttonrows + buttonmargin + statusmargin
+
+	property int historyheight: height - keyboardheight - textfield.height - titlebar.height - resultheight / 2
 
 	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncolumns - buttonmargin
-	property int bulletwidth: window.width / 20
+	property int bulletwidth: width / 20
 
 	property bool needsupdate: false
 	property bool oneclickinsert: false
 
-	allowedOrientations: Orientation.Portrait
-//	allowedOrientations: Orientation.All
+	id: main
+	width: isLandscape ? window.height : window.width
+	height: isLandscape ? window.width : window.height
+	allowedOrientations: Orientation.All
 
 	Rectangle
 	{
@@ -41,7 +44,7 @@ Page
 		}
 		Text
 		{
-			width: window.width - headerindicator.width; height: parent.height; color: Theme.highlightColor
+			width: parent.width - headerindicator.width; height: parent.height; color: Theme.highlightColor
 			anchors { top: parent.top; right: parent.right; rightMargin: buttonmargin }
 			horizontalAlignment: Text.AlignRight
 			verticalAlignment: Text.AlignVCenter
@@ -90,7 +93,7 @@ Page
 		id: pages
 		Rectangle	// functions page
 		{
-			width: window.width; height: window.height - statusmargin; color: "transparent"
+			width: main.width; height: main.height - statusmargin; color: "transparent"
 			Rectangle
 			{
 				id: filterrectangle
@@ -238,7 +241,7 @@ Page
 		}
 		Rectangle	// calculator page
 		{
-			width: window.width; height: window.height - statusmargin; color: "transparent"
+			width: main.width; height: main.height - statusmargin; color: "transparent"
 			SilicaFlickable		// for pull-up
 			{
 				anchors.fill: parent
@@ -384,19 +387,49 @@ Page
 						onClicked: { evaluate() }
 					}
 				}
-				Keyboard
+				Rectangle
 				{
+					property int buttonheight: isLandscape ? landscapekeyboard.buttonheight : portraitkeyboard.buttonheight
+					property int buttonrows: isLandscape ? landscapekeyboard.buttonrows : portraitkeyboard.buttonrows
+					property int buttoncolumns: isLandscape ? landscapekeyboard.buttoncolumns : portraitkeyboard.buttoncolumns
+
 					id: keyboard
 					width: parent.width; height: keyboardheight - statusmargin; color: "transparent"
 					anchors { top: textrow.bottom; leftMargin: 10; rightMargin: 10; bottomMargin: 10 }
-					indicator: footerindicator
-					spacing: buttonmargin
+
+					Keyboard
+					{
+						id: portraitkeyboard
+						anchors.fill: parent
+						visible: !isLandscape
+						indicator: footerindicator
+						spacing: buttonmargin
+					}
+					Landscape
+					{
+						id: landscapekeyboard
+						anchors.fill: parent
+						visible: isLandscape
+						spacing: buttonmargin
+					}
+
+					function setButtonLabels()
+					{
+						portraitkeyboard.setButtonLabels()
+						landscapekeyboard.setButtonLabels()
+					}
+					function goToPage(page)
+					{
+						if ( !isLandscape )
+							portraitkeyboard.goToPage(page)
+					}
 				}
 				Item
 				{
 					id: statusbar
 					width: parent.width; height: statusmargin
 					anchors { bottom: parent.bottom; left: parent.left }
+					visible: !isLandscape
 					Row
 					{
 						id: footerindicator
@@ -426,6 +459,7 @@ Page
 				}
 				PushUpMenu
 				{
+					width: parent.width
 					//: Menu item
 					MenuItem { text: qsTrId("id-copy-result"); onClicked: manager.setClipboard(window.latestResult) }
 					//: Menu item
@@ -452,7 +486,7 @@ Page
 		}
 		Rectangle	// settings page
 		{
-			width: window.width; height: window.height - statusmargin; color: "transparent"
+			width: main.width; height: main.height - statusmargin; color: "transparent"
 			Settings
 			{
 				id: settings
