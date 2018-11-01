@@ -4,35 +4,36 @@ import Nemo.Notifications 1.0
 
 Page
 {
-	property int statusmargin: height / (isLandscape ? 12 : 16)
-	property int buttonmargin: window.width / 50
+	property int titleheight: Screen.height / 14
+	property int statusheight: Screen.height / 16
+	property int buttonmargin: Screen.width / 50
 
-	property int fontsize: statusmargin / 2
+	property int fontsize: titleheight / 2
 	property int fontsizelist: fontsize * 0.8
 	property int lineheight: fontsizelist * 1.5
-	property int settingheight: statusmargin * 1.2
+	property int settingheight: titleheight * (isLandscape ? 1.0 : 1.2)
 
 	property int resultheight: lineheight
-//	property int keyboardheight: (window.height === 960 ? 446 : height * 45 / 100)
-	property int keyboardheight: (keyboard.buttonheight + buttonmargin) * keyboard.buttonrows + buttonmargin + statusmargin
-
-	property int historyheight: height - keyboardheight - textfield.height - titlebar.height - resultheight / 2
+	property int keyboardheight: (keyboard.buttonheight + buttonmargin) * keyboard.buttonrows
+	property int historyheight: wholeHeight - keyboardheight - textrow.height - (isLandscape ? buttonmargin : statusheight) - titleheight
 
 	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncolumns - buttonmargin
-	property int bulletwidth: width / 20
+	property int bulletwidth: Screen.width / 20
 
 	property bool needsupdate: false
 	property bool oneclickinsert: false
 
+	property int wholeHeight: (isLandscape ? Screen.width : Screen.height)	// with virtual keyboard
+
 	id: main
-	width: isLandscape ? window.height : window.width
-	height: isLandscape ? window.width : window.height
+	width: isLandscape ? Screen.height : Screen.width
+	height: isLandscape ? Screen.width : Screen.height
 	allowedOrientations: Orientation.All
 
 	Rectangle
 	{
 		id: titlebar
-		width: parent.width; height: statusmargin; color: "transparent"
+		width: parent.width; height: titleheight; color: "transparent"
 		Row
 		{
 			id: headerindicator
@@ -55,10 +56,10 @@ Page
 	Pager
 	{
 		id: screen
-		width: parent.width; height: parent.height - statusmargin; color: "transparent"
+		width: parent.width; height: parent.height - titleheight; color: "transparent"
 		anchors { top: titlebar.bottom; left: parent.left; right: parent.right }
 		model: pages
-		focus: true
+//		focus: true
 		startIndex: 1
 		indicator: headerindicator
 		Timer
@@ -93,7 +94,7 @@ Page
 		id: pages
 		Rectangle	// functions page
 		{
-			width: main.width; height: main.height - statusmargin; color: "transparent"
+			width: main.width; height: main.height - titleheight; color: "transparent"
 			Rectangle
 			{
 				id: filterrectangle
@@ -107,11 +108,11 @@ Page
 					label: qsTrId("id-type-filter")
 					menu: ContextMenu
 					{
-						MenuItem { text: qsTrId("id-all") }
-						MenuItem { text: qsTrId("id-functions") }
-						MenuItem { text: qsTrId("id-units") }
-						MenuItem { text: qsTrId("id-constants") }
-						MenuItem { text: qsTrId("id-user-defined") }
+						MenuItem { text: qsTrId("id-all"); height: settingheight }
+						MenuItem { text: qsTrId("id-functions"); height: settingheight }
+						MenuItem { text: qsTrId("id-units"); height: settingheight }
+						MenuItem { text: qsTrId("id-constants"); height: settingheight }
+						MenuItem { text: qsTrId("id-user-defined"); height: settingheight }
 					}
 					onCurrentIndexChanged:
 					{
@@ -174,7 +175,7 @@ Page
 						Text
 						{
 							id:textitem
-							width: parent.width - 40; color: "white"
+							width: parent.width - 40; color: Theme.primaryColor
 							anchors.centerIn: parent
 							text: modelData.name
 							font { pixelSize: fontsizelist; weight: (modelData.recent ? Font.Bold: Font.Light) }
@@ -241,7 +242,7 @@ Page
 		}
 		Rectangle	// calculator page
 		{
-			width: main.width; height: main.height - statusmargin; color: "transparent"
+			width: main.width; height: main.height - titleheight; color: "transparent"
 			SilicaFlickable		// for pull-up
 			{
 				anchors.fill: parent
@@ -264,7 +265,7 @@ Page
 							Text
 							{
 								id:textitem
-								width: parent.width - 40; color: "white"
+								width: parent.width - 40; color: Theme.primaryColor
 								anchors.centerIn: parent
 								text: modelData.expression + " = " + modelData.value
 								font { pixelSize: fontsizelist; weight: (resultsview.currentItem == resultitem  ? Font.Bold: Font.Light) }
@@ -292,9 +293,16 @@ Page
 										text: qsTrId("id-remove-from-history")
 										onClicked: historyremorse.execute(resultitem, qsTrId("id-removing"), removeHistory)
 									}
+//									onClosed: { resultsview.clip = true }
 								}
 							}
-							onClicked: { if ( oneclickinsert ) insertitem() }
+							onClicked:
+							{
+								if ( oneclickinsert )
+									insertitem()
+//								else	// for popup
+//									resultsview.clip = false
+							}
 							function removeHistory()
 							{
 								manager.clearHistory(index)
@@ -326,7 +334,8 @@ Page
 				{
 					id: textrow
 					width: parent.width; height: textfield.height; color: "transparent"
-					anchors { top: resultsview.bottom; leftMargin: 10; rightMargin: 10; topMargin: resultheight / 2 }
+//					anchors { top: resultsview.bottom; leftMargin: 10; rightMargin: 10; topMargin: resultheight / 2 }
+					anchors { top: resultsview.bottom }
 					TextField
 					{
 						id: textfield
@@ -382,9 +391,9 @@ Page
 					{
 						id: evaluatebutton
 						width: buttonwidth; color: Theme.highlightColor
-						anchors { top: textfield.top; topMargin: buttonmargin; right: parent.right }
+						anchors { top: textfield.top; margins: buttonmargin; right: parent.right }
 						text: "="
-						onClicked: { evaluate() }
+						onClicked: evaluate()
 					}
 				}
 				Rectangle
@@ -394,25 +403,21 @@ Page
 					property int buttoncolumns: isLandscape ? landscapekeyboard.buttoncolumns : portraitkeyboard.buttoncolumns
 
 					id: keyboard
-					width: parent.width; height: keyboardheight - statusmargin; color: "transparent"
-					anchors { top: textrow.bottom; leftMargin: 10; rightMargin: 10; bottomMargin: 10 }
-
+					width: parent.width; height: keyboardheight; color: "transparent"
+					anchors.top: textrow.bottom
 					Keyboard
 					{
 						id: portraitkeyboard
-						anchors.fill: parent
 						visible: !isLandscape
+						buttonspacing: buttonmargin
 						indicator: footerindicator
-						spacing: buttonmargin
 					}
 					Landscape
 					{
 						id: landscapekeyboard
-						anchors.fill: parent
 						visible: isLandscape
-						spacing: buttonmargin
+						buttonspacing: buttonmargin
 					}
-
 					function setButtonLabels()
 					{
 						portraitkeyboard.setButtonLabels()
@@ -427,21 +432,21 @@ Page
 				Item
 				{
 					id: statusbar
-					width: parent.width; height: statusmargin
-					anchors { bottom: parent.bottom; left: parent.left }
+					width: parent.width; height: statusheight
+					anchors { top: keyboard.bottom; left: parent.left }
 					visible: !isLandscape
 					Row
 					{
 						id: footerindicator
-						width: buttonwidth * 2 + buttonmargin; height: statusmargin; spacing: bulletwidth / 2
-						anchors { bottom: parent.bottom; left: parent.left; leftMargin: spacing }
+						width: buttonwidth * 2 + buttonmargin; height: statusheight; spacing: bulletwidth / 2
+						anchors { top: parent.top; left: parent.left; leftMargin: spacing }
 						Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(0) }
 						Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(1) }
 					}
 					Label
 					{
 						id: resultformat
-						width: buttonwidth * 2 + buttonmargin; height: statusmargin; color: Theme.highlightColor
+						width: buttonwidth * 2 + buttonmargin; height: statusheight; color: Theme.highlightColor
 						anchors { bottom: parent.bottom; left: footerindicator.right; leftMargin: buttonmargin }
 						verticalAlignment: Text.AlignVCenter
 						font.pixelSize: Theme.fontSizeExtraSmall
@@ -450,7 +455,7 @@ Page
 					Label
 					{
 						id: angleunit
-						width: buttonwidth; height: statusmargin; color: Theme.highlightColor
+						width: buttonwidth; height: statusheight; color: Theme.highlightColor
 						anchors { bottom: parent.bottom; right: parent.right; rightMargin: buttonmargin }
 						verticalAlignment: Text.AlignVCenter
 						font.pixelSize: Theme.fontSizeExtraSmall
@@ -486,7 +491,7 @@ Page
 		}
 		Rectangle	// settings page
 		{
-			width: main.width; height: main.height - statusmargin; color: "transparent"
+			width: main.width; height: main.height - titleheight; color: "transparent"
 			Settings
 			{
 				id: settings

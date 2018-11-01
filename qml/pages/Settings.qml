@@ -19,14 +19,14 @@ Rectangle
 			label: qsTrId("id-result-format")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTrId("id-general-decimal") }
-				MenuItem { text: qsTrId("id-fixed-decimal") }
-				MenuItem { text: qsTrId("id-engineering-decimal") }
-				MenuItem { text: qsTrId("id-scientific-decimal") }
-				MenuItem { text: qsTrId("id-binary") }
-				MenuItem { text: qsTrId("id-octal") }
-				MenuItem { text: qsTrId("id-hexadecimal") }
-//				MenuItem { text: qsTrId("id-sexagesimal") }
+				MenuItem { text: qsTrId("id-general-decimal"); height: settingheight }
+				MenuItem { text: qsTrId("id-fixed-decimal"); height: settingheight }
+				MenuItem { text: qsTrId("id-engineering-decimal"); height: settingheight }
+				MenuItem { text: qsTrId("id-scientific-decimal"); height: settingheight }
+				MenuItem { text: qsTrId("id-binary"); height: settingheight }
+				MenuItem { text: qsTrId("id-octal"); height: settingheight }
+				MenuItem { text: qsTrId("id-hexadecimal"); height: settingheight }
+//				MenuItem { text: qsTrId("id-sexagesimal"); height: settingheight }
 			}
 			onCurrentIndexChanged:
 			{
@@ -67,12 +67,12 @@ Rectangle
 			label: qsTrId("id-precision")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTrId("id-automatic") }
-				MenuItem { text: "0" } MenuItem { text: "1" }
-				MenuItem { text: "2" } MenuItem { text: "3" }
-				MenuItem { text: "4" } MenuItem { text: "6" }
-				MenuItem { text: "8" } MenuItem { text: "12" }
-				MenuItem { text: "16" } MenuItem { text: "20" }
+				MenuItem { text: qsTrId("id-automatic"); height: settingheight }
+				MenuItem { text: "0"; height: settingheight } MenuItem { text: "1"; height: settingheight }
+				MenuItem { text: "2"; height: settingheight } MenuItem { text: "3"; height: settingheight }
+				MenuItem { text: "4"; height: settingheight } MenuItem { text: "6"; height: settingheight }
+				MenuItem { text: "8"; height: settingheight } MenuItem { text: "12"; height: settingheight }
+				MenuItem { text: "16"; height: settingheight } MenuItem { text: "20"; height: settingheight }
 			}
 			onCurrentIndexChanged:
 			{
@@ -108,9 +108,9 @@ Rectangle
 			label: qsTrId("id-angle-unit")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTrId("id-degree") }
-				MenuItem { text: qsTrId("id-radian") }
-//				MenuItem { text: qsTrId("id-gradian") }
+				MenuItem { text: qsTrId("id-degree"); height: settingheight }
+				MenuItem { text: qsTrId("id-radian"); height: settingheight }
+//				MenuItem { text: qsTrId("id-gradian"); height: settingheight }
 			}
 			onCurrentIndexChanged:
 			{
@@ -139,9 +139,9 @@ Rectangle
 			label: qsTrId("id-complex-numbers")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTrId("id-disabled") }
-				MenuItem { text: qsTrId("id-cartesian") }
-				MenuItem { text: qsTrId("id-polar") }
+				MenuItem { text: qsTrId("id-disabled"); height: settingheight }
+				MenuItem { text: qsTrId("id-cartesian"); height: settingheight }
+				MenuItem { text: qsTrId("id-polar"); height: settingheight }
 			}
 			onCurrentIndexChanged:
 			{
@@ -161,8 +161,10 @@ Rectangle
 	}
 	Rectangle
 	{
+		property int settingsheight: settingheight * (listfontsizemenu.active ? 9 : 7)
+
 		id: settingseparator
-		width: parent.width; height: parent.height - settingheight * 7 - statusmargin; color: "transparent"
+		width: parent.width; height: parent.height - settingsheight - statusheight; color: "transparent"
 		anchors.top: complexnumbersetting.bottom
 	}
 	Rectangle
@@ -173,6 +175,7 @@ Rectangle
 		TextSwitch
 		{
 			id: historysaveswitch
+			visible: !isLandscape
 			checked: true
 			//: Setting title
 			text: qsTrId("id-save-history-on-exit")
@@ -188,6 +191,7 @@ Rectangle
 		TextSwitch
 		{
 			id: clickinsertswitch
+			visible: !isLandscape
 			checked: true
 			//: Setting title
 			text: qsTrId("id-direct-insert-from-lists")
@@ -204,13 +208,15 @@ Rectangle
 		ComboBox
 		{
 			id: listfontsizelist
+			visible: !isLandscape
 			//: Setting title
 			label: qsTrId("id-list-font-size")
 			menu: ContextMenu
 			{
-				MenuItem { text: qsTrId("id-small") }
-				MenuItem { text: qsTrId("id-medium") }
-				MenuItem { text: qsTrId("id-large") }
+				id: listfontsizemenu
+				MenuItem { text: qsTrId("id-small"); height: settingheight }
+				MenuItem { text: qsTrId("id-medium"); height: settingheight }
+				MenuItem { text: qsTrId("id-large"); height: settingheight }
 			}
 			onCurrentIndexChanged:
 			{

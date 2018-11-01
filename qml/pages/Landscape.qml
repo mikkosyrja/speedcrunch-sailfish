@@ -6,15 +6,15 @@ Rectangle
 	property int buttonheight: button1.height
 	property int buttoncolumns: 10
 	property int buttonrows: 3
-	property int spacing
+	property int buttonspacing
 
 	color: "transparent"
+	anchors { fill: parent; leftMargin: buttonspacing; rightMargin: buttonspacing; bottomMargin: buttonspacing }
 
 	Grid	// Page 1
 	{
 		rows: buttonrows; columns: buttoncolumns
-		anchors.fill: parent
-		spacing: parent.spacing
+		anchors.fill: parent; spacing: buttonspacing
 
 		CalcButton { id: button1; text: "1"; value: "1"; secondary: "A" }
 		CalcButton { id: button2; text: "2"; value: "2"; secondary: "B" }
@@ -27,24 +27,23 @@ Rectangle
 		CalcButton { id: button9; text: "9"; value: "9"; secondary: "j" }
 		CalcButton { text: "0" }
 
-		CalcButton { text: "/" }
-		CalcButton { text: "×"; value: "×" }
-		CalcButton { text: "-" }
 		CalcButton { text: "+" }
-		CalcButton { text: "." }
-		CalcButton { text: ";" }
+		CalcButton { text: "-" }
+		CalcButton { text: "×"; value: "×" }
+		CalcButton { text: "/" }
 		CalcButton { text: "x²"; value: "^2" }
+		CalcButton { text: "Xⁿ"; value:"^" }
 		CalcButton { text: "√"; value: "sqrt()" }
 		CalcButton { text: "1/x"; value: "1/" }
-		CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
+		CalcButton { text: "." }
+		CalcButton { text: ";" }
 
-		CalcButton { text: "Xⁿ"; value:"^" }
+		CalcButton { text: "(" } CalcButton { text: ")" }
 		CalcButton { text: "π"; value: "pi" }
 		CalcButton { text: "e" }
 		CalcButton { text: "!" }
 		CalcButton { text: "➔"; value: "->" }
-
-		CalcButton { text: "(" } CalcButton { text: ")" }
+		CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
 		CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
 		CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
 		Backspace { }

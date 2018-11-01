@@ -132,8 +132,11 @@
 
 ### 0.4.2 (2018-11-xx)
 
-- Added spanish translation
-- Added support for portuguese
-- Initial landscape keyboard support:
-	- Uses 3x10 button keyboard in landscape mode
+- Added spanish translation (thanks @carmenfdezb)
+- Added support for portuguese language
+- Initial landscape mode support:
+	- Uses single 3x10 button keyboard in landscape mode
+	- System settings at bottom are hidden in landscape mode
+	- xxx
+- Fixed some text colors to work with SFOS 3 light ambiences
 

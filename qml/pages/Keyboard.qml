@@ -6,16 +6,21 @@ Pager
 	property int buttonheight: button1.height
 	property int buttoncolumns: 5
 	property int buttonrows: 5
+	property int buttonspacing
 
-	focus: false
 	color: "transparent"
+	anchors { fill: parent; leftMargin: buttonspacing }
+	clip: true
 
 	model: VisualItemModel
 	{
-		Grid	// Page 1
+		Rectangle	// Page 1
 		{
-			rows: buttonrows; columns: buttoncolumns
-			width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
+			width: parent.parent.width; height: parent.parent.height; color: "transparent"
+			Grid
+			{
+				rows: buttonrows; columns: buttoncolumns
+				width: parent.width - buttonspacing; height: parent.height; spacing: buttonspacing
 
 	CalcButton { id: button7; text: "7" } CalcButton { id: button8; text: "8" }
 	CalcButton { id: button9; text: "9"; value: "9"; secondary: "j" }
@@ -37,11 +42,15 @@ Pager
 	CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
 	Backspace { color: Theme.highlightColor }
 
+			}
 		}
-		Grid	// Page 2
+		Rectangle	// Page 2
 		{
-			rows: buttonrows; columns: buttoncolumns
-			width: parent.parent.width; height: parent.parent.height; spacing: parent.parent.spacing
+			width: parent.parent.width; height: parent.parent.height; color: "transparent"
+			Grid
+			{
+				rows: buttonrows; columns: buttoncolumns
+				width: parent.width - buttonspacing; height: parent.height; spacing: buttonspacing
 
 	CalcButton { text: "sin"; value: "sin()" } CalcButton { text: "cos"; value: "cos()" }
 	CalcButton { text: "tan"; value: "tan()" } CalcButton { text: "ln"; value: "ln()" }
@@ -62,6 +71,7 @@ Pager
 	CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
 	Backspace { color: Theme.highlightColor }
 
+			}
 		}
 	}
 
