@@ -28,6 +28,8 @@ Rectangle
 //		cacheBuffer: width;
 		onCurrentIndexChanged: parent.indexChanged()
 		Component.onCompleted: { positionViewAtIndex(startIndex, ListView.Contain) }
+//		pressDelay: pressdelay
+		interactive: allowflicking
 	}
 	Timer
 	{

@@ -25,6 +25,18 @@ Page
 
 	property int wholeHeight: (isLandscape ? Screen.width : Screen.height)	// with virtual keyboard
 
+	property bool changeOfWidth: false
+	property bool changeOfHeight: false
+	property bool newOrientation: false
+
+	property bool allowflicking: true
+//	property int pressdelay: 500
+
+	onOrientationChanged:	//##
+	{
+		historytimer.running = true
+	}
+
 	id: main
 	width: isLandscape ? Screen.height : Screen.width
 	height: isLandscape ? Screen.width : Screen.height
@@ -252,7 +264,7 @@ Page
 				{
 					property int updatehistory: 0
 					id: historyview
-					width: parent.width; height: historyheight
+					width: parent.width; height: historyheight / (textfield.activekeyboard ? 2 : 1)
 					anchors { top: parent.top; leftMargin: 10; rightMargin: 10; topMargin: 10 }
 					z: 100	// for remorse
 					snapMode: "SnapToItem"
@@ -262,7 +274,7 @@ Page
 					{
 						ListItem
 						{
-							id: resultitem
+							id: historyitem
 							contentHeight: lineheight
 							Text
 							{
@@ -270,7 +282,7 @@ Page
 								width: parent.width - 40; color: Theme.primaryColor
 								anchors.centerIn: parent
 								text: modelData.expression + " = " + modelData.value
-								font { pixelSize: fontsizelist; weight: (historyview.currentItem == resultitem  ? Font.Bold: Font.Light) }
+								font { pixelSize: fontsizelist; weight: (historyview.currentItem == historyitem  ? Font.Bold: Font.Light) }
 							}
 							RemorseItem { id: historyremorse }
 							menu: Component
@@ -303,7 +315,7 @@ Page
 										onClicked:
 										{
 											historyview.clip = true
-											historyremorse.execute(resultitem, qsTrId("id-removing"), removeHistory)
+											historyremorse.execute(historyitem, qsTrId("id-removing"), removeHistory)
 										}
 									}
 									onClosed: { historyview.clip = true }
@@ -338,7 +350,7 @@ Page
 						if ( count )
 						{
 							window.latestExpression = "foo"
-//							window.latestResult = resultitem.modelData.value
+//							window.latestResult = historyitem.modelData.value
 						}
 */
 					}
@@ -347,10 +359,11 @@ Page
 				{
 					id: textrow
 					width: parent.width; height: textfield.height; color: "transparent"
-//					anchors { top: historyview.bottom; leftMargin: 10; rightMargin: 10; topMargin: resultheight / 2 }
 					anchors { top: historyview.bottom }
 					TextField
 					{
+						property bool activekeyboard: isLandscape && focus && softwareInputPanelEnabled && !activatekeyboard
+						property bool activatekeyboard: false
 						id: textfield
 						anchors { left: parent.left; right: cleartext.left }
 						inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase;
@@ -364,6 +377,7 @@ Page
 						}
 						onClicked:
 						{
+							activatekeyboard = !softwareInputPanelEnabled
 							textfield.softwareInputPanelEnabled = true
 							textfield.forceActiveFocus()
 						}

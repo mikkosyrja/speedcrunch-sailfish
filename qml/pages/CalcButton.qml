@@ -18,7 +18,6 @@ Button
 		visible: image.length
 		source: image
 	}
-
 	function insertValue(value)
 	{
 		var pos = textfield.cursorPosition
@@ -35,12 +34,18 @@ Button
 			textfield.cursorPosition--
 	}
 
+	onPressed:
+	{
+//		allowflicking = false
+	}
+
 	onClicked:
 	{
 		if ( special )
 			runFunction();
 		else
 			insertValue(value)
+		allowflicking = true
 	}
 
 	onPressAndHold:
