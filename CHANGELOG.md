@@ -136,7 +136,9 @@
 - Added support for portuguese language
 - Initial landscape mode support:
 	- Uses single 3x10 button keyboard in landscape mode
+	- Status bar is hidden in landscape mode
 	- System settings at bottom are hidden in landscape mode
 	- xxx
 - Fixed some text colors to work with SFOS 3 light ambiences
+- Added settings page pull-up menu for version information
 

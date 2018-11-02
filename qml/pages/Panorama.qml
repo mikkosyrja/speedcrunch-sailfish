@@ -4,7 +4,7 @@ import Nemo.Notifications 1.0
 
 Page
 {
-	property int titleheight: Screen.height / 14
+	property int titleheight: Screen.height / 16
 	property int statusheight: Screen.height / 16
 	property int buttonmargin: Screen.width / 50
 
@@ -59,7 +59,6 @@ Page
 		width: parent.width; height: parent.height - titleheight; color: "transparent"
 		anchors { top: titlebar.bottom; left: parent.left; right: parent.right }
 		model: pages
-//		focus: true
 		startIndex: 1
 		indicator: headerindicator
 		Timer
@@ -85,7 +84,7 @@ Page
 		{
 			id: historytimer
 			interval: 250; running: false; repeat: false
-			onTriggered: { resultsview.updateHistory() }
+			onTriggered: { historyview.updateHistory() }
 		}
 		onIndexChanged: { functionstimer.running = true }
 	}
@@ -187,12 +186,14 @@ Page
 							{
 								MenuItem
 								{
+									height: settingheight
 									//: Popup menu item
 									text: qsTrId("id-insert-item") + modelData.label
 									onClicked: insertitem()
 								}
 								MenuItem
 								{
+									height: settingheight
 									//: Popup menu item
 									text: qsTrId("id-remove-from-recent")
 									visible: modelData.recent
@@ -200,6 +201,7 @@ Page
 								}
 								MenuItem
 								{
+									height: settingheight
 									//: Popup menu item
 									text: qsTrId("id-delete-user-defined")
 									visible: modelData.user
@@ -249,7 +251,7 @@ Page
 				SilicaListView		// history
 				{
 					property int updatehistory: 0
-					id: resultsview
+					id: historyview
 					width: parent.width; height: historyheight
 					anchors { top: parent.top; leftMargin: 10; rightMargin: 10; topMargin: 10 }
 					z: 100	// for remorse
@@ -268,7 +270,7 @@ Page
 								width: parent.width - 40; color: Theme.primaryColor
 								anchors.centerIn: parent
 								text: modelData.expression + " = " + modelData.value
-								font { pixelSize: fontsizelist; weight: (resultsview.currentItem == resultitem  ? Font.Bold: Font.Light) }
+								font { pixelSize: fontsizelist; weight: (historyview.currentItem == resultitem  ? Font.Bold: Font.Light) }
 							}
 							RemorseItem { id: historyremorse }
 							menu: Component
@@ -277,31 +279,41 @@ Page
 								{
 									MenuItem
 									{
+										height: settingheight
 										//: Popup menu item
 										text: qsTrId("id-insert-item") + modelData.value
 										onClicked: insertitem()
 									}
 									MenuItem
 									{
+										height: settingheight
 										//: Popup menu item
 										text: qsTrId("id-edit-item") + modelData.expression
-										onClicked: { textfield.text = modelData.expression }
+										onClicked:
+										{
+											historyview.clip = true
+											textfield.text = modelData.expression
+										}
 									}
 									MenuItem
 									{
+										height: settingheight
 										//: Popup menu item
 										text: qsTrId("id-remove-from-history")
-										onClicked: historyremorse.execute(resultitem, qsTrId("id-removing"), removeHistory)
+										onClicked:
+										{
+											historyview.clip = true
+											historyremorse.execute(resultitem, qsTrId("id-removing"), removeHistory)
+										}
 									}
-//									onClosed: { resultsview.clip = true }
+									onClosed: { historyview.clip = true }
 								}
 							}
+							onPressAndHold: { historyview.clip = false }	// for popup
 							onClicked:
 							{
 								if ( oneclickinsert )
 									insertitem()
-//								else	// for popup
-//									resultsview.clip = false
 							}
 							function removeHistory()
 							{
@@ -310,6 +322,7 @@ Page
 							}
 							function insertitem()
 							{
+								historyview.clip = true
 								var text = textfield.text; var pos = textfield.cursorPosition
 								textfield.text = text.substring(0, pos) + modelData.value + text.substring(pos, text.length)
 								textfield.cursorPosition = pos + modelData.value.length
@@ -334,8 +347,8 @@ Page
 				{
 					id: textrow
 					width: parent.width; height: textfield.height; color: "transparent"
-//					anchors { top: resultsview.bottom; leftMargin: 10; rightMargin: 10; topMargin: resultheight / 2 }
-					anchors { top: resultsview.bottom }
+//					anchors { top: historyview.bottom; leftMargin: 10; rightMargin: 10; topMargin: resultheight / 2 }
+					anchors { top: historyview.bottom }
 					TextField
 					{
 						id: textfield
@@ -484,7 +497,7 @@ Page
 					{
 						//: Menu item
 						text: qsTrId("id-clear-history")
-						onClicked: { manager.clearHistory(-1); resultsview.updateHistory() }
+						onClicked: { manager.clearHistory(-1); historyview.updateHistory() }
 					}
 				}
 			}
@@ -535,7 +548,7 @@ Page
 					functionlist.updatemodel++
 					window.latestExpression = manager.autoFix(textfield.text)
 					window.latestResult = ""
-					resultsview.updateHistory()
+					historyview.updateHistory()
 					//: Notification message
 					notification.previewSummary = qsTrId("id-function-added")
 					notification.previewBody = ""
@@ -545,7 +558,7 @@ Page
 				{
 					window.latestExpression = manager.autoFix(textfield.text)
 					window.latestResult = result
-					resultsview.updateHistory()
+					historyview.updateHistory()
 				}
 				textfield.text = ""
 			}
