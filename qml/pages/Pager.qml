@@ -10,6 +10,7 @@ Rectangle
 	property Item indicator
 
 	property alias spacing: view.spacing
+	property alias interactive: view.interactive
 
 	ListView
 	{
@@ -29,7 +30,6 @@ Rectangle
 		onCurrentIndexChanged: parent.indexChanged()
 		Component.onCompleted: { positionViewAtIndex(startIndex, ListView.Contain) }
 //		pressDelay: pressdelay
-		interactive: allowflicking
 	}
 	Timer
 	{

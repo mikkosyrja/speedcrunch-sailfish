@@ -33,21 +33,13 @@ Button
 		if ( value.slice(-2) === "()" )
 			textfield.cursorPosition--
 	}
-
-	onPressed:
-	{
-//		allowflicking = false
-	}
-
 	onClicked:
 	{
 		if ( special )
 			runFunction();
 		else
 			insertValue(value)
-		allowflicking = true
 	}
-
 	onPressAndHold:
 	{
 		if ( text == "←" )

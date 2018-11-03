@@ -29,7 +29,6 @@ Page
 	property bool changeOfHeight: false
 	property bool newOrientation: false
 
-	property bool allowflicking: true
 //	property int pressdelay: 500
 
 	onOrientationChanged:	//##
@@ -49,15 +48,36 @@ Page
 		Row
 		{
 			id: headerindicator
-			width: bulletwidth * 4; height: parent.height; spacing: bulletwidth / 2
+			width: (buttonwidth + buttonmargin) * 2; height: parent.height; spacing: bulletwidth / 2
 			anchors { top: parent.top; left: parent.left; leftMargin: spacing }
 			Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: screen.goToPage(0) }
 			Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; checked: true; onClicked: screen.goToPage(1) }
 			Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: screen.goToPage(2) }
 		}
+		Label
+		{
+			id: titleresultformat
+			width: (isLandscape ? (buttonwidth + buttonmargin) * 3 : 0); height: parent.height; color: Theme.highlightColor
+			anchors { bottom: parent.bottom; left: headerindicator.right; leftMargin: buttonmargin }
+			verticalAlignment: Text.AlignVCenter
+			font.pixelSize: Theme.fontSizeExtraSmall
+			text: settings.resultformat
+			visible: isLandscape
+		}
+		Label
+		{
+			id: titleangleunit
+			width: (isLandscape ? buttonwidth : 0); height: parent.height; color: Theme.highlightColor
+			anchors { bottom: parent.bottom; left: titleresultformat.right; rightMargin: buttonmargin }
+			verticalAlignment: Text.AlignVCenter
+			font.pixelSize: Theme.fontSizeExtraSmall
+			text: settings.angleunit
+			visible: isLandscape
+		}
 		Text
 		{
-			width: parent.width - headerindicator.width; height: parent.height; color: Theme.highlightColor
+			width: parent.width - headerindicator.width - titleresultformat.width - titleangleunit.width
+			height: parent.height; color: Theme.highlightColor
 			anchors { top: parent.top; right: parent.right; rightMargin: buttonmargin }
 			horizontalAlignment: Text.AlignRight
 			verticalAlignment: Text.AlignVCenter
@@ -465,7 +485,7 @@ Page
 					Row
 					{
 						id: footerindicator
-						width: buttonwidth * 2 + buttonmargin; height: statusheight; spacing: bulletwidth / 2
+						width: buttonwidth * 2 + buttonmargin; height: parent.height; spacing: bulletwidth / 2
 						anchors { top: parent.top; left: parent.left; leftMargin: spacing }
 						Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(0) }
 						Switch { width: bulletwidth; anchors.verticalCenter: parent.verticalCenter; onClicked: keyboard.goToPage(1) }
@@ -473,7 +493,7 @@ Page
 					Label
 					{
 						id: resultformat
-						width: buttonwidth * 2 + buttonmargin; height: statusheight; color: Theme.highlightColor
+						width: buttonwidth * 2 + buttonmargin; height: parent.height; color: Theme.highlightColor
 						anchors { bottom: parent.bottom; left: footerindicator.right; leftMargin: buttonmargin }
 						verticalAlignment: Text.AlignVCenter
 						font.pixelSize: Theme.fontSizeExtraSmall
@@ -482,7 +502,7 @@ Page
 					Label
 					{
 						id: angleunit
-						width: buttonwidth; height: statusheight; color: Theme.highlightColor
+						width: buttonwidth; height: parent.height; color: Theme.highlightColor
 						anchors { bottom: parent.bottom; right: parent.right; rightMargin: buttonmargin }
 						verticalAlignment: Text.AlignVCenter
 						font.pixelSize: Theme.fontSizeExtraSmall
