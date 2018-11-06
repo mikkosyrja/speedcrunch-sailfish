@@ -8,11 +8,12 @@ Page
 	property int statusheight: Screen.height / 16
 	property int buttonmargin: Screen.width / 50
 
-	property int fontsize: titleheight / 2
-	property int fontsizelist: fontsize * 0.8
-	property int lineheight: fontsizelist * 1.5
-	property int settingheight: titleheight * (isLandscape ? 1.0 : 1.2)
+	property real fontsize: titleheight / 2
+	property real fontscale: 1.0
+	property real fontsizelist: fontsize * fontscale
+	property real lineheight: fontsizelist * 1.5
 
+	property int settingheight: titleheight * (isLandscape ? 1.0 : 1.2)
 	property int resultheight: lineheight
 	property int keyboardheight: (keyboard.buttonheight + buttonmargin) * keyboard.buttonrows
 	property int historyheight: wholeHeight - keyboardheight - textrow.height - (isLandscape ? buttonmargin : statusheight) - titleheight
@@ -28,8 +29,6 @@ Page
 	property bool changeOfWidth: false
 	property bool changeOfHeight: false
 	property bool newOrientation: false
-
-//	property int pressdelay: 500
 
 	onOrientationChanged:	//##
 	{

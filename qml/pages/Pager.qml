@@ -26,10 +26,8 @@ Rectangle
 		highlightRangeMode: ListView.StrictlyEnforceRange
 		preferredHighlightBegin: 0
 		preferredHighlightEnd: 0
-//		cacheBuffer: width;
 		onCurrentIndexChanged: parent.indexChanged()
 		Component.onCompleted: { positionViewAtIndex(startIndex, ListView.Contain) }
-//		pressDelay: pressdelay
 	}
 	Timer
 	{

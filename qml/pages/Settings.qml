@@ -222,39 +222,32 @@ Rectangle
 				}
 				onCurrentIndexChanged:
 				{
-					if ( currentIndex == 0 )
-					{
-						fontsizelist = fontsize * 0.8
-						manager.setFontSize("s")
-					}
-					else if ( currentIndex == 1 )
-					{
-						fontsizelist = fontsize
-						manager.setFontSize("m")
-					}
-					else if ( currentIndex == 2 )
-					{
-						fontsizelist = fontsize * 1.2
-						manager.setFontSize("l")
-					}
+					if ( currentIndex == 0 ) { main.fontscale = 0.8; manager.setFontSize("s") }
+					else if ( currentIndex == 1 ) { main.fontscale = 1.0; manager.setFontSize("m") }
+					else if ( currentIndex == 2 ) { main.fontscale = 1.2; manager.setFontSize("l") }
 				}
 				function setFontSize(size)
 				{
-					setGlobalFontSize(size)
-					if ( size === "s" )
-						currentIndex = 0
-					else if ( size === "m" )
-						currentIndex = 1
-					else if ( size === "l" )
-						currentIndex = 2
+//					setGlobalFontSize(size)
+					if ( size === "s" ) { main.fontscale = 0.8; currentIndex = 0 }
+					else if ( size === "m" ) { main.fontscale = 1.0; currentIndex = 1 }
+					else if ( size === "l" ) { main.fontscale = 1.2; currentIndex = 2 }
 				}
 			}
 		}
 		PushUpMenu
 		{
 			width: parent.width
-			MenuItem { text: "SpeedCrunch Sailfish 0.4.2" }
-			MenuItem { text: "SpeedCrunch engine 0.12" }
+			MenuItem
+			{
+				text: "SpeedCrunch Sailfish 0.4.2"
+				onClicked: { Qt.openUrlExternally("https://openrepos.net/content/syrja/speedcrunch") }
+			}
+			MenuItem
+			{
+				text: "SpeedCrunch 0.12"
+				onClicked: { Qt.openUrlExternally("http://speedcrunch.org/") }
+			}
 		}
 		Component.onCompleted:
 		{
@@ -266,11 +259,13 @@ Rectangle
 			clickinsertswitch.setClickInsert(manager.getClickInsert())
 			listfontsizelist.setFontSize(manager.getFontSize())
 		}
+/*
 		function setGlobalFontSize(size)
 		{
-			if ( size === "s" ) fontsizelist = fontsize * 0.8
-			else if ( size === "m" ) fontsizelist = fontsize
-			else if ( size === "l" ) fontsizelist = fontsize * 1.2
+			if ( size === "s" ) main.fontscale = 0.8
+			else if ( size === "m" ) main.fontscale = 1.0
+			else if ( size === "l" ) main.fontscale = 1.2
 		}
+*/
 	}
 }

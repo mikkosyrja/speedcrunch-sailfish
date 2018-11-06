@@ -132,13 +132,18 @@
 
 ### 0.4.2 (2018-11-xx)
 
-- Added spanish translation (thanks @carmenfdezb)
+- Added spanish UI translation (thanks @carmenfdezb)
 - Added support for portuguese language
 - Initial landscape mode support:
-	- Uses single 3x10 button keyboard in landscape mode
-	- Status bar is hidden in landscape mode
-	- System settings at bottom are hidden in landscape mode
+	- Uses single 3x10 button keyboard and hides status bar
+	- Decimal and angle modes displayed in title bar
+	- System settings at the bottom of settings page are hidden
 	- xxx
+- Some keyboard modifications:
+	- Long press with square (x²) produces generic exponent
+	- Long press with square root (√) produces cubic root
 - Fixed some text colors to work with SFOS 3 light ambiences
-- Added settings page pull-up menu for version information
+- Added settings page pull-up menu:
+	- First item opens Sailfish SpeedCruch home page in browser
+	- Second item opens SpeedCruch home page in browser
 
