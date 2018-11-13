@@ -130,7 +130,7 @@
 - Removed tips from settings page
 - Moved system settings to the bottom of settings page
 
-### 0.4.2 (2018-11-xx)
+### 0.4.2 (2018-11-13)
 
 - Added spanish UI translation (thanks @carmenfdezb)
 - Added support for portuguese language
@@ -138,12 +138,12 @@
 	- Uses single 3x10 button keyboard and hides status bar
 	- Decimal and angle modes displayed in title bar
 	- System settings at the bottom of settings page are hidden
-	- xxx
+	- Still some combobox problems with Sailfish 3.0
 - Some keyboard modifications:
 	- Long press with square (x²) produces generic exponent
 	- Long press with square root (√) produces cubic root
 - Fixed some text colors to work with SFOS 3 light ambiences
 - Added settings page pull-up menu:
-	- First item opens Sailfish SpeedCruch home page in browser
-	- Second item opens SpeedCruch home page in browser
+	- First item opens SpeedCruch Sailfish home page in browser
+	- Second item opens SpeedCruch engine home page in browser
 

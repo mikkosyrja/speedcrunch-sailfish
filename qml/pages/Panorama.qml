@@ -26,14 +26,7 @@ Page
 
 	property int wholeHeight: (isLandscape ? Screen.width : Screen.height)	// with virtual keyboard
 
-	property bool changeOfWidth: false
-	property bool changeOfHeight: false
-	property bool newOrientation: false
-
-	onOrientationChanged:	//##
-	{
-		historytimer.running = true
-	}
+	onOrientationChanged: { historytimer.running = true }
 
 	id: main
 	width: isLandscape ? Screen.height : Screen.width
@@ -219,7 +212,7 @@ Page
 								{
 									height: settingheight
 									//: Popup menu item
-									text: qsTrId("id-insert-item") + modelData.label
+									text: qsTrId("id-insert-item") + " " + modelData.label
 									onClicked: insertitem()
 								}
 								MenuItem
@@ -312,14 +305,14 @@ Page
 									{
 										height: settingheight
 										//: Popup menu item
-										text: qsTrId("id-insert-item") + modelData.value
+										text: qsTrId("id-insert-item") + " " + modelData.value
 										onClicked: insertitem()
 									}
 									MenuItem
 									{
 										height: settingheight
 										//: Popup menu item
-										text: qsTrId("id-edit-item") + modelData.expression
+										text: qsTrId("id-edit-item") + " " + modelData.expression
 										onClicked:
 										{
 											historyview.clip = true

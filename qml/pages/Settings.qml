@@ -13,13 +13,14 @@ Rectangle
 		{
 			id: resultformatsetting
 			width: parent.width; height: settingheight; color: "transparent"
-			anchors.top: settings.top
+			anchors.top: parent.top
 			z: 50
 			ComboBox
 			{
 				id: resultformatlist
 				//: Setting title
 				label: qsTrId("id-result-format")
+				anchors.fill: parent
 				menu: ContextMenu
 				{
 					MenuItem { text: qsTrId("id-general-decimal"); height: settingheight }
@@ -228,7 +229,6 @@ Rectangle
 				}
 				function setFontSize(size)
 				{
-//					setGlobalFontSize(size)
 					if ( size === "s" ) { main.fontscale = 0.8; currentIndex = 0 }
 					else if ( size === "m" ) { main.fontscale = 1.0; currentIndex = 1 }
 					else if ( size === "l" ) { main.fontscale = 1.2; currentIndex = 2 }
@@ -259,13 +259,5 @@ Rectangle
 			clickinsertswitch.setClickInsert(manager.getClickInsert())
 			listfontsizelist.setFontSize(manager.getFontSize())
 		}
-/*
-		function setGlobalFontSize(size)
-		{
-			if ( size === "s" ) main.fontscale = 0.8
-			else if ( size === "m" ) main.fontscale = 1.0
-			else if ( size === "l" ) main.fontscale = 1.2
-		}
-*/
 	}
 }
