@@ -169,7 +169,7 @@ Page
 					fillMode: Image.PreserveAspectFit
 					smooth: true;
 					visible: searchfunctions.text
-					source: "clear.png"
+					source: Theme.colorScheme ?  "clear-light.png" : "clear-dark.png"
 					MouseArea
 					{
 						id: clearsearcharea
@@ -418,7 +418,7 @@ Page
 						anchors.verticalCenter: evaluatebutton.verticalCenter
 						fillMode: Image.PreserveAspectFit; smooth: true;
 						visible: textfield.text
-						source: "clear.png"
+						source: Theme.colorScheme ?  "clear-light.png" : "clear-dark.png"
 						MouseArea
 						{
 							id: cleararea

@@ -3,7 +3,7 @@ import Sailfish.Silica 1.0
 
 CalcButton
 {
-	image: "back.png"
+	image: Theme.colorScheme ?  "back-light.png" : "back-dark.png"
 	special: true
 
 	onRunFunction:

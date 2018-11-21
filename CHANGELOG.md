@@ -147,3 +147,7 @@
 	- First item opens SpeedCruch Sailfish home page in browser
 	- Second item opens SpeedCruch engine home page in browser
 
+### 0.4.3 (2018-11-xx)
+
+- Fixed images to work with SFOS 3 light ambiences
+
