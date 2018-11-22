@@ -133,7 +133,7 @@
 ### 0.4.2 (2018-11-13)
 
 - Added spanish UI translation (thanks @carmenfdezb)
-- Added support for portuguese language
+- Added support for portuguese language pt_PT
 - Initial landscape mode support:
 	- Uses single 3x10 button keyboard and hides status bar
 	- Decimal and angle modes displayed in title bar
@@ -149,5 +149,9 @@
 
 ### 0.4.3 (2018-11-xx)
 
-- Fixed images to work with SFOS 3 light ambiences
+- Fixed images to work with SFOS 3.0 light ambiences
+- Added some flicking resistance to buttons:
+	- Drag within button does not flick keyboard or page
+	- Reduces unwanted flicks when pressing buttons
+
 

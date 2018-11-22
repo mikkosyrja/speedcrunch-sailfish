@@ -33,6 +33,9 @@ Button
 		if ( value.slice(-2) === "()" )
 			textfield.cursorPosition--
 	}
+	onPressed: { screen.interactive = false; keyboard.interactive = false }
+	onReleased: { screen.interactive = true; keyboard.interactive = true }
+	onExited: { screen.interactive = true; keyboard.interactive = true }
 	onClicked:
 	{
 		if ( special )

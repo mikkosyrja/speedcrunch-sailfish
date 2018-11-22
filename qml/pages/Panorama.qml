@@ -423,6 +423,9 @@ Page
 						{
 							id: cleararea
 							anchors { fill: parent; margins: -10 }
+							onPressed: { screen.interactive = false; keyboard.interactive = false }
+							onReleased: { screen.interactive = true; keyboard.interactive = true }
+							onExited: { screen.interactive = true; keyboard.interactive = true }
 							onClicked: { textfield.text = ""; textfield.forceActiveFocus() }
 						}
 					}
@@ -432,6 +435,9 @@ Page
 						width: buttonwidth; color: Theme.highlightColor
 						anchors { top: textfield.top; margins: buttonmargin; right: parent.right }
 						text: "="
+						onPressed: { screen.interactive = false; keyboard.interactive = false }
+						onReleased: { screen.interactive = true; keyboard.interactive = true }
+						onExited: { screen.interactive = true; keyboard.interactive = true }
 						onClicked: evaluate()
 					}
 				}
@@ -440,6 +446,7 @@ Page
 					property int buttonheight: isLandscape ? landscapekeyboard.buttonheight : portraitkeyboard.buttonheight
 					property int buttonrows: isLandscape ? landscapekeyboard.buttonrows : portraitkeyboard.buttonrows
 					property int buttoncolumns: isLandscape ? landscapekeyboard.buttoncolumns : portraitkeyboard.buttoncolumns
+					property alias interactive: portraitkeyboard.interactive
 
 					id: keyboard
 					width: parent.width; height: keyboardheight; color: "transparent"
