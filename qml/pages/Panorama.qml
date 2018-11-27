@@ -173,7 +173,7 @@ Page
 					MouseArea
 					{
 						id: clearsearcharea
-						anchors { fill: parent; margins: -10 }
+						anchors { fill: parent; margins: -buttonmargin }
 						onClicked: { searchfunctions.text = "" }
 					}
 				}
@@ -422,23 +422,21 @@ Page
 						MouseArea
 						{
 							id: cleararea
-							anchors { fill: parent; margins: -10 }
+							anchors { fill: parent; margins: -buttonmargin }
 							onPressed: { screen.interactive = false; keyboard.interactive = false }
 							onReleased: { screen.interactive = true; keyboard.interactive = true }
 							onExited: { screen.interactive = true; keyboard.interactive = true }
+							onCanceled: { screen.interactive = true; keyboard.interactive = true }
 							onClicked: { textfield.text = ""; textfield.forceActiveFocus() }
 						}
 					}
-					Button
+					CalcButton
 					{
 						id: evaluatebutton
 						width: buttonwidth; color: Theme.highlightColor
 						anchors { top: textfield.top; margins: buttonmargin; right: parent.right }
-						text: "="
-						onPressed: { screen.interactive = false; keyboard.interactive = false }
-						onReleased: { screen.interactive = true; keyboard.interactive = true }
-						onExited: { screen.interactive = true; keyboard.interactive = true }
-						onClicked: evaluate()
+						text: "="; special: true
+						onRunFunction: evaluate()
 					}
 				}
 				Rectangle

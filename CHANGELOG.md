@@ -132,7 +132,7 @@
 
 ### 0.4.2 (2018-11-13)
 
-- Added spanish UI translation (thanks @carmenfdezb)
+- Added spanish UI translations (thanks @carmenfdezb)
 - Added support for portuguese language pt_PT
 - Initial landscape mode support:
 	- Uses single 3x10 button keyboard and hides status bar
@@ -147,11 +147,12 @@
 	- First item opens SpeedCruch Sailfish home page in browser
 	- Second item opens SpeedCruch engine home page in browser
 
-### 0.4.3 (2018-11-xx)
+### 0.5.0 (2018-11-27)
 
 - Fixed images to work with SFOS 3.0 light ambiences
 - Added some flicking resistance to buttons:
 	- Drag within button does not flick keyboard or page
 	- Reduces unwanted flicks when pressing buttons
-
+- Added french UI translations (thanks @JeanDeLaMouche)
+- Submitted to Jolla Store
 

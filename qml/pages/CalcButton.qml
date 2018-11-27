@@ -36,6 +36,7 @@ Button
 	onPressed: { screen.interactive = false; keyboard.interactive = false }
 	onReleased: { screen.interactive = true; keyboard.interactive = true }
 	onExited: { screen.interactive = true; keyboard.interactive = true }
+	onCanceled: { screen.interactive = true; keyboard.interactive = true }
 	onClicked:
 	{
 		if ( special )
