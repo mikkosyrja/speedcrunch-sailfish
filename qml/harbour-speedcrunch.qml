@@ -13,6 +13,7 @@ ApplicationWindow
 	initialPage: Qt.resolvedUrl("pages/Panorama.qml")
 	cover: Qt.resolvedUrl("cover/CoverPage.qml")
 
+	_defaultPageOrientations: defaultAllowedOrientations	// for landscape combobox bug
 	allowedOrientations: Orientation.All
 
 	Manager { id: manager }

@@ -156,9 +156,10 @@
 - Added french UI translations (thanks @JeanDeLaMouche)
 - Submitted to Jolla Store
 
-### 0.5.1 (2019-01-xx)
+### 0.5.1 (2019-03-xx)
 
-- Compiled with SDK version 1.24 for Sailfish 3.0.1
+- Compiled with SDK version 2.0 for Sailfish 3.0.2
 - Added support for slovenian language pl_SL
 - Added slovenian UI translations (thanks @sponka)
+- Fixed landscape orientation bug with comboboxes
 
