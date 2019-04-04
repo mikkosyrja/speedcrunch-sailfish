@@ -24,24 +24,24 @@ Pager
 
 	CalcButton { id: button7; text: "7" }
 	CalcButton { id: button8; text: "8" }
-	CalcButton { id: button9; text: "9"; value: "9"; secondary: "j" }
-	CalcButton { text: "/" }
+	CalcButton { id: button9; text: "9"; secondary: "j" }
+	CalcButton { text: "÷"; value: "/" }
 	CalcButton { text: "x²"; value: "^2"; secondary: "^" }
-	CalcButton { id: button4; text: "4"; value: "4"; secondary: "D" }
-	CalcButton { id: button5; text: "5"; value: "5"; secondary: "E" }
-	CalcButton { id: button6; text: "6"; value: "6"; secondary: "F" }
+	CalcButton { id: button4; text: "4"; secondary: "D" }
+	CalcButton { id: button5; text: "5"; secondary: "E" }
+	CalcButton { id: button6; text: "6"; secondary: "F" }
 	CalcButton { text: "×" }
 	CalcButton { text: "√"; value: "sqrt()"; secondary: "cbrt()" }
-	CalcButton { id: button1; text: "1"; value: "1"; secondary: "A" }
-	CalcButton { id: button2; text: "2"; value: "2"; secondary: "B" }
-	CalcButton { id: button3; text: "3"; value: "3"; secondary: "C" }
+	CalcButton { id: button1; text: "1"; secondary: "A" }
+	CalcButton { id: button2; text: "2"; secondary: "B" }
+	CalcButton { id: button3; text: "3"; secondary: "C" }
 	CalcButton { text: "-" }
 	CalcButton { text: "1/x"; value: "1/" }
 	CalcButton { text: "0" }	// secondary: ° (degree)
 	CalcButton { text: "." }	// secondary: ' (minute)
 	CalcButton { text: ";" }	// secondary: : (time)
 	CalcButton { text: "+" }
-	CalcButton { id: buttonbase; text: "0x"; value: "0x"; secondary: "0b"  }
+	CalcButton { id: buttonbase; text: "0x"; secondary: "0b"  }
 
 	CalcButton { text: "("; color: Theme.highlightColor }
 	CalcButton { text: ")"; color: Theme.highlightColor }
@@ -62,19 +62,19 @@ Pager
 	CalcButton { text: "sin"; value: "sin()" }
 	CalcButton { text: "cos"; value: "cos()" }
 	CalcButton { text: "tan"; value: "tan()" }
-	CalcButton { text: "ln"; value: "ln()" }
-	CalcButton { text: "Xⁿ"; value:"^" }
+	CalcButton { text: "ln"; value: "ln()"; secondary: "lg()" }
+	CalcButton { text: "xⁿ"; value:"^"; secondary: "^2" }
 
 	CalcButton { text: "asin"; value: "arcsin()" }
 	CalcButton { text: "acos"; value: "arccos()" }
 	CalcButton { text: "atan"; value: "arctan()" }
-	CalcButton { text: "exp"; value: "exp()" }
-	CalcButton { text: "∛"; value:"cbrt()" }
+	CalcButton { text: "exp"; value: "exp()"; secondary: "10^" }
+	CalcButton { text: "∛"; value:"cbrt()"; secondary: "sqrt()" }
 
 	CalcButton { text: "π"; value: "pi" }
 	CalcButton { text: "e" }
 	CalcButton { text: "x"; secondary: "y" }
-	CalcButton { text: "X="; value: "="; secondary: "(x)=" }
+	CalcButton { text: "x="; value: "="; secondary: "(x)=" }
 	CalcButton { text: "!" }
 
 	CalcButton { text: "&" }

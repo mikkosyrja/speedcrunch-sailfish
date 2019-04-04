@@ -435,7 +435,7 @@ Page
 						id: evaluatebutton
 						width: buttonwidth; color: Theme.highlightColor
 						anchors { top: textfield.top; margins: buttonmargin; right: parent.right }
-						text: "="; special: true
+						text: "="; special: true; secondary: "ans"
 						onRunFunction: evaluate()
 					}
 				}
