@@ -105,6 +105,59 @@ Manager::Manager()
 	constants = Constants::instance()->list();
 	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
+
+	QString path = "/home/mikko/Code/SpeedCrunch/keypad.json";  //##
+	QFile file(path);
+	if (file.open(QIODevice::ReadOnly))
+	{
+		auto json = QJsonDocument::fromJson(file.readAll(), &parseError);
+		if (!json.isNull())
+		{
+			QJsonValue desktop = json.object().value("desktop");
+			if (desktop != QJsonValue::Undefined)
+			{
+				QJsonValue rows = desktop.toObject().value("rows");
+				if (rows != QJsonValue::Undefined)
+				{
+					int rowCount = 0;
+					for (auto row : rows.toArray())
+					{
+						keyboard.push_back(KeyRow());
+						QJsonValue keys = row.toObject().value("keys");
+						if (keys != QJsonValue::Undefined)
+						{
+							int keyCount = 0;
+							for (auto key : keys.toArray())
+							{
+								QJsonObject object = key.toObject();
+
+								KeyData data;
+								data.label = object.value("label").toString();
+								data.value = object.value("value").toString();
+								data.second = object.value("second").toString();
+								data.tooltip = object.value("tooltip").toString();
+								data.color = object.value("color").toBool();
+								data.bold = object.value("bold").toBool();
+								data.row = rowCount;
+								data.col = keyCount;
+
+								if (data.value.isEmpty())
+									data.value = data.label;
+								if (data.second.isEmpty())
+									data.second = data.value;
+								if (data.tooltip.isEmpty())
+									data.tooltip = data.value;
+
+								keyboard.back().push_back(data);
+								++keyCount;
+							}
+						}
+						++rowCount;
+					}
+				}
+			}
+		}
+	}
 }
 
 //! Save session on exit.
