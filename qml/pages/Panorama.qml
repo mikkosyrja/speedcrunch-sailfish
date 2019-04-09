@@ -435,13 +435,12 @@ Page
 						id: evaluatebutton
 						width: buttonwidth; color: Theme.highlightColor
 						anchors { top: textfield.top; margins: buttonmargin; right: parent.right }
-						text: "="; special: true; secondary: "ans"
-						onRunFunction: evaluate()
+						text: "="; value: "<evaluate>"; second: "ans"
 					}
 				}
 				Rectangle
 				{
-					property int buttonheight: isLandscape ? landscapekeyboard.buttonheight : portraitkeyboard.buttonheight
+					property int buttonheight: evaluatebutton.height
 					property int buttonrows: isLandscape ? landscapekeyboard.buttonrows : portraitkeyboard.buttonrows
 					property int buttoncolumns: isLandscape ? landscapekeyboard.buttoncolumns : portraitkeyboard.buttoncolumns
 					property alias interactive: portraitkeyboard.interactive

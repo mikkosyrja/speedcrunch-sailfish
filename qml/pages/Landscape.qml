@@ -13,45 +13,62 @@ Rectangle
 
 	Grid	// Page 1
 	{
+		id: grid
 		rows: buttonrows; columns: buttoncolumns
 		anchors.fill: parent; spacing: buttonspacing
+	}
 
-		CalcButton { id: button1; text: "1"; secondary: "A" }
-		CalcButton { id: button2; text: "2"; secondary: "B" }
-		CalcButton { id: button3; text: "3"; secondary: "C" }
-		CalcButton { id: button4; text: "4"; secondary: "D" }
-		CalcButton { id: button5; text: "5"; secondary: "E" }
-		CalcButton { id: button6; text: "6"; secondary: "F" }
-		CalcButton { id: button7; text: "7" }
-		CalcButton { id: button8; text: "8" }
-		CalcButton { id: button9; text: "9"; secondary: "j" }
-		CalcButton { text: "0" }	// secondary: ° (degree)
+	Component.onCompleted:
+	{
+/*
+		var row, col;
+		for ( row = 0; row < rows; ++row )
+		{
+			for ( col = 0; col < colums; ++col )
+			{
 
-		CalcButton { text: "+" }
-		CalcButton { text: "-" }
-		CalcButton { text: "×" }
-		CalcButton { text: "÷"; value: "/" }
-		CalcButton { text: "x²"; value: "^2"; secondary: "^" }
-		CalcButton { text: "√"; value: "sqrt()"; secondary: "cbrt()" }
-		CalcButton { text: "!" }
-		CalcButton { text: "1/x"; value: "1/" }
-		CalcButton { text: "." }	// secondary: ' (minute)
-		CalcButton { text: ";" }	// secondary: : (time)
 
-		CalcButton { text: "(" }
-		CalcButton { text: ")" }
-		CalcButton { text: "π"; value: "pi" }
-		CalcButton { text: "e" }
-		CalcButton { text: "x"; secondary: "y" }
-		CalcButton { text: "x="; value: "="; secondary: "(x)=" }
-		CalcButton { id: buttonbase; text: "0x"; secondary: "0b"  }
-		CalcButton { text: "←"; special: true; onRunFunction: { textfield.cursorPosition-- } }
-		CalcButton { text: "→"; special: true; onRunFunction: { textfield.cursorPosition++ } }
-		Backspace { }
+			}
+		}
+*/
+
+		Qt.createQmlObject('CalcButton { text: "1"; second: "A" }', grid);
+		Qt.createQmlObject('CalcButton { text: "2"; second: "B" }', grid);
+		Qt.createQmlObject('CalcButton { text: "3"; second: "C" }', grid);
+		Qt.createQmlObject('CalcButton { text: "4"; second: "D" }', grid);
+		Qt.createQmlObject('CalcButton { text: "5"; second: "E" }', grid);
+		Qt.createQmlObject('CalcButton { text: "6"; second: "F" }', grid);
+		Qt.createQmlObject('CalcButton { text: "7" }', grid);
+		Qt.createQmlObject('CalcButton { text: "8" }', grid);
+		Qt.createQmlObject('CalcButton { text: "9"; second: "j" }', grid);
+		Qt.createQmlObject('CalcButton { text: "0" }', grid);	// second: ° (degree)
+
+		Qt.createQmlObject('CalcButton { text: "+" }', grid);
+		Qt.createQmlObject('CalcButton { text: "-" }', grid);
+		Qt.createQmlObject('CalcButton { text: "×" }', grid);
+		Qt.createQmlObject('CalcButton { text: "÷"; value: "/" }', grid);
+		Qt.createQmlObject('CalcButton { text: "x²"; value: "^2"; second: "^" }', grid);
+		Qt.createQmlObject('CalcButton { text: "√"; value: "sqrt()"; second: "cbrt()" }', grid);
+		Qt.createQmlObject('CalcButton { text: "!" }', grid);
+		Qt.createQmlObject('CalcButton { text: "1/x"; value: "1/" }', grid);
+		Qt.createQmlObject('CalcButton { text: "." }', grid);	// second: ' (minute)
+		Qt.createQmlObject('CalcButton { text: ";" }', grid);	// second: : (time)
+
+		Qt.createQmlObject('CalcButton { text: "(" }', grid);
+		Qt.createQmlObject('CalcButton { text: ")" }', grid);
+		Qt.createQmlObject('CalcButton { text: "π"; value: "pi" }', grid);
+		Qt.createQmlObject('CalcButton { text: "e" }', grid);
+		Qt.createQmlObject('CalcButton { text: "x"; second: "y" }', grid);
+		Qt.createQmlObject('CalcButton { text: "x="; value: "="; second: "(x)=" }', grid);
+		Qt.createQmlObject('CalcButton { text: "0x"; second: "0b" }', grid);
+		Qt.createQmlObject('CalcButton { text: "←"; highlight: true; value: "<left>" }', grid);
+		Qt.createQmlObject('CalcButton { text: "→"; highlight: true; value: "<right>" }', grid);
+		Qt.createQmlObject('CalcButton { highlight: true; value: "<back>" }', grid);
 	}
 
 	function setButtonLabels()
 	{
+/*
 		var format = manager.getResultFormat()
 		if ( format === "h" )
 		{
@@ -72,5 +89,6 @@ Rectangle
 			button9.text = "9 j"
 		else
 			button9.text = "9"
+*/
 	}
 }

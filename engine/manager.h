@@ -21,36 +21,17 @@
 #define MANAGER_H
 
 #include <QObject>
-#include <QString>
 #include <QStringList>
 #include <QDebug>
 #include <QClipboard>
 #include <QTranslator>
-#include <QJsonParseError>
 
 #include "core/evaluator.h"
 #include "core/settings.h"
 #include "core/constants.h"
 #include "math/units.h"
 
-//! Key data.
-class KeyData
-{
-public:
-	KeyData() : color(false), bold(false ), row(0), col(0) { }
-
-	QString label;							//!< Key label.
-	QString value;							//!< Key value.
-	QString second;							//!< Secondary value.
-	QString tooltip;						//!< Key tooltip.
-	bool color;								//!< Key highlightning.
-	bool bold;								//!< Key bold font.
-	int row;								//!< Key row.
-	int col;								//!< Key column.
-};
-
-typedef std::vector<KeyData> KeyRow;		//!< Keyboard row storage.
-typedef std::vector<KeyRow> Keyboard;		//!< Keyboard storage.
+#include "keypad.h"
 
 //! Manager class.
 class Manager : public QObject
@@ -98,6 +79,9 @@ public:
 	Q_INVOKABLE void setClipboard(const QString& text) const;
 	Q_INVOKABLE QString getClipboard() const;
 
+	Q_INVOKABLE QSize getKeyboardSize(const QString& name) const;
+	Q_INVOKABLE QString getKeyScript(const QString& name, int row, int col) const;
+
 private:
 	bool checkRecent(const QString& name) const;
 
@@ -118,7 +102,9 @@ private:
 	QList<Constant> constants;				//!< Available constants.
 
 	QJsonParseError parseError;				//!< Parse error handling.
-	Keyboard keyboard;						//!< Keyboard definition.
+	Keyboard leftpad;						//!< Left key panel.
+	Keyboard rightpad;						//!< Right key panel.
+	Keyboard landscape;						//!< Landscape panel.
 };
 
 #endif

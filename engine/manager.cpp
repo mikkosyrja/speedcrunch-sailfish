@@ -23,7 +23,6 @@
 #include <QFile>
 #include <QDir>
 #include <QGuiApplication>
-#include <QJsonDocument>
 
 #include "core/session.h"
 #include "core/functions.h"
@@ -106,58 +105,10 @@ Manager::Manager()
 	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 
-	QString path = "/home/mikko/Code/SpeedCrunch/keypad.json";  //##
-	QFile file(path);
-	if (file.open(QIODevice::ReadOnly))
-	{
-		auto json = QJsonDocument::fromJson(file.readAll(), &parseError);
-		if (!json.isNull())
-		{
-			QJsonValue desktop = json.object().value("desktop");
-			if (desktop != QJsonValue::Undefined)
-			{
-				QJsonValue rows = desktop.toObject().value("rows");
-				if (rows != QJsonValue::Undefined)
-				{
-					int rowCount = 0;
-					for (auto row : rows.toArray())
-					{
-						keyboard.push_back(KeyRow());
-						QJsonValue keys = row.toObject().value("keys");
-						if (keys != QJsonValue::Undefined)
-						{
-							int keyCount = 0;
-							for (auto key : keys.toArray())
-							{
-								QJsonObject object = key.toObject();
-
-								KeyData data;
-								data.label = object.value("label").toString();
-								data.value = object.value("value").toString();
-								data.second = object.value("second").toString();
-								data.tooltip = object.value("tooltip").toString();
-								data.color = object.value("color").toBool();
-								data.bold = object.value("bold").toBool();
-								data.row = rowCount;
-								data.col = keyCount;
-
-								if (data.value.isEmpty())
-									data.value = data.label;
-								if (data.second.isEmpty())
-									data.second = data.value;
-								if (data.tooltip.isEmpty())
-									data.tooltip = data.value;
-
-								keyboard.back().push_back(data);
-								++keyCount;
-							}
-						}
-						++rowCount;
-					}
-				}
-			}
-		}
-	}
+	QString keyboardpath = configpath + "/keyboards/default.json";
+	LoadKeyboard(keyboardpath, "leftpad", leftpad, parseError);
+	LoadKeyboard(keyboardpath, "rightpad", rightpad, parseError);
+	LoadKeyboard(keyboardpath, "landscape", landscape, parseError);
 }
 
 //! Save session on exit.
@@ -746,6 +697,28 @@ void Manager::setClipboard(const QString& text) const
 QString Manager::getClipboard() const
 {
 	return clipboard->text();
+}
+
+//
+QSize Manager::getKeyboardSize(const QString& name) const
+{
+	if ( name == "leftpad" || name == "rightpad" )
+		return QSize(5, 5);
+	return QSize(10, 3);
+}
+
+//
+QString Manager::getKeyScript(const QString& name, int row, int col) const
+{
+	return "CalcButton { text: \"7\" }";
+
+	const Keyboard& panel = leftpad;	//##
+	if ( row < static_cast<int>(panel.size()) )
+	{
+		if ( col < static_cast<int>(panel.at(row).size()) )
+			return panel.at(row).at(col).GetScript();
+	}
+	return QString();
 }
 
 //

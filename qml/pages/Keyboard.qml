@@ -19,36 +19,9 @@ Pager
 			width: parent.parent.width; height: parent.parent.height; color: "transparent"
 			Grid
 			{
+				id: grid1
 				rows: buttonrows; columns: buttoncolumns
 				width: parent.width - buttonspacing; height: parent.height; spacing: buttonspacing
-
-	CalcButton { id: button7; text: "7" }
-	CalcButton { id: button8; text: "8" }
-	CalcButton { id: button9; text: "9"; secondary: "j" }
-	CalcButton { text: "÷"; value: "/" }
-	CalcButton { text: "x²"; value: "^2"; secondary: "^" }
-	CalcButton { id: button4; text: "4"; secondary: "D" }
-	CalcButton { id: button5; text: "5"; secondary: "E" }
-	CalcButton { id: button6; text: "6"; secondary: "F" }
-	CalcButton { text: "×" }
-	CalcButton { text: "√"; value: "sqrt()"; secondary: "cbrt()" }
-	CalcButton { id: button1; text: "1"; secondary: "A" }
-	CalcButton { id: button2; text: "2"; secondary: "B" }
-	CalcButton { id: button3; text: "3"; secondary: "C" }
-	CalcButton { text: "-" }
-	CalcButton { text: "1/x"; value: "1/" }
-	CalcButton { text: "0" }	// secondary: ° (degree)
-	CalcButton { text: "." }	// secondary: ' (minute)
-	CalcButton { text: ";" }	// secondary: : (time)
-	CalcButton { text: "+" }
-	CalcButton { id: buttonbase; text: "0x"; secondary: "0b"  }
-
-	CalcButton { text: "("; color: Theme.highlightColor }
-	CalcButton { text: ")"; color: Theme.highlightColor }
-	CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
-	CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
-	Backspace { color: Theme.highlightColor }
-
 			}
 		}
 		Rectangle	// Page 2
@@ -56,47 +29,84 @@ Pager
 			width: parent.parent.width; height: parent.parent.height; color: "transparent"
 			Grid
 			{
+				id: grid2
 				rows: buttonrows; columns: buttoncolumns
 				width: parent.width - buttonspacing; height: parent.height; spacing: buttonspacing
-
-	CalcButton { text: "sin"; value: "sin()" }
-	CalcButton { text: "cos"; value: "cos()" }
-	CalcButton { text: "tan"; value: "tan()" }
-	CalcButton { text: "ln"; value: "ln()"; secondary: "lg()" }
-	CalcButton { text: "xⁿ"; value:"^"; secondary: "^2" }
-
-	CalcButton { text: "asin"; value: "arcsin()" }
-	CalcButton { text: "acos"; value: "arccos()" }
-	CalcButton { text: "atan"; value: "arctan()" }
-	CalcButton { text: "exp"; value: "exp()"; secondary: "10^" }
-	CalcButton { text: "∛"; value:"cbrt()"; secondary: "sqrt()" }
-
-	CalcButton { text: "π"; value: "pi" }
-	CalcButton { text: "e" }
-	CalcButton { text: "x"; secondary: "y" }
-	CalcButton { text: "x="; value: "="; secondary: "(x)=" }
-	CalcButton { text: "!" }
-
-	CalcButton { text: "&" }
-	CalcButton { text: "|" }
-	CalcButton { text: "<<" }
-	CalcButton { text: ">>" }
-	CalcButton { text: "➔"; value: "->" }
-
-	CalcButton { text: "("; color: Theme.highlightColor }
-	CalcButton { text: ")"; color: Theme.highlightColor }
-	CalcButton { text: "←"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition-- } }
-	CalcButton { text: "→"; special: true; color: Theme.highlightColor; onRunFunction: { textfield.cursorPosition++ } }
-	Backspace { color: Theme.highlightColor }
-
 			}
 		}
 	}
 
-	Component.onCompleted: goToPage(0);
+	Component.onCompleted:
+	{
+		var script = manager.getKeyScript("leftpad", 0, 0);
+		Qt.createQmlObject(script, grid1);
+
+//		Qt.createQmlObject('CalcButton { text: "7" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "8" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "9"; second: "j" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "÷"; value: "/" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "x²"; value: "^2"; second: "^" }', grid1);
+
+		Qt.createQmlObject('CalcButton { text: "4"; second: "D" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "5"; second: "E" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "6"; second: "F" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "×" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "√"; value: "sqrt()"; second: "cbrt()" }', grid1);
+
+		Qt.createQmlObject('CalcButton { text: "1"; second: "A" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "2"; second: "B" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "3"; second: "C" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "-" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "1/x"; value: "1/" }', grid1);
+
+		Qt.createQmlObject('CalcButton { text: "0" }', grid1);	// second: ° (degree)
+		Qt.createQmlObject('CalcButton { text: "." }', grid1);	// second: ' (minute)
+		Qt.createQmlObject('CalcButton { text: ";" }', grid1);	// second: : (time)
+		Qt.createQmlObject('CalcButton { text: "+" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "0x"; second: "0b" }', grid1);
+
+		Qt.createQmlObject('CalcButton { text: "("; highlight: true }', grid1);
+		Qt.createQmlObject('CalcButton { text: ")"; highlight: true }', grid1);
+		Qt.createQmlObject('CalcButton { text: "←"; highlight: true; value: "<left>" }', grid1);
+		Qt.createQmlObject('CalcButton { text: "→"; highlight: true; value: "<right>" }', grid1);
+		Qt.createQmlObject('CalcButton { highlight: true; value: "<back>" }', grid1);
+
+		Qt.createQmlObject('CalcButton { text: "sin"; value: "sin()" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "cos"; value: "cos()" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "tan"; value: "tan()" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "ln"; value: "ln()"; second: "lg()" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "xⁿ"; value:"^"; second: "^2" }', grid2);
+
+		Qt.createQmlObject('CalcButton { text: "asin"; value: "arcsin()" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "acos"; value: "arccos()" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "atan"; value: "arctan()" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "exp"; value: "exp()"; second: "10^" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "∛"; value:"cbrt()"; second: "sqrt()" }', grid2);
+
+		Qt.createQmlObject('CalcButton { text: "π"; value: "pi" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "e" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "x"; second: "y" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "x="; value: "="; second: "(x)=" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "!" }', grid2);
+
+		Qt.createQmlObject('CalcButton { text: "&" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "|" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "<<" }', grid2);
+		Qt.createQmlObject('CalcButton { text: ">>" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "➔"; value: "->" }', grid2);
+
+		Qt.createQmlObject('CalcButton { text: "("; highlight: true }', grid2);
+		Qt.createQmlObject('CalcButton { text: ")"; highlight: true }', grid2);
+		Qt.createQmlObject('CalcButton { text: "←"; highlight: true; value: "<left>" }', grid2);
+		Qt.createQmlObject('CalcButton { text: "→"; highlight: true; value: "<right>" }', grid2);
+		Qt.createQmlObject('CalcButton { highlight: true; value: "<back>" }', grid2);
+
+		goToPage(0);
+	}
 
 	function setButtonLabels()
 	{
+/*
 		var format = manager.getResultFormat()
 		if ( format === "h" )
 		{
@@ -117,5 +127,6 @@ Pager
 			button9.text = "9 j"
 		else
 			button9.text = "9"
+*/
 	}
 }

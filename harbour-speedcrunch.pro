@@ -47,6 +47,7 @@ SOURCES += \
 	engine/core/userfunction.cpp \
 	engine/core/variable.cpp \
 	engine/manager.cpp \
+	engine/keypad.cpp \
 	src/harbour-speedcrunch.cpp
 
 HEADERS += \
@@ -86,7 +87,8 @@ HEADERS += \
 	engine/core/settings.h \
 	engine/core/userfunction.h \
 	engine/core/variable.h \
-	engine/manager.h
+	engine/manager.h \
+	engine/keypad.h
 
 DISTFILES += qml/harbour-speedcrunch.qml \
 	qml/cover/CoverPage.qml \
