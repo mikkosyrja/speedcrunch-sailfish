@@ -20,18 +20,16 @@ Rectangle
 
 	Component.onCompleted:
 	{
-/*
-		var row, col;
-		for ( row = 0; row < rows; ++row )
+		var row, col, script
+		for ( row = 0; row < buttonrows; ++row )
 		{
-			for ( col = 0; col < colums; ++col )
+			for ( col = 0; col < buttoncolumns; ++col )
 			{
-
-
+				script = manager.getKeyScript("landscape", row, col)
+				Qt.createQmlObject(script, grid);
 			}
 		}
-*/
-
+/*
 		Qt.createQmlObject('CalcButton { text: "1"; second: "A" }', grid);
 		Qt.createQmlObject('CalcButton { text: "2"; second: "B" }', grid);
 		Qt.createQmlObject('CalcButton { text: "3"; second: "C" }', grid);
@@ -64,6 +62,7 @@ Rectangle
 		Qt.createQmlObject('CalcButton { text: "←"; highlight: true; value: "<left>" }', grid);
 		Qt.createQmlObject('CalcButton { text: "→"; highlight: true; value: "<right>" }', grid);
 		Qt.createQmlObject('CalcButton { highlight: true; value: "<back>" }', grid);
+*/
 	}
 
 	function setButtonLabels()

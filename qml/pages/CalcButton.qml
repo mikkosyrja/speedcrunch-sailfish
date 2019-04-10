@@ -80,6 +80,6 @@ Button
 		else if ( value == "<right>" )
 			textfield.cursorPosition = textfield.text.length
 		else
-			insertValue(secondary)
+			insertValue(second)
 	}
 }

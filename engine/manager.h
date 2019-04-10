@@ -102,9 +102,7 @@ private:
 	QList<Constant> constants;				//!< Available constants.
 
 	QJsonParseError parseError;				//!< Parse error handling.
-	Keyboard leftpad;						//!< Left key panel.
-	Keyboard rightpad;						//!< Right key panel.
-	Keyboard landscape;						//!< Landscape panel.
+	Keyboard keyboard;						//!< Current keyboard.
 };
 
 #endif

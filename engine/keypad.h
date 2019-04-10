@@ -23,28 +23,55 @@
 #include <QString>
 #include <QJsonParseError>
 
-//! Single key data.
-class KeyData
+//! Keyboard data.
+class Keyboard
 {
 public:
-	//! Constructor.
-	KeyData() : color(false), bold(false ), row(0), col(0) { }
+	Keyboard(const QString& keyboardname);
 
-	QString GetScript() const;
+	class Panel								//!< Key panel data.
+	{
+	public:
+		//! Constructor.
+		/*!
+			\param panelname	Panel name.
+		*/
+		Panel(const QString& panelname) : name(panelname) { }
 
-	QString label;							//!< Key label.
-	QString value;							//!< Key primary value.
-	QString second;							//!< Key secondary value.
-	QString tooltip;						//!< Key tooltip text.
-	bool color;								//!< True for highlight.
-	bool bold;								//!< True for bold text.
-	int row;								//!< Key row index.
-	int col;								//!< Key column index.
+		class Key							//!< Single key data.
+		{
+		public:
+			//! Constructor.
+			Key() : color(false), bold(false ), row(0), col(0) { }
+
+			QString getScript() const;
+
+			QString label;					//!< Key label.
+			QString value;					//!< Key primary value.
+			QString second;					//!< Key secondary value.
+			QString tooltip;				//!< Key tooltip text.
+			bool color;						//!< True for highlight.
+			bool bold;						//!< True for bold text.
+			int row;						//!< Key row index.
+			int col;						//!< Key column index.
+		};
+
+		bool load(QJsonObject& root);
+		QString getKeyScript(int row, int col) const;
+
+		QString name;						//!< Panel name.
+		std::vector<std::vector<Key>> keys;	//!< Panel keys.
+	};
+
+	bool load(const QString& path, QJsonParseError& error);
+	QString getKeyScript(const QString& panelname, int row, int col) const;
+
+	QString name;							//!< Keyboard name.
+
+	Panel editkey;							//!< Edit row key (mobile).
+	Panel leftpad;							//!< Left key panel (mobile portrait).
+	Panel rightpad;							//!< Right key panel (mobile portrait).
+	Panel landscape;						//!< Landscape panel (mobile landscale or desktop).
 };
-
-typedef std::vector<KeyData> KeyRow;		//!< Single key row.
-typedef std::vector<KeyRow> Keyboard;		//!< Keyboard rows.
-
-bool LoadKeyboard(const QString& path, const QString& name, Keyboard& keyboard, QJsonParseError& error);
 
 #endif // KEYPAD_H

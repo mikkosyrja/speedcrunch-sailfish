@@ -29,7 +29,7 @@
 #include "core/numberformatter.h"
 
 //! Default constructor.
-Manager::Manager()
+Manager::Manager() : keyboard("default")
 {
 	session = new Session;
 
@@ -105,10 +105,9 @@ Manager::Manager()
 	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 
-	QString keyboardpath = configpath + "/keyboards/default.json";
-	LoadKeyboard(keyboardpath, "leftpad", leftpad, parseError);
-	LoadKeyboard(keyboardpath, "rightpad", rightpad, parseError);
-	LoadKeyboard(keyboardpath, "landscape", landscape, parseError);
+//	QString keyboardpath = configpath + "/keyboards/default.json";
+	QString keyboardpath = "/usr/share/harbour-speedcrunch/keyboards/default.json";
+	keyboard.load(keyboardpath, parseError);
 }
 
 //! Save session on exit.
@@ -710,15 +709,7 @@ QSize Manager::getKeyboardSize(const QString& name) const
 //
 QString Manager::getKeyScript(const QString& name, int row, int col) const
 {
-	return "CalcButton { text: \"7\" }";
-
-	const Keyboard& panel = leftpad;	//##
-	if ( row < static_cast<int>(panel.size()) )
-	{
-		if ( col < static_cast<int>(panel.at(row).size()) )
-			return panel.at(row).at(col).GetScript();
-	}
-	return QString();
+	return keyboard.getKeyScript(name, row, col);
 }
 
 //

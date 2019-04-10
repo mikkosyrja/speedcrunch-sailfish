@@ -38,10 +38,19 @@ Pager
 
 	Component.onCompleted:
 	{
-		var script = manager.getKeyScript("leftpad", 0, 0);
-		Qt.createQmlObject(script, grid1);
-
-//		Qt.createQmlObject('CalcButton { text: "7" }', grid1);
+		var row, col, script
+		for ( row = 0; row < buttonrows; ++row )
+		{
+			for ( col = 0; col < buttoncolumns; ++col )
+			{
+				script = manager.getKeyScript("leftpad", row, col)
+				Qt.createQmlObject(script, grid1);
+				script = manager.getKeyScript("rightpad", row, col)
+				Qt.createQmlObject(script, grid2);
+			}
+		}
+/*
+		Qt.createQmlObject('CalcButton { text: "7" }', grid1);
 		Qt.createQmlObject('CalcButton { text: "8" }', grid1);
 		Qt.createQmlObject('CalcButton { text: "9"; second: "j" }', grid1);
 		Qt.createQmlObject('CalcButton { text: "÷"; value: "/" }', grid1);
@@ -100,7 +109,7 @@ Pager
 		Qt.createQmlObject('CalcButton { text: "←"; highlight: true; value: "<left>" }', grid2);
 		Qt.createQmlObject('CalcButton { text: "→"; highlight: true; value: "<right>" }', grid2);
 		Qt.createQmlObject('CalcButton { highlight: true; value: "<back>" }', grid2);
-
+*/
 		goToPage(0);
 	}
 

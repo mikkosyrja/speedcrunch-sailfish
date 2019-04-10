@@ -24,8 +24,11 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-//
-QString KeyData::GetScript() const
+//! Get QML script for a key.
+/*!
+	\return				QML script string.
+*/
+QString Keyboard::Panel::Key::getScript() const
 {
 	QString script = "CalcButton { ";
 	if ( !label.isEmpty() )
@@ -40,66 +43,104 @@ QString KeyData::GetScript() const
 	return script;
 }
 
-//! Load keyboard from JSON file.
+//! Load panel from JSON file.
 /*!
-	\param path			JSON file path.
-	\param name			Key panel name.
-	\param keyboard		Keyboard object.
-	\param error		Error object.
+	\param root			JSON file root object .
 */
-bool LoadKeyboard(const QString& path, const QString& name, Keyboard& keyboard, QJsonParseError& error)
+bool Keyboard::Panel::load(QJsonObject& root)
 {
-	QFile file(path);
-	if (file.open(QIODevice::ReadOnly))
+	QJsonValue value = root.value(name);
+	if ( value != QJsonValue::Undefined )
 	{
-		auto json = QJsonDocument::fromJson(file.readAll(), &error);
-		if (!json.isNull())
+		QJsonValue rows = value.toObject().value("rows");
+		if ( rows != QJsonValue::Undefined )
 		{
-			QJsonValue desktop = json.object().value(name);
-			if (desktop != QJsonValue::Undefined)
+			int rowCount = 0;
+			for ( auto row : rows.toArray() )
 			{
-				QJsonValue rows = desktop.toObject().value("rows");
-				if (rows != QJsonValue::Undefined)
+				keys.push_back(std::vector<Key>());
+				QJsonValue keyrow = row.toObject().value("keys");
+				if ( keyrow != QJsonValue::Undefined )
 				{
-					int rowCount = 0;
-					for (auto row : rows.toArray())
+					int keyCount = 0;
+					for ( auto keydata : keyrow.toArray() )
 					{
-						keyboard.push_back(KeyRow());
-						QJsonValue keys = row.toObject().value("keys");
-						if (keys != QJsonValue::Undefined)
-						{
-							int keyCount = 0;
-							for (auto key : keys.toArray())
-							{
-								QJsonObject object = key.toObject();
+						QJsonObject object = keydata.toObject();
 
-								KeyData data;
-								data.label = object.value("label").toString();
-								data.value = object.value("value").toString();
-								data.second = object.value("second").toString();
-								data.tooltip = object.value("tooltip").toString();
-								data.color = object.value("color").toBool();
-								data.bold = object.value("bold").toBool();
-								data.row = rowCount;
-								data.col = keyCount;
+						Key key;
+						key.label = object.value("label").toString();
+						key.value = object.value("value").toString();
+						key.second = object.value("second").toString();
+						key.tooltip = object.value("tooltip").toString();
+						key.color = object.value("color").toBool();
+						key.bold = object.value("bold").toBool();
+						key.row = rowCount;
+						key.col = keyCount;
 
-								if (data.value.isEmpty())
-									data.value = data.label;
-								if (data.second.isEmpty())
-									data.second = data.value;
-								if (data.tooltip.isEmpty())
-									data.tooltip = data.value;
+						if ( key.value.isEmpty() )
+							key.value = key.label;
+						if ( key.second.isEmpty() )
+							key.second = key.value;
+						if ( key.tooltip.isEmpty())
+						key.tooltip = key.value;
 
-								keyboard.back().push_back(data);
-								++keyCount;
-							}
-						}
-						++rowCount;
+						keys.back().push_back(key);
+						++keyCount;
 					}
-					return true;
 				}
+				++rowCount;
 			}
+			return true;
 		}
 	}
 	return false;
+}
+
+//
+QString Keyboard::Panel::getKeyScript(int row, int col) const
+{
+	if ( row < static_cast<int>(keys.size()) )
+	{
+		if ( col < static_cast<int>(keys.at(row).size()) )
+			return keys.at(row).at(col).getScript();
+	}
+	return QString();
+}
+
+//! Load keyboard from JSON file.
+/*!
+	\param path			JSON file path.
+	\param error		Error object.
+*/
+bool Keyboard::load(const QString& path, QJsonParseError& error)
+{
+	QFile file(path);
+	if ( file.open(QIODevice::ReadOnly) )
+	{
+		auto json = QJsonDocument::fromJson(file.readAll(), &error);
+		if ( !json.isNull() )
+		{
+			QJsonObject root = json.object();
+			return (editkey.load(root) && leftpad.load(root) && rightpad.load(root) && landscape.load(root));
+		}
+	}
+	return false;
+}
+
+//
+QString Keyboard::getKeyScript(const QString& panelname, int row, int col) const
+{
+	const Panel& panel = (panelname == "leftpad" ? leftpad : (panelname == "rightpad" ? rightpad
+		: (panelname == "landscape" ? landscape : editkey)));
+	return panel.getKeyScript(row, col);
+}
+
+//! Constructor.
+/*!
+	\param keyboardname	Keyboard name.
+*/
+Keyboard::Keyboard(const QString& keyboardname) : name(keyboardname),
+	editkey("editkey"), leftpad("leftpad"), rightpad("rightpad"), landscape("landscape")
+{
+
 }
