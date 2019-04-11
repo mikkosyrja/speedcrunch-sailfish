@@ -162,8 +162,15 @@
 - Added support for slovenian language pl_SL
 - Added slovenian UI translations (thanks @sponka)
 - Fixed landscape orientation bug with comboboxes
-- Some keyboard modifications:
-	- Long press with equals (=) produces previous result (ans)
+- Initial keyboard configuration:
+	- Keyboard layouts are loaded from json files
+	- Initially two layouts: Classic and Current
+	- Classic will stay as version 0.5 keyboard
+	- Current will be default keyboard from now on
+	- User defined keyboards will be added later
+- Modifications to Current keyboard:
+	- Long press with equal (=) produces previous result (ans)
+	- Long press with backspace clears all
 	- Long press with ln produces lg()
 	- Long press with exp produces 10^
 

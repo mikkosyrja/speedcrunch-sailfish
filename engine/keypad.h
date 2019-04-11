@@ -27,7 +27,7 @@
 class Keyboard
 {
 public:
-	Keyboard(const QString& keyboardname);
+	Keyboard();
 
 	class Panel								//!< Key panel data.
 	{
@@ -64,9 +64,7 @@ public:
 	};
 
 	bool load(const QString& path, QJsonParseError& error);
-	QString getKeyScript(const QString& panelname, int row, int col) const;
-
-	QString name;							//!< Keyboard name.
+	QString getKeyScript(const QString& name, int row, int col) const;
 
 	Panel editkey;							//!< Edit row key (mobile).
 	Panel leftpad;							//!< Left key panel (mobile portrait).

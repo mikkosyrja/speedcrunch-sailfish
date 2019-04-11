@@ -29,7 +29,7 @@
 #include "core/numberformatter.h"
 
 //! Default constructor.
-Manager::Manager() : keyboard("default")
+Manager::Manager()
 {
 	session = new Session;
 
@@ -106,7 +106,7 @@ Manager::Manager() : keyboard("default")
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 
 //	QString keyboardpath = configpath + "/keyboards/default.json";
-	QString keyboardpath = "/usr/share/harbour-speedcrunch/keyboards/default.json";
+	QString keyboardpath = "/usr/share/harbour-speedcrunch/keyboards/Current.json";
 	keyboard.load(keyboardpath, parseError);
 }
 
@@ -153,7 +153,7 @@ void Manager::saveSession()
 //! Auto calculate expression.
 /*!
 	\param input		Expression.
-	\return				Result string.
+	\return				Result string or NaN for error.
 */
 QString Manager::autoCalc(const QString& input)
 {
@@ -178,7 +178,7 @@ QString Manager::autoFix(const QString& input)
 //! Calculate expression.
 /*!
 	\param input		Expression.
-	\return				Result string.
+	\return				Result string or NaN for error.
 */
 QString Manager::calculate(const QString& input)
 {
@@ -698,15 +698,27 @@ QString Manager::getClipboard() const
 	return clipboard->text();
 }
 
-//
+//! Get keyboard size.
+/*!
+	\param name			Keyboard name.
+	\return				Keyboard size.
+*/
 QSize Manager::getKeyboardSize(const QString& name) const
 {
 	if ( name == "leftpad" || name == "rightpad" )
 		return QSize(5, 5);
-	return QSize(10, 3);
+	if ( name == "landscape" )
+		return QSize(10, 3);
+	return QSize(1, 1);		// editkey
 }
 
-//
+//! Get QML script for a key.
+/*!
+	\param name			Keyboard name.
+	\param row			Row index.
+	\param col			Column index.
+	\return				QML script string.
+*/
 QString Manager::getKeyScript(const QString& name, int row, int col) const
 {
 	return keyboard.getKeyScript(name, row, col);

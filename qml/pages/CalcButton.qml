@@ -3,9 +3,6 @@ import Sailfish.Silica 1.0
 
 Button
 {
-	signal runFunction
-
-	property bool special
 	property bool highlight
 	property string value: text
 	property string second: value
@@ -56,30 +53,42 @@ Button
 		}
 	}
 
+	function checkmacro(macro)
+	{
+		if ( macro === "<left>" )
+			textfield.cursorPosition--
+		else if ( macro === "<start>" )
+			textfield.cursorPosition = 0
+		else if ( macro === "<right>" )
+			textfield.cursorPosition++
+		else if ( macro === "<end>" )
+			textfield.cursorPosition = textfield.text.length
+		else if ( macro === "<back>" )
+			backspace()
+		else if ( macro === "<clear>" )
+		{
+			textfield.text = "";
+			textfield.forceActiveFocus()
+		}
+		else if ( macro === "<evaluate>" )
+			evaluate()
+		else
+			return false
+		return true
+	}
+
 	onPressed: { screen.interactive = false; keyboard.interactive = false }
 	onReleased: { screen.interactive = true; keyboard.interactive = true }
 	onExited: { screen.interactive = true; keyboard.interactive = true }
 	onCanceled: { screen.interactive = true; keyboard.interactive = true }
 	onClicked:
 	{
-		if ( value == "<left>" )
-			textfield.cursorPosition--
-		else if ( value == "<right>" )
-			textfield.cursorPosition++
-		else if ( value == "<back>" )
-			backspace()
-		else if ( value == "<evaluate>" )
-			evaluate()
-		else
+		if ( !checkmacro(value) )
 			insertValue(value)
 	}
 	onPressAndHold:
 	{
-		if ( value == "<left>" )
-			textfield.cursorPosition = 0
-		else if ( value == "<right>" )
-			textfield.cursorPosition = textfield.text.length
-		else
+		if ( !checkmacro(second) )
 			insertValue(second)
 	}
 }

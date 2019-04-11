@@ -18,7 +18,7 @@ Page
 	property int keyboardheight: (keyboard.buttonheight + buttonmargin) * keyboard.buttonrows
 	property int historyheight: wholeHeight - keyboardheight - textrow.height - (isLandscape ? buttonmargin : statusheight) - titleheight
 
-	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncolumns - buttonmargin
+	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncols - buttonmargin
 	property int bulletwidth: Screen.width / 20
 
 	property bool needsupdate: false
@@ -442,7 +442,7 @@ Page
 				{
 					property int buttonheight: evaluatebutton.height
 					property int buttonrows: isLandscape ? landscapekeyboard.buttonrows : portraitkeyboard.buttonrows
-					property int buttoncolumns: isLandscape ? landscapekeyboard.buttoncolumns : portraitkeyboard.buttoncolumns
+					property int buttoncols: isLandscape ? landscapekeyboard.buttoncols : portraitkeyboard.buttoncols
 					property alias interactive: portraitkeyboard.interactive
 
 					id: keyboard

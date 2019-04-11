@@ -92,7 +92,6 @@ HEADERS += \
 
 DISTFILES += qml/harbour-speedcrunch.qml \
 	qml/cover/CoverPage.qml \
-	qml/pages/Backspace.qml \
 	qml/pages/CalcButton.qml \
 	qml/pages/Keyboard.qml \
 	qml/pages/Landscape.qml \
@@ -120,7 +119,7 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	locale/mobile.sv_SE.ts \
 	locale/mobile.pt_PT.ts \
 	locale/mobile.ts \
-    keyboards/default.json
+    keyboards/Current.json
 
 locale.files = locale/*.qm
 locale.path = /usr/share/$${TARGET}/locale
