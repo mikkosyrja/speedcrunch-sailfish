@@ -715,6 +715,9 @@ QString Manager::getClipboard() const
 */
 bool Manager::setKeyboard(const QString& name)
 {
+	settings->keyboard = name;
+	settings->save();
+
 	auto iter = keyboards.find(name);
 	if ( iter != keyboards.end() )
 	{
@@ -722,6 +725,7 @@ bool Manager::setKeyboard(const QString& name)
 		if ( keyboard.load(path, parseError) )
 		{
 			settings->keyboard = name;
+			settings->save();
 			return true;
 		}
 	}
@@ -736,6 +740,16 @@ bool Manager::setKeyboard(const QString& name)
 QString Manager::getKeyboard() const
 {
 	return settings->keyboard;
+}
+
+//! Get current keyboard index.
+/*!
+	\return				Keyboard index.
+*/
+int Manager::getKeyboardIndex() const
+{
+	QStringList names = keyboards.keys();
+	return names.indexOf(settings->keyboard);
 }
 
 //! Get keyboard names as javacript array.

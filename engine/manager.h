@@ -81,6 +81,7 @@ public:
 
 	Q_INVOKABLE bool setKeyboard(const QString& text);
 	Q_INVOKABLE QString getKeyboard() const;
+	Q_INVOKABLE int getKeyboardIndex() const;
 
 	Q_INVOKABLE QString getKeyboards() const;
 	Q_INVOKABLE QSize getKeyboardSize(const QString& name) const;
@@ -101,12 +102,12 @@ private:
 	QStringList recent;						//!< Recent functions.
 	QStringList identifiers;				//!< Function identifiers.
 	QStringList functions;					//!< Function names.
-	QMap<QString, QString> keyboards;		//!< Keyboard names and paths.
 
 	QList<Unit> units;						//!< Available units.
 	QList<Constant> constants;				//!< Available constants.
 
 	QJsonParseError parseError;				//!< Parse error handling.
+	QMap<QString, QString> keyboards;		//!< Keyboard names and paths.
 	Keyboard keyboard;						//!< Current keyboard.
 };
 

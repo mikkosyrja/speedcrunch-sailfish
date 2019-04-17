@@ -186,31 +186,17 @@ Rectangle
 					id: keyboardmenu
 					Repeater
 					{
-//						model: [ "Classic", "Current" ]
 						model: { eval(manager.getKeyboards()) }
-						MenuItem
-						{
-							text: modelData
-							height: settingheight
-						}
+						MenuItem { text: modelData; height: settingheight }
 					}
-/*
-					MenuItem { text: qsTrId("aaa"); height: settingheight }
-					MenuItem { text: qsTrId("bbb"); height: settingheight }
-					MenuItem { text: qsTrId("ccce"); height: settingheight }
-*/
 				}
 				onCurrentIndexChanged:
 				{
-//					if ( currentIndex == 0 ) { main.fontscale = 0.8; manager.setFontSize("s") }
-//					else if ( currentIndex == 1 ) { main.fontscale = 1.0; manager.setFontSize("m") }
-//					else if ( currentIndex == 2 ) { main.fontscale = 1.2; manager.setFontSize("l") }
+					manager.setKeyboard(value);
 				}
-				function setKeyboard(keyboard)
+				function setKeyboard(index)
 				{
-//					if ( size === "s" ) { main.fontscale = 0.8; currentIndex = 0 }
-//					else if ( size === "m" ) { main.fontscale = 1.0; currentIndex = 1 }
-//					else if ( size === "l" ) { main.fontscale = 1.2; currentIndex = 2 }
+					currentIndex = index
 				}
 			}
 		}
@@ -299,9 +285,10 @@ Rectangle
 			resultformatlist.setResultFormat(manager.getResultFormat())
 			precisionlist.setPrecision(manager.getPrecision())
 			complexnumberlist.setComplexNumber(manager.getComplexNumber())
+			keyboardlist.setKeyboard(manager.getKeyboardIndex())
+			listfontsizelist.setFontSize(manager.getFontSize())
 			historysaveswitch.setHistorySave(manager.getSessionSave())
 			clickinsertswitch.setClickInsert(manager.getClickInsert())
-			listfontsizelist.setFontSize(manager.getFontSize())
 		}
 	}
 }
