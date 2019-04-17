@@ -79,6 +79,10 @@ public:
 	Q_INVOKABLE void setClipboard(const QString& text) const;
 	Q_INVOKABLE QString getClipboard() const;
 
+	Q_INVOKABLE bool setKeyboard(const QString& text);
+	Q_INVOKABLE QString getKeyboard() const;
+
+	Q_INVOKABLE QString getKeyboards() const;
 	Q_INVOKABLE QSize getKeyboardSize(const QString& name) const;
 	Q_INVOKABLE QString getKeyScript(const QString& name, int row, int col) const;
 
@@ -97,6 +101,7 @@ private:
 	QStringList recent;						//!< Recent functions.
 	QStringList identifiers;				//!< Function identifiers.
 	QStringList functions;					//!< Function names.
+	QMap<QString, QString> keyboards;		//!< Keyboard names and paths.
 
 	QList<Unit> units;						//!< Available units.
 	QList<Constant> constants;				//!< Available constants.

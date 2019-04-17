@@ -14,7 +14,7 @@ Rectangle
 			id: resultformatsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: parent.top
-			z: 50
+			z: 60
 			ComboBox
 			{
 				id: resultformatlist
@@ -63,7 +63,7 @@ Rectangle
 			id: precisionsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: resultformatsetting.bottom
-			z: 40
+			z: 50
 			ComboBox
 			{
 				id: precisionlist
@@ -104,7 +104,7 @@ Rectangle
 			id: angleunitsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: precisionsetting.bottom
-			z: 30
+			z: 40
 			ComboBox
 			{
 				id: angleunitlist
@@ -135,7 +135,7 @@ Rectangle
 			id: complexnumbersetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: angleunitsetting.bottom
-			z: 20
+			z: 30
 			ComboBox
 			{
 				id: complexnumberlist
@@ -165,48 +165,60 @@ Rectangle
 		}
 		Rectangle
 		{
-			property int settingsheight: settingheight * (listfontsizemenu.active ? 9 : 7)
 			id: settingseparator
-			width: parent.width; height: parent.height - settingsheight - statusheight; color: "transparent"
+			width: parent.width; height: parent.height - settingheight * 8 - statusheight; color: "transparent"
 			anchors.top: complexnumbersetting.bottom
 		}
 		Rectangle
 		{
-			id: historysavesetting
+			id: keyboardsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: settingseparator.bottom
-			TextSwitch
+			z: 20
+			ComboBox
 			{
-				id: historysaveswitch
+				id: keyboardlist
 				visible: !isLandscape
-				checked: true
 				//: Setting title
-				text: qsTrId("id-save-history-on-exit")
-				onCheckedChanged: { manager.setSessionSave(checked) }
-				function setHistorySave(save) { checked = save }
-			}
-		}
-		Rectangle
-		{
-			id: clickinsertsetting
-			width: parent.width; height: settingheight; color: "transparent"
-			anchors.top: historysavesetting.bottom
-			TextSwitch
-			{
-				id: clickinsertswitch
-				visible: !isLandscape
-				checked: true
-				//: Setting title
-				text: qsTrId("id-direct-insert-from-lists")
-				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
-				function setClickInsert(click) { oneclickinsert = click; checked = click }
+				label: qsTrId("id-keyboard")
+				menu: ContextMenu
+				{
+					id: keyboardmenu
+					Repeater
+					{
+//						model: [ "Classic", "Current" ]
+						model: { eval(manager.getKeyboards()) }
+						MenuItem
+						{
+							text: modelData
+							height: settingheight
+						}
+					}
+/*
+					MenuItem { text: qsTrId("aaa"); height: settingheight }
+					MenuItem { text: qsTrId("bbb"); height: settingheight }
+					MenuItem { text: qsTrId("ccce"); height: settingheight }
+*/
+				}
+				onCurrentIndexChanged:
+				{
+//					if ( currentIndex == 0 ) { main.fontscale = 0.8; manager.setFontSize("s") }
+//					else if ( currentIndex == 1 ) { main.fontscale = 1.0; manager.setFontSize("m") }
+//					else if ( currentIndex == 2 ) { main.fontscale = 1.2; manager.setFontSize("l") }
+				}
+				function setKeyboard(keyboard)
+				{
+//					if ( size === "s" ) { main.fontscale = 0.8; currentIndex = 0 }
+//					else if ( size === "m" ) { main.fontscale = 1.0; currentIndex = 1 }
+//					else if ( size === "l" ) { main.fontscale = 1.2; currentIndex = 2 }
+				}
 			}
 		}
 		Rectangle
 		{
 			id: listfontsizesetting
 			width: parent.width; height: settingheight; color: "transparent"
-			anchors.top: clickinsertsetting.bottom
+			anchors.top: keyboardsetting.bottom
 			z: 10
 			ComboBox
 			{
@@ -233,6 +245,38 @@ Rectangle
 					else if ( size === "m" ) { main.fontscale = 1.0; currentIndex = 1 }
 					else if ( size === "l" ) { main.fontscale = 1.2; currentIndex = 2 }
 				}
+			}
+		}
+		Rectangle
+		{
+			id: historysavesetting
+			width: parent.width; height: settingheight; color: "transparent"
+			anchors.top: listfontsizesetting.bottom
+			TextSwitch
+			{
+				id: historysaveswitch
+				visible: !isLandscape
+				checked: true
+				//: Setting title
+				text: qsTrId("id-save-history-on-exit")
+				onCheckedChanged: { manager.setSessionSave(checked) }
+				function setHistorySave(save) { checked = save }
+			}
+		}
+		Rectangle
+		{
+			id: clickinsertsetting
+			width: parent.width; height: settingheight; color: "transparent"
+			anchors.top: historysavesetting.bottom
+			TextSwitch
+			{
+				id: clickinsertswitch
+				visible: !isLandscape
+				checked: true
+				//: Setting title
+				text: qsTrId("id-direct-insert-from-lists")
+				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
+				function setClickInsert(click) { oneclickinsert = click; checked = click }
 			}
 		}
 		PushUpMenu
