@@ -461,6 +461,11 @@ Page
 						visible: isLandscape
 						buttonspacing: buttonmargin
 					}
+					function loadButtons()
+					{
+						portraitkeyboard.loadButtons()
+						landscapekeyboard.loadButtons()
+					}
 					function setButtonLabels()
 					{
 						portraitkeyboard.setButtonLabels()
@@ -547,13 +552,16 @@ Page
 		id: notification;
 		category: "SpeedCrunch"
 	}
+
 	Component.onCompleted:
 	{
 		textfield.softwareInputPanelEnabled = false
 		textfield.forceActiveFocus()
 		historytimer.running = true
 	}
+
 	Component.onDestruction: { manager.saveSession(); }
+
 	function evaluate()
 	{
 		if ( textfield.text != "" )

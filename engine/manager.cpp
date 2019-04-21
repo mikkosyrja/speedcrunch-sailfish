@@ -715,9 +715,6 @@ QString Manager::getClipboard() const
 */
 bool Manager::setKeyboard(const QString& name)
 {
-	settings->keyboard = name;
-	settings->save();
-
 	auto iter = keyboards.find(name);
 	if ( iter != keyboards.end() )
 	{
@@ -729,7 +726,7 @@ bool Manager::setKeyboard(const QString& name)
 			return true;
 		}
 	}
-	keyboard.load("/usr/share/harbour-speedcrunch/keyboards/Classic.json", parseError);
+	keyboard.load("/usr/share/harbour-speedcrunch/keyboards/Current.json", parseError);
 	return false;
 }
 

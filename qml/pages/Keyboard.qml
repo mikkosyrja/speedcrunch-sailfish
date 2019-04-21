@@ -6,6 +6,7 @@ Pager
 	property int buttoncols: 5
 	property int buttonrows: 5
 	property int buttonspacing
+	property var buttonobjects: [[], []]
 
 	color: "transparent"
 	anchors { fill: parent; leftMargin: buttonspacing }
@@ -37,15 +38,28 @@ Pager
 
 	Component.onCompleted:
 	{
-		var row, col, script
+		goToPage(0);
+	}
+
+	function loadButtons()
+	{
+		var row, col, index, script
+
+		for ( index = 0; index < buttonobjects[0].length; ++index )
+			buttonobjects[0][index].destroy()
+		buttonobjects[0].length = 0
+		for ( index = 0; index < buttonobjects[1].length; ++index )
+			buttonobjects[1][index].destroy()
+		buttonobjects[1].length = 0
+
 		for ( row = 0; row < buttonrows; ++row )
 		{
 			for ( col = 0; col < buttoncols; ++col )
 			{
 				script = manager.getKeyScript("leftpad", row, col)
-				Qt.createQmlObject(script, leftpanel);
+				buttonobjects[0].push(Qt.createQmlObject(script, leftpanel));
 				script = manager.getKeyScript("rightpad", row, col)
-				Qt.createQmlObject(script, rightpanel);
+				buttonobjects[1].push(Qt.createQmlObject(script, rightpanel));
 			}
 		}
 
@@ -55,8 +69,6 @@ Pager
 		evaluatebutton.value = editbutton.value
 		evaluatebutton.second = editbutton.second
 		editbutton.destroy()
-
-		goToPage(0);
 	}
 
 	function setButtonLabels()

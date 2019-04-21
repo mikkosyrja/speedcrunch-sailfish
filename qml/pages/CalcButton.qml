@@ -6,7 +6,7 @@ Button
 	property bool highlight
 	property string value: text
 	property string second: value
-	property string image: (value == "<back>" ? (Theme.colorScheme ? "back-light.png" : "back-dark.png") : "")
+	property string image: ((value == "<back>" && text == "") ? (Theme.colorScheme ? "back-light.png" : "back-dark.png") : "")
 
 	implicitWidth: parent.width / parent.columns - parent.spacing * (parent.columns - 1) / parent.columns;
 

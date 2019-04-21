@@ -193,10 +193,12 @@ Rectangle
 				onCurrentIndexChanged:
 				{
 					manager.setKeyboard(value);
+					keyboard.loadButtons()
 				}
 				function setKeyboard(index)
 				{
 					currentIndex = index
+					keyboard.loadButtons()
 				}
 			}
 		}

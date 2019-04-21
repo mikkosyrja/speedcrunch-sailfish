@@ -6,6 +6,7 @@ Rectangle
 	property int buttoncols: 10
 	property int buttonrows: 3
 	property int buttonspacing
+	property var buttonobjects: []
 
 	color: "transparent"
 	anchors { fill: parent; leftMargin: buttonspacing; rightMargin: buttonspacing; bottomMargin: buttonspacing }
@@ -17,15 +18,20 @@ Rectangle
 		anchors.fill: parent; spacing: buttonspacing
 	}
 
-	Component.onCompleted:
+	function loadButtons()
 	{
-		var row, col, script
+		var row, col, index, script
+
+		for ( index = 0; index < buttonobjects.length; ++index )
+			buttonobjects[index].destroy()
+		buttonobjects.length = 0
+
 		for ( row = 0; row < buttonrows; ++row )
 		{
 			for ( col = 0; col < buttoncols; ++col )
 			{
 				script = manager.getKeyScript("landscape", row, col)
-				Qt.createQmlObject(script, panel);
+				buttonobjects.push(Qt.createQmlObject(script, panel));
 			}
 		}
 	}
