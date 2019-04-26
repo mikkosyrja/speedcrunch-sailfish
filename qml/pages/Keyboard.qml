@@ -44,6 +44,9 @@ Pager
 	function loadButtons()
 	{
 		var row, col, index, script
+		var size = manager.getKeyboardSize("leftpad")
+		buttoncols = size.width
+		buttonrows = size.height
 
 		for ( index = 0; index < buttonobjects[0].length; ++index )
 			buttonobjects[0][index].destroy()

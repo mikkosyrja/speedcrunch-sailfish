@@ -769,10 +769,24 @@ QString Manager::getKeyboards() const
 */
 QSize Manager::getKeyboardSize(const QString& name) const
 {
-	if ( name == "leftpad" || name == "rightpad" )
+	if ( name == "leftpad" || name == "rightpad"  || name == "portrait" )
+	{
+		if ( size_t rows = keyboard.leftpad.keys.size() )
+		{
+			size_t cols = keyboard.leftpad.keys[0].size();
+			return QSize(static_cast<int>(cols), static_cast<int>(rows));
+		}
 		return QSize(5, 5);
+	}
 	if ( name == "landscape" )
+	{
+		if ( size_t rows = keyboard.landscape.keys.size() )
+		{
+			size_t cols = keyboard.landscape.keys[0].size();
+			return QSize(static_cast<int>(cols), static_cast<int>(rows));
+		}
 		return QSize(10, 3);
+	}
 	return QSize(1, 1);		// editkey
 }
 

@@ -119,7 +119,8 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	locale/mobile.sv_SE.ts \
 	locale/mobile.pt_PT.ts \
 	locale/mobile.ts \
-    keyboards/Current.json
+    keyboards/Current.json \
+    keyboards/Gemini.json
 
 locale.files = locale/*.qm
 locale.path = /usr/share/$${TARGET}/locale

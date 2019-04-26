@@ -21,6 +21,9 @@ Rectangle
 	function loadButtons()
 	{
 		var row, col, index, script
+		var size = manager.getKeyboardSize("landscape")
+		buttoncols = size.width
+		buttonrows = size.height
 
 		for ( index = 0; index < buttonobjects.length; ++index )
 			buttonobjects[index].destroy()
