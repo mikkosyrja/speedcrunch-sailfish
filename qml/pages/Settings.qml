@@ -14,7 +14,7 @@ Rectangle
 			id: resultformatsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: parent.top
-			z: 60
+			z: 70
 			ComboBox
 			{
 				id: resultformatlist
@@ -63,7 +63,7 @@ Rectangle
 			id: precisionsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: resultformatsetting.bottom
-			z: 50
+			z: 60
 			ComboBox
 			{
 				id: precisionlist
@@ -104,7 +104,7 @@ Rectangle
 			id: angleunitsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: precisionsetting.bottom
-			z: 40
+			z: 50
 			ComboBox
 			{
 				id: angleunitlist
@@ -135,7 +135,7 @@ Rectangle
 			id: complexnumbersetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: angleunitsetting.bottom
-			z: 30
+			z: 40
 			ComboBox
 			{
 				id: complexnumberlist
@@ -165,8 +165,10 @@ Rectangle
 		}
 		Rectangle
 		{
+			property int settingsheight: settingheight * ((listfontsizemenu.active || keyboardmenu.active) ? 9 : 8)
+
 			id: settingseparator
-			width: parent.width; height: parent.height - settingheight * 8 - statusheight; color: "transparent"
+			width: parent.width; height: parent.height - settingsheight - statusheight; color: "transparent"
 			anchors.top: complexnumbersetting.bottom
 		}
 		Rectangle
@@ -174,7 +176,7 @@ Rectangle
 			id: keyboardsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: settingseparator.bottom
-			z: 20
+			z: 30
 			ComboBox
 			{
 				id: keyboardlist
@@ -207,7 +209,7 @@ Rectangle
 			id: listfontsizesetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: keyboardsetting.bottom
-			z: 10
+			z: 20
 			ComboBox
 			{
 				id: listfontsizelist
@@ -240,6 +242,7 @@ Rectangle
 			id: historysavesetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: listfontsizesetting.bottom
+			z: 10
 			TextSwitch
 			{
 				id: historysaveswitch
@@ -256,6 +259,7 @@ Rectangle
 			id: clickinsertsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: historysavesetting.bottom
+			z: 10
 			TextSwitch
 			{
 				id: clickinsertswitch
