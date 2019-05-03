@@ -48,9 +48,9 @@
 			{
 				"keys":
 				[
-					{ "label": "0", "value": "", "second": "°", "tooltip": "", "color": false, "bold": false },
-					{ "label": ".", "value": "", "second": "'", "tooltip": "", "color": false, "bold": false },
-					{ "label": ";", "value": "", "second": ":", "tooltip": "", "color": false, "bold": false },
+					{ "label": "0", "value": "", "second": "°", "tooltip": "", "color": false, "bold": true },
+					{ "label": ".", "value": "", "second": "'", "tooltip": "", "color": false, "bold": true },
+					{ "label": ";", "value": "", "second": ":", "tooltip": "", "color": false, "bold": true },
 					{ "label": "+", "value": "", "second": "", "tooltip": "", "color": false, "bold": false },
 					{ "label": "0x", "value": "", "second": "0b", "tooltip": "", "color": false, "bold": false }
 				]
