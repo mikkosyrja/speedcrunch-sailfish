@@ -105,12 +105,12 @@
         <extracomment>Setting title</extracomment>
         <translation>Direct Insert from Lists</translation>
     </message>
-	<message id="id-keyboard">
-		<source></source>
-		<extracomment>Setting title</extracomment>
-		<translation>Keyboard</translation>
-	</message>
-	<message id="id-list-font-size">
+    <message id="id-keyboard">
+        <source></source>
+        <extracomment>Setting title</extracomment>
+        <translation>Keyboard</translation>
+    </message>
+    <message id="id-list-font-size">
         <source></source>
         <extracomment>Setting title</extracomment>
         <translation>List Font Size</translation>
