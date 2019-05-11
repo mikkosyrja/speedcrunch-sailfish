@@ -47,6 +47,7 @@ SOURCES += \
 	engine/core/userfunction.cpp \
 	engine/core/variable.cpp \
 	engine/manager.cpp \
+	engine/keypad.cpp \
 	src/harbour-speedcrunch.cpp
 
 HEADERS += \
@@ -86,11 +87,11 @@ HEADERS += \
 	engine/core/settings.h \
 	engine/core/userfunction.h \
 	engine/core/variable.h \
-	engine/manager.h
+	engine/manager.h \
+	engine/keypad.h
 
 DISTFILES += qml/harbour-speedcrunch.qml \
 	qml/cover/CoverPage.qml \
-	qml/pages/Backspace.qml \
 	qml/pages/CalcButton.qml \
 	qml/pages/Keyboard.qml \
 	qml/pages/Landscape.qml \
@@ -117,11 +118,17 @@ DISTFILES += qml/harbour-speedcrunch.qml \
 	locale/mobile.sl_SI.ts \
 	locale/mobile.sv_SE.ts \
 	locale/mobile.pt_PT.ts \
-	locale/mobile.ts
+	locale/mobile.ts \
+    keyboards/Current.json \
+    keyboards/Gemini.json
 
 locale.files = locale/*.qm
 locale.path = /usr/share/$${TARGET}/locale
 INSTALLS += locale
+
+keyboard.files = keyboards/*.json
+keyboard.path = /usr/share/$${TARGET}/keyboards
+INSTALLS += keyboard
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128
 

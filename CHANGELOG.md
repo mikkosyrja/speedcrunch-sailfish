@@ -156,14 +156,22 @@
 - Added french UI translations (thanks @JeanDeLaMouche)
 - Submitted to Jolla Store
 
-### 0.5.1 (2019-04-xx)
+### 0.5.1 (2019-05-xx)
 
-- Compiled with SDK version 2.0 for Sailfish 3.0.2
+- Compiled with SDK version 2.1 for Sailfish 3.0.3
 - Added support for slovenian language pl_SL
 - Added slovenian UI translations (thanks @sponka)
 - Fixed landscape orientation bug with comboboxes
-- Some keyboard modifications:
-	- Long press with equals (=) produces previous result (ans)
+- Initial keyboard configuration:
+	- Keyboard layouts are loaded from json files
+	- Initially four different layouts:
+	- Classic layout will stay as version 0.5 keyboard
+	- Current layout will be default keyboard from now on
+	- Table layout has more rows or columns
+	- Gemini layout has only two rows in horizontal mode
+	- User defined keyboards are supported
+- Modifications to Current keyboard:
+	- Long press with equal (=) produces previous result (ans)
+	- Long press with backspace clears all
 	- Long press with ln produces lg()
 	- Long press with exp produces 10^
-

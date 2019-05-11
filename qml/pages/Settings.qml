@@ -14,7 +14,7 @@ Rectangle
 			id: resultformatsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: parent.top
-			z: 50
+			z: 70
 			ComboBox
 			{
 				id: resultformatlist
@@ -63,7 +63,7 @@ Rectangle
 			id: precisionsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: resultformatsetting.bottom
-			z: 40
+			z: 60
 			ComboBox
 			{
 				id: precisionlist
@@ -104,7 +104,7 @@ Rectangle
 			id: angleunitsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: precisionsetting.bottom
-			z: 30
+			z: 50
 			ComboBox
 			{
 				id: angleunitlist
@@ -135,7 +135,7 @@ Rectangle
 			id: complexnumbersetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: angleunitsetting.bottom
-			z: 20
+			z: 40
 			ComboBox
 			{
 				id: complexnumberlist
@@ -165,49 +165,51 @@ Rectangle
 		}
 		Rectangle
 		{
-			property int settingsheight: settingheight * (listfontsizemenu.active ? 9 : 7)
+			property int settingsheight: settingheight * ((listfontsizemenu.active || keyboardmenu.active) ? 9 : 8)
+
 			id: settingseparator
 			width: parent.width; height: parent.height - settingsheight - statusheight; color: "transparent"
 			anchors.top: complexnumbersetting.bottom
 		}
 		Rectangle
 		{
-			id: historysavesetting
+			id: keyboardsetting
 			width: parent.width; height: settingheight; color: "transparent"
 			anchors.top: settingseparator.bottom
-			TextSwitch
+			z: 30
+			ComboBox
 			{
-				id: historysaveswitch
+				id: keyboardlist
 				visible: !isLandscape
-				checked: true
 				//: Setting title
-				text: qsTrId("id-save-history-on-exit")
-				onCheckedChanged: { manager.setSessionSave(checked) }
-				function setHistorySave(save) { checked = save }
-			}
-		}
-		Rectangle
-		{
-			id: clickinsertsetting
-			width: parent.width; height: settingheight; color: "transparent"
-			anchors.top: historysavesetting.bottom
-			TextSwitch
-			{
-				id: clickinsertswitch
-				visible: !isLandscape
-				checked: true
-				//: Setting title
-				text: qsTrId("id-direct-insert-from-lists")
-				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
-				function setClickInsert(click) { oneclickinsert = click; checked = click }
+				label: qsTrId("id-keyboard")
+				menu: ContextMenu
+				{
+					id: keyboardmenu
+					Repeater
+					{
+						model: { eval(manager.getKeyboards()) }
+						MenuItem { text: modelData; height: settingheight }
+					}
+				}
+				onCurrentIndexChanged:
+				{
+					manager.setKeyboard(value);
+					keyboard.loadButtons()
+				}
+				function setKeyboard(index)
+				{
+					currentIndex = index
+					keyboard.loadButtons()
+				}
 			}
 		}
 		Rectangle
 		{
 			id: listfontsizesetting
 			width: parent.width; height: settingheight; color: "transparent"
-			anchors.top: clickinsertsetting.bottom
-			z: 10
+			anchors.top: keyboardsetting.bottom
+			z: 20
 			ComboBox
 			{
 				id: listfontsizelist
@@ -235,6 +237,40 @@ Rectangle
 				}
 			}
 		}
+		Rectangle
+		{
+			id: historysavesetting
+			width: parent.width; height: settingheight; color: "transparent"
+			anchors.top: listfontsizesetting.bottom
+			z: 10
+			TextSwitch
+			{
+				id: historysaveswitch
+				visible: !isLandscape
+				checked: true
+				//: Setting title
+				text: qsTrId("id-save-history-on-exit")
+				onCheckedChanged: { manager.setSessionSave(checked) }
+				function setHistorySave(save) { checked = save }
+			}
+		}
+		Rectangle
+		{
+			id: clickinsertsetting
+			width: parent.width; height: settingheight; color: "transparent"
+			anchors.top: historysavesetting.bottom
+			z: 10
+			TextSwitch
+			{
+				id: clickinsertswitch
+				visible: !isLandscape
+				checked: true
+				//: Setting title
+				text: qsTrId("id-direct-insert-from-lists")
+				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
+				function setClickInsert(click) { oneclickinsert = click; checked = click }
+			}
+		}
 		PushUpMenu
 		{
 			width: parent.width
@@ -255,9 +291,10 @@ Rectangle
 			resultformatlist.setResultFormat(manager.getResultFormat())
 			precisionlist.setPrecision(manager.getPrecision())
 			complexnumberlist.setComplexNumber(manager.getComplexNumber())
+			keyboardlist.setKeyboard(manager.getKeyboardIndex())
+			listfontsizelist.setFontSize(manager.getFontSize())
 			historysaveswitch.setHistorySave(manager.getSessionSave())
 			clickinsertswitch.setClickInsert(manager.getClickInsert())
-			listfontsizelist.setFontSize(manager.getFontSize())
 		}
 	}
 }

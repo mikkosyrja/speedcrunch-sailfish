@@ -23,7 +23,6 @@
 #include <QFile>
 #include <QDir>
 #include <QGuiApplication>
-#include <QJsonDocument>
 
 #include "core/session.h"
 #include "core/functions.h"
@@ -106,58 +105,19 @@ Manager::Manager()
 	std::sort(constants.begin(), constants.end(), [](const Constant& first, const Constant& second)
 		{ return first.name.compare(second.name, Qt::CaseInsensitive) < 0; });
 
-	QString path = "/home/mikko/Code/SpeedCrunch/keypad.json";  //##
-	QFile file(path);
-	if (file.open(QIODevice::ReadOnly))
+	std::vector<QString> paths;
+	paths.push_back(configpath + "/keyboards/");
+	paths.push_back("/usr/share/harbour-speedcrunch/keyboards/");
+	for ( const auto& path : paths )
 	{
-		auto json = QJsonDocument::fromJson(file.readAll(), &parseError);
-		if (!json.isNull())
-		{
-			QJsonValue desktop = json.object().value("desktop");
-			if (desktop != QJsonValue::Undefined)
-			{
-				QJsonValue rows = desktop.toObject().value("rows");
-				if (rows != QJsonValue::Undefined)
-				{
-					int rowCount = 0;
-					for (auto row : rows.toArray())
-					{
-						keyboard.push_back(KeyRow());
-						QJsonValue keys = row.toObject().value("keys");
-						if (keys != QJsonValue::Undefined)
-						{
-							int keyCount = 0;
-							for (auto key : keys.toArray())
-							{
-								QJsonObject object = key.toObject();
-
-								KeyData data;
-								data.label = object.value("label").toString();
-								data.value = object.value("value").toString();
-								data.second = object.value("second").toString();
-								data.tooltip = object.value("tooltip").toString();
-								data.color = object.value("color").toBool();
-								data.bold = object.value("bold").toBool();
-								data.row = rowCount;
-								data.col = keyCount;
-
-								if (data.value.isEmpty())
-									data.value = data.label;
-								if (data.second.isEmpty())
-									data.second = data.value;
-								if (data.tooltip.isEmpty())
-									data.tooltip = data.value;
-
-								keyboard.back().push_back(data);
-								++keyCount;
-							}
-						}
-						++rowCount;
-					}
-				}
-			}
-		}
+		directory.setPath(path);
+		directory.setFilter(QDir::Files | QDir::Readable);
+		directory.setNameFilters(QStringList("*.json"));
+		const auto infos = directory.entryInfoList();
+		for ( const auto& info : infos )
+			keyboards.insert(info.completeBaseName(), info.absoluteFilePath());
 	}
+	setKeyboard(settings->keyboard);
 }
 
 //! Save session on exit.
@@ -203,7 +163,7 @@ void Manager::saveSession()
 //! Auto calculate expression.
 /*!
 	\param input		Expression.
-	\return				Result string.
+	\return				Result string or NaN for error.
 */
 QString Manager::autoCalc(const QString& input)
 {
@@ -228,7 +188,7 @@ QString Manager::autoFix(const QString& input)
 //! Calculate expression.
 /*!
 	\param input		Expression.
-	\return				Result string.
+	\return				Result string or NaN for error.
 */
 QString Manager::calculate(const QString& input)
 {
@@ -283,7 +243,7 @@ QString Manager::getHistory(int)
 	return result += "]";
 }
 
-//! Get functions, constants and units.
+//! Get functions, constants and units as javacript array.
 /*!
 	\param filter		Filter string.
 	\param type			Function type (a, f, u, c, v).
@@ -746,6 +706,100 @@ void Manager::setClipboard(const QString& text) const
 QString Manager::getClipboard() const
 {
 	return clipboard->text();
+}
+
+//! Set and load keyboard.
+/*!
+	\param name			Keyboard name.
+	return				True for success.
+*/
+bool Manager::setKeyboard(const QString& name)
+{
+	auto iter = keyboards.find(name);
+	if ( iter != keyboards.end() )
+	{
+		QString path = iter.value();
+		if ( keyboard.load(path, parseError) )
+		{
+			settings->keyboard = name;
+			settings->save();
+			return true;
+		}
+	}
+	keyboard.load("/usr/share/harbour-speedcrunch/keyboards/Current.json", parseError);
+	return false;
+}
+
+//! Get current keyboard.
+/*!
+	\return				Keyboard name.
+*/
+QString Manager::getKeyboard() const
+{
+	return settings->keyboard;
+}
+
+//! Get current keyboard index.
+/*!
+	\return				Keyboard index.
+*/
+int Manager::getKeyboardIndex() const
+{
+	QStringList names = keyboards.keys();
+	return names.indexOf(settings->keyboard);
+}
+
+//! Get keyboard names as javacript array.
+/*!
+	\return				Keyboard names.
+*/
+QString Manager::getKeyboards() const
+{
+	QStringList names = keyboards.keys();
+	QString result = "[";
+	for ( const auto& name : names )
+		result += "\"" + name + "\",";
+	return result + "]";
+}
+
+//! Get keyboard size.
+/*!
+	\param name			Keyboard name.
+	\return				Keyboard size.
+*/
+QSize Manager::getKeyboardSize(const QString& name) const
+{
+	if ( name == "leftpad" || name == "rightpad"  || name == "portrait" )
+	{
+		if ( size_t rows = keyboard.leftpad.keys.size() )
+		{
+			size_t cols = keyboard.leftpad.keys[0].size();
+			return QSize(static_cast<int>(cols), static_cast<int>(rows));
+		}
+		return QSize(5, 5);
+	}
+	if ( name == "landscape" )
+	{
+		if ( size_t rows = keyboard.landscape.keys.size() )
+		{
+			size_t cols = keyboard.landscape.keys[0].size();
+			return QSize(static_cast<int>(cols), static_cast<int>(rows));
+		}
+		return QSize(10, 3);
+	}
+	return QSize(1, 1);		// editkey
+}
+
+//! Get QML script for a key.
+/*!
+	\param name			Keyboard name.
+	\param row			Row index.
+	\param col			Column index.
+	\return				QML script string.
+*/
+QString Manager::getKeyScript(const QString& name, int row, int col) const
+{
+	return keyboard.getKeyScript(name, row, col);
 }
 
 //

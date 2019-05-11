@@ -18,7 +18,7 @@ Page
 	property int keyboardheight: (keyboard.buttonheight + buttonmargin) * keyboard.buttonrows
 	property int historyheight: wholeHeight - keyboardheight - textrow.height - (isLandscape ? buttonmargin : statusheight) - titleheight
 
-	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncolumns - buttonmargin
+	property int buttonwidth: (width - buttonmargin) / keyboard.buttoncols - buttonmargin
 	property int bulletwidth: Screen.width / 20
 
 	property bool needsupdate: false
@@ -435,15 +435,14 @@ Page
 						id: evaluatebutton
 						width: buttonwidth; color: Theme.highlightColor
 						anchors { top: textfield.top; margins: buttonmargin; right: parent.right }
-						text: "="; special: true; secondary: "ans"
-						onRunFunction: evaluate()
+						text: "="; value: "<evaluate>"; second: "ans"
 					}
 				}
 				Rectangle
 				{
-					property int buttonheight: isLandscape ? landscapekeyboard.buttonheight : portraitkeyboard.buttonheight
+					property int buttonheight: evaluatebutton.height
 					property int buttonrows: isLandscape ? landscapekeyboard.buttonrows : portraitkeyboard.buttonrows
-					property int buttoncolumns: isLandscape ? landscapekeyboard.buttoncolumns : portraitkeyboard.buttoncolumns
+					property int buttoncols: isLandscape ? landscapekeyboard.buttoncols : portraitkeyboard.buttoncols
 					property alias interactive: portraitkeyboard.interactive
 
 					id: keyboard
@@ -461,6 +460,11 @@ Page
 						id: landscapekeyboard
 						visible: isLandscape
 						buttonspacing: buttonmargin
+					}
+					function loadButtons()
+					{
+						portraitkeyboard.loadButtons()
+						landscapekeyboard.loadButtons()
 					}
 					function setButtonLabels()
 					{
@@ -548,13 +552,16 @@ Page
 		id: notification;
 		category: "SpeedCrunch"
 	}
+
 	Component.onCompleted:
 	{
 		textfield.softwareInputPanelEnabled = false
 		textfield.forceActiveFocus()
 		historytimer.running = true
 	}
+
 	Component.onDestruction: { manager.saveSession(); }
+
 	function evaluate()
 	{
 		if ( textfield.text != "" )
