@@ -5,6 +5,7 @@ Rectangle
 {
 	property alias resultformat: resultformatlist.value
 	property alias angleunit: angleunitlist.value
+	property bool initialized: false
 
 	SilicaFlickable		// for pull-up
 	{
@@ -34,14 +35,17 @@ Rectangle
 				}
 				onCurrentIndexChanged:
 				{
-					if ( currentIndex == 0 ) { manager.setResultFormat("g") }
-					else if ( currentIndex == 1 ) { manager.setResultFormat("f") }
-					else if ( currentIndex == 2 ) { manager.setResultFormat("n") }
-					else if ( currentIndex == 3 ) { manager.setResultFormat("e") }
-					else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
-					else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
-					else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
-//					else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
+					if ( initialized )
+					{
+						if ( currentIndex == 0 ) { manager.setResultFormat("g") }
+						else if ( currentIndex == 1 ) { manager.setResultFormat("f") }
+						else if ( currentIndex == 2 ) { manager.setResultFormat("n") }
+						else if ( currentIndex == 3 ) { manager.setResultFormat("e") }
+						else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
+						else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
+						else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
+//						else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
+					}
 					keyboard.setButtonLabels()
 					historyview.updateHistory()
 				}
@@ -80,7 +84,8 @@ Rectangle
 				}
 				onCurrentIndexChanged:
 				{
-					manager.setPrecision(currentIndex == 0 ? "" : currentItem.text)
+					if ( initialized )
+						manager.setPrecision(currentIndex == 0 ? "" : currentItem.text)
 					historyview.updateHistory()
 				}
 				function setPrecision(precision)
@@ -118,9 +123,12 @@ Rectangle
 				}
 				onCurrentIndexChanged:
 				{
-					if ( currentIndex == 0 ) manager.setAngleUnit("d")
-					else if ( currentIndex == 1 ) manager.setAngleUnit("r")
-//					else if ( currentIndex == 2 ) manager.setAngleUnit("g")
+					if ( initialized )
+					{
+						if ( currentIndex == 0 ) manager.setAngleUnit("d")
+						else if ( currentIndex == 1 ) manager.setAngleUnit("r")
+//						else if ( currentIndex == 2 ) manager.setAngleUnit("g")
+					}
 				}
 				function setAngleUnit(unit)
 				{
@@ -149,9 +157,12 @@ Rectangle
 				}
 				onCurrentIndexChanged:
 				{
-					if ( currentIndex == 0 ) manager.setComplexNumber("d")
-					else if ( currentIndex == 1 ) manager.setComplexNumber("c")
-					else if ( currentIndex == 2 ) manager.setComplexNumber("p")
+					if ( initialized )
+					{
+						if ( currentIndex == 0 ) manager.setComplexNumber("d")
+						else if ( currentIndex == 1 ) manager.setComplexNumber("c")
+						else if ( currentIndex == 2 ) manager.setComplexNumber("p")
+					}
 					keyboard.setButtonLabels()
 					historyview.updateHistory()
 				}
@@ -194,7 +205,8 @@ Rectangle
 				}
 				onCurrentIndexChanged:
 				{
-					manager.setKeyboard(value);
+					if ( initialized )
+						manager.setKeyboard(value);
 					keyboard.loadButtons()
 				}
 				function setKeyboard(index)
@@ -225,9 +237,12 @@ Rectangle
 				}
 				onCurrentIndexChanged:
 				{
-					if ( currentIndex == 0 ) { main.fontscale = 0.8; manager.setFontSize("s") }
-					else if ( currentIndex == 1 ) { main.fontscale = 1.0; manager.setFontSize("m") }
-					else if ( currentIndex == 2 ) { main.fontscale = 1.2; manager.setFontSize("l") }
+					if ( initialized )
+					{
+						if ( currentIndex == 0 ) { main.fontscale = 0.8; manager.setFontSize("s") }
+						else if ( currentIndex == 1 ) { main.fontscale = 1.0; manager.setFontSize("m") }
+						else if ( currentIndex == 2 ) { main.fontscale = 1.2; manager.setFontSize("l") }
+					}
 				}
 				function setFontSize(size)
 				{
@@ -295,6 +310,7 @@ Rectangle
 			listfontsizelist.setFontSize(manager.getFontSize())
 			historysaveswitch.setHistorySave(manager.getSessionSave())
 			clickinsertswitch.setClickInsert(manager.getClickInsert())
+			initialized = true;
 		}
 	}
 }

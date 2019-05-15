@@ -117,7 +117,10 @@ Manager::Manager()
 		for ( const auto& info : infos )
 			keyboards.insert(info.completeBaseName(), info.absoluteFilePath());
 	}
-	setKeyboard(settings->keyboard);
+
+	auto iter = keyboards.find(settings->keyboard);
+	if ( iter == keyboards.end() || !keyboard.load(iter.value(), parseError) )
+		keyboard.load("/usr/share/harbour-speedcrunch/keyboards/Current.json", parseError);
 }
 
 //! Save session on exit.
@@ -716,15 +719,11 @@ QString Manager::getClipboard() const
 bool Manager::setKeyboard(const QString& name)
 {
 	auto iter = keyboards.find(name);
-	if ( iter != keyboards.end() )
+	if ( iter != keyboards.end() && keyboard.load(iter.value(), parseError) )
 	{
-		QString path = iter.value();
-		if ( keyboard.load(path, parseError) )
-		{
-			settings->keyboard = name;
-			settings->save();
-			return true;
-		}
+		settings->keyboard = name;
+		settings->save();
+		return true;
 	}
 	keyboard.load("/usr/share/harbour-speedcrunch/keyboards/Current.json", parseError);
 	return false;

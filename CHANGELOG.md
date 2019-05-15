@@ -158,7 +158,7 @@
 
 ### 0.5.1 (2019-05-xx)
 
-- Compiled with SDK version 2.1 for Sailfish 3.0.3
+- Compiled with SDK version 2.1.1 for Sailfish 3.0.3
 - Added support for slovenian language pl_SL
 - Added slovenian UI translations (thanks @sponka)
 - Added swedish UI translations (thanks @ekrogius)
@@ -176,3 +176,5 @@
 	- Long press with backspace clears all
 	- Long press with ln produces lg()
 	- Long press with exp produces 10^
+	- Long press with division (÷) produces integer division (\)
+	- Long press with trigonometrics produce hyperbolic versions
