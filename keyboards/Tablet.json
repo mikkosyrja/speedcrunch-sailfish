@@ -21,7 +21,7 @@
 					{ "label": "7", "value": "", "second": "", "tooltip": "", "color": false, "bold": true },
 					{ "label": "8", "value": "", "second": "", "tooltip": "", "color": false, "bold": true },
 					{ "label": "9", "value": "", "second": "j", "tooltip": "", "color": false, "bold": true },
-					{ "label": "÷", "value": "/", "second": "", "tooltip": "", "color": false, "bold": true },
+					{ "label": "÷", "value": "/", "second": "\\", "tooltip": "", "color": false, "bold": true },
 					{ "label": "√", "value": "sqrt()", "second": "cbrt()", "tooltip": "", "color": false, "bold": false },
 					{ "label": "∛", "value": "cbrt()", "second": "sqrt()", "tooltip": "", "color": false, "bold": false }
 				]
@@ -158,7 +158,7 @@
 					{ "label": "+", "value": "", "second": "A", "tooltip": "", "color": false, "bold": false },
 					{ "label": "-", "value": "", "second": "B", "tooltip": "", "color": false, "bold": false },
 					{ "label": "×", "value": "", "second": "C", "tooltip": "", "color": false, "bold": false },
-					{ "label": "÷", "value": "/", "second": "", "tooltip": "", "color": false, "bold": false },
+					{ "label": "÷", "value": "/", "second": "\\", "tooltip": "", "color": false, "bold": false },
 					{ "label": "x²", "value": "^2", "second": "^", "tooltip": "", "color": false, "bold": false },
 					{ "label": "√", "value": "sqrt()", "second": "cbrt()", "tooltip": "Square root", "color": false },
 					{ "label": "n!", "value": "!", "second": "", "tooltip": "", "color": false, "bold": false },

@@ -162,7 +162,6 @@
 - Added support for slovenian language pl_SL
 - Added slovenian UI translations (thanks @sponka)
 - Added swedish UI translations (thanks @ekrogius)
-- Fixed landscape orientation bug with comboboxes
 - Initial keyboard configuration:
 	- Keyboard layouts are loaded from json files
 	- Initially four different layouts:
@@ -178,3 +177,5 @@
 	- Long press with exp produces 10^
 	- Long press with division (÷) produces integer division (\)
 	- Long press with trigonometrics produce hyperbolic versions
+- Fixed landscape orientation bug with comboboxes
+- Fixed history list handling with backslash (integer division)

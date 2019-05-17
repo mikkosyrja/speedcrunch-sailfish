@@ -39,7 +39,7 @@ class Manager : public QObject
 	Q_OBJECT
 
 public:
-	Manager();
+	explicit Manager(QObject* parent = nullptr);
 
 	Q_INVOKABLE void saveSession();
 

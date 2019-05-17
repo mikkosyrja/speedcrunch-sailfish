@@ -28,8 +28,11 @@
 #include "core/functions.h"
 #include "core/numberformatter.h"
 
-//! Default constructor.
-Manager::Manager()
+//! Constructor.
+/*!
+	\param parent		Optional parent.
+*/
+Manager::Manager(QObject* parent) : QObject(parent)
 {
 	session = new Session;
 
@@ -195,7 +198,7 @@ QString Manager::autoFix(const QString& input)
 */
 QString Manager::calculate(const QString& input)
 {
-	const QString expression = evaluator->autoFix(input);
+	QString expression = evaluator->autoFix(input);
 	evaluator->setExpression(expression);
 	Quantity quantity = evaluator->evalUpdateAns();
 	if ( !evaluator->error().isEmpty() )
@@ -242,7 +245,11 @@ QString Manager::getHistory(int)
 {
 	QString result = "[";
 	for ( const auto& entry : session->historyToList() )
-		result += "{expression:\"" + entry.expr() + "\",value:\"" + NumberFormatter::format(entry.result()) + "\"},";
+	{
+		QString expression = entry.expr();
+		expression.replace("\\", "\\\\");
+		result += "{expression:\"" + expression + "\",value:\"" + NumberFormatter::format(entry.result()) + "\"},";
+	}
 	return result += "]";
 }
 
@@ -548,7 +555,7 @@ QString Manager::getComplexNumber() const
 */
 void Manager::setFontSize(const QString& size)
 {
-	int pointsize = 10;		// m
+	int pointsize = 10;	// m
 	if ( size == "s" )
 		pointsize = 8;
 	else if ( size == "l" )
@@ -801,7 +808,11 @@ QString Manager::getKeyScript(const QString& name, int row, int col) const
 	return keyboard.getKeyScript(name, row, col);
 }
 
-//
+//! Check if the name is in recent list.
+/*!
+	\param name			Checked name.
+	\return				True if found from recent list.
+*/
 bool Manager::checkRecent(const QString& name) const
 {
 	for ( const auto& item : recent )
