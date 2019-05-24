@@ -179,3 +179,4 @@
 	- Long press with trigonometrics produce hyperbolic versions
 - Fixed landscape orientation bug with comboboxes
 - Fixed history list handling with backslash (integer division)
+- Replaced keyboard backspace image with Unicode character.
