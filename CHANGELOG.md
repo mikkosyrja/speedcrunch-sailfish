@@ -156,7 +156,7 @@
 - Added french UI translations (thanks @JeanDeLaMouche)
 - Submitted to Jolla Store
 
-### 0.5.1 (2019-05-xx)
+### 0.5.1 (2019-06-04)
 
 - Compiled with SDK version 2.1.1 for Sailfish 3.0.3
 - Added support for slovenian language pl_SL
