@@ -180,3 +180,9 @@
 - Fixed landscape orientation bug with comboboxes
 - Fixed history list handling with backslash (integer division)
 - Replaced keyboard backspace image with Unicode character.
+
+### 0.5.2 (2019-06-xx)
+
+- Updated UI translations
+- Added support for chinese language zh_CN
+
