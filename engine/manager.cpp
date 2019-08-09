@@ -489,6 +489,8 @@ void Manager::setResultFormat(const QString& format)
 	{
 		settings->resultFormat = format.at(0).toLatin1();
 		settings->save();
+
+		setKeyboard(settings->keyboard);
 	}
 }
 
@@ -536,6 +538,8 @@ void Manager::setComplexNumber(const QString& complex)
 	evaluator->initializeBuiltInVariables();
 	DMath::complexMode = settings->complexNumbers;
 	settings->save();
+
+	setKeyboard(settings->keyboard);
 }
 
 //! Get complex number mode.

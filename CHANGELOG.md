@@ -179,10 +179,21 @@
 	- Long press with trigonometrics produce hyperbolic versions
 - Fixed landscape orientation bug with comboboxes
 - Fixed history list handling with backslash (integer division)
-- Replaced keyboard backspace image with Unicode character.
+- Replaced keyboard backspace image with Unicode character
 
-### 0.5.2 (2019-06-xx)
+### 0.5.2 (2019-08-xx)
 
+- Compiled with SDK version 2.2.4 for Sailfish 3.1.0
 - Updated UI translations
 - Added support for chinese language zh_CN
+- Added support for dynamic key labels in square brackets:
+    - [1H] "1" or "1 A" in hexadecimal mode
+	- [2H] "2" or "2 B" in hexadecimal mode
+	- [3H] "3" or "3 C" in hexadecimal mode
+	- [4H] "4" or "4 D" in hexadecimal mode
+	- [5H] "5" or "5 E" in hexadecimal mode
+	- [6H] "6" or "6 F" in hexadecimal mode
+	- [6C] "9" or "9 j" in complex number mode
+	- [XO] "0x" or "0o" in octal number mode
+	- Used in new keyboards (Current, Gemini, Tablet)
 

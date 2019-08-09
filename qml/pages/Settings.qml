@@ -46,8 +46,8 @@ Rectangle
 						else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
 //						else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
 					}
-					keyboard.setButtonLabels()
 					historyview.updateHistory()
+					keyboard.loadButtons()
 				}
 				function setResultFormat(format)
 				{
@@ -163,8 +163,8 @@ Rectangle
 						else if ( currentIndex == 1 ) manager.setComplexNumber("c")
 						else if ( currentIndex == 2 ) manager.setComplexNumber("p")
 					}
-					keyboard.setButtonLabels()
 					historyview.updateHistory()
+					keyboard.loadButtons()
 				}
 				function setComplexNumber(complex)
 				{

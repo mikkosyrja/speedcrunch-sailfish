@@ -20,7 +20,8 @@
 #ifndef KEYPAD_H
 #define KEYPAD_H
 
-#include <QString>
+#include "core/settings.h"
+
 #include <QJsonParseError>
 
 //! Keyboard data.
@@ -44,6 +45,7 @@ public:
 			//! Constructor.
 			Key() : color(false), bold(false ), row(0), col(0) { }
 
+			void relabel(const Settings* settings);
 			QString getScript() const;
 
 			QString label;					//!< Key label.

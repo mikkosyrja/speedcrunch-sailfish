@@ -466,11 +466,6 @@ Page
 						portraitkeyboard.loadButtons()
 						landscapekeyboard.loadButtons()
 					}
-					function setButtonLabels()
-					{
-						portraitkeyboard.setButtonLabels()
-						landscapekeyboard.setButtonLabels()
-					}
 					function goToPage(page)
 					{
 						if ( !isLandscape )
