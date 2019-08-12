@@ -49,8 +49,8 @@
 				"keys":
 				[
 					{ "label": "[0S]", "value": "0", "second": "°", "tip": "", "color": false, "bold": true },
-					{ "label": ".", "value": "", "second": "'", "tip": "", "color": false, "bold": true },
-					{ "label": ";", "value": "", "second": ":", "tip": "", "color": false, "bold": true },
+					{ "label": "[.S]", "value": ".", "second": "'", "tip": "", "color": false, "bold": true },
+					{ "label": "[;S]", "value": ";", "second": ":", "tip": "", "color": false, "bold": true },
 					{ "label": "+", "value": "", "second": "", "tip": "", "color": false, "bold": true },
 					{ "label": "[XO]", "value": "", "second": "0b", "tip": "", "color": false, "bold": false }
 				]
@@ -139,7 +139,7 @@
 					{ "label": "7", "value": "7", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "8", "value": "8", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "[9C]", "value": "9", "second": "j", "tip": "", "color": false, "bold": false },
-					{ "label": "0", "value": "", "second": "°", "tip": "", "color": false, "bold": false }
+					{ "label": "[0S]", "value": "0", "second": "°", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
@@ -153,8 +153,8 @@
 					{ "label": "√", "value": "sqrt()", "second": "cbrt()", "tip": "Square root", "color": false },
 					{ "label": "n!", "value": "!", "second": "", "tip": "", "color": false, "bold": false },
 					{ "label": "1/x", "value": "1/", "second": ":", "tip": "", "color": false, "bold": false },
-					{ "label": ".", "value": "", "second": "'", "tip": "", "color": false, "bold": false },
-					{ "label": ";", "value": "", "second": ";", "tip": "", "color": false, "bold": false }
+					{ "label": "[.S]", "value": ".", "second": "'", "tip": "", "color": false, "bold": false },
+					{ "label": "[;S]", "value": ";", "second": ":", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
