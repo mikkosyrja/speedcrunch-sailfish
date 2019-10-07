@@ -196,3 +196,8 @@
 	- [6C] "9" or "9 j" in complex number mode
 	- [XO] "0x" or "0o" in octal number mode
 	- Used in new keyboards (Current, Gemini, Tablet)
+
+### 0.5.3 (2019-xx-xx)
+
+- Updated UI translations
+
