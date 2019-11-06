@@ -199,5 +199,6 @@
 
 ### 0.5.3 (2019-xx-xx)
 
+- Compiled with SDK version 2.3.15 for Sailfish 3.2.0
 - Updated UI translations
 
