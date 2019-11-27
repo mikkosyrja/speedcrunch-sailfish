@@ -105,6 +105,11 @@
         <extracomment>Setting title</extracomment>
         <translation>Direct Insert from Lists</translation>
     </message>
+    <message id="id-haptic-feedback">
+        <source></source>
+        <extracomment>Setting title</extracomment>
+        <translation>Haptic Feedback</translation>
+    </message>
     <message id="id-keyboard">
         <source></source>
         <extracomment>Setting title</extracomment>

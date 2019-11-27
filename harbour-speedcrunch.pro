@@ -118,6 +118,7 @@ DISTFILES += qml/harbour-speedcrunch.qml \
     locale/mobile.sl_SI.ts \
     locale/mobile.sv_SE.ts \
     locale/mobile.pt_PT.ts \
+    locale/mobile.zh_CN.ts \
     locale/mobile.ts \
     screenshots/harbour_1.png \
     screenshots/harbour_2.png \
@@ -126,8 +127,7 @@ DISTFILES += qml/harbour-speedcrunch.qml \
     screenshots/openrepos_1.png \
     screenshots/openrepos_2.png \
     screenshots/openrepos_3.png \
-    screenshots/openrepos_4.png \
-    locale/mobile.zh_CN.ts
+    screenshots/openrepos_4.png
 
 locale.files = locale/*.qm
 locale.path = /usr/share/$${TARGET}/locale

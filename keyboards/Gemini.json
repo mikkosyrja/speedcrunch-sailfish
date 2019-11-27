@@ -78,7 +78,7 @@
 					{ "label": "cos", "value": "cos()", "second": "cosh()", "tip": "", "color": false, "bold": false },
 					{ "label": "tan", "value": "tan()", "second": "tanh()", "tip": "", "color": false, "bold": false },
 					{ "label": "ln", "value": "ln()", "second": "lg()", "tip": "", "color": false, "bold": false },
-					{ "label": "xⁿ", "value": "^", "second": "^2", "tip": "", "color": false, "bold": false }
+					{ "label": "∛", "value": "cbrt()", "second": "sqrt()", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{
@@ -88,7 +88,7 @@
 					{ "label": "acos", "value": "arccos()", "second": "arcosh()", "tip": "", "color": false, "bold": false },
 					{ "label": "atan", "value": "arctan()", "second": "artanh()", "tip": "", "color": false, "bold": false },
 					{ "label": "exp", "value": "exp()", "second": "10^", "tip": "", "color": false, "bold": false },
-					{ "label": "∛", "value": "cbrt()", "second": "sqrt()", "tip": "", "color": false, "bold": false }
+					{ "label": "xⁿ", "value": "^", "second": "^2", "tip": "", "color": false, "bold": false }
 				]
 			},
 			{

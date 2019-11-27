@@ -23,6 +23,7 @@ Page
 
 	property bool needsupdate: false
 	property bool oneclickinsert: false
+	property bool hapticfeedback: true
 
 	property int wholeHeight: (isLandscape ? Screen.width : Screen.height)	// with virtual keyboard
 

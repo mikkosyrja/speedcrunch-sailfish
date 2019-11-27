@@ -176,7 +176,7 @@ Rectangle
 		}
 		Rectangle
 		{
-			property int settingsheight: settingheight * ((listfontsizemenu.active || keyboardmenu.active) ? 9 : 8)
+			property int settingsheight: settingheight * ((listfontsizemenu.active || keyboardmenu.active) ? 10 : 9)
 
 			id: settingseparator
 			width: parent.width; height: parent.height - settingsheight - statusheight; color: "transparent"
@@ -286,6 +286,23 @@ Rectangle
 				function setClickInsert(click) { oneclickinsert = click; checked = click }
 			}
 		}
+		Rectangle
+		{
+			id: hapticfeedbacksetting
+			width: parent.width; height: settingheight; color: "transparent"
+			anchors.top: clickinsertsetting.bottom
+			z: 10
+			TextSwitch
+			{
+				id: hapticfeedbackswitch
+				visible: !isLandscape
+				checked: true
+				//: Setting title
+				text: qsTrId("id-haptic-feedback")
+				onCheckedChanged: { hapticfeedback = checked; manager.setHapticFeedback(checked) }
+				function setHapticFeedback(haptic) { hapticfeedback = haptic; checked = haptic }
+			}
+		}
 		PushUpMenu
 		{
 			width: parent.width
@@ -310,6 +327,7 @@ Rectangle
 			listfontsizelist.setFontSize(manager.getFontSize())
 			historysaveswitch.setHistorySave(manager.getSessionSave())
 			clickinsertswitch.setClickInsert(manager.getClickInsert())
+			hapticfeedbackswitch.setHapticFeedback(manager.getHapticFeedback())
 			initialized = true;
 		}
 	}
