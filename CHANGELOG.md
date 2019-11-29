@@ -201,6 +201,6 @@
 
 - Compiled with SDK version 2.3.15 for Sailfish 3.2.0
 - Updated UI translations
-- Added button haptic feedback and setting for it.
-
+- Added haptic feedback for keys and list selections
+- Added setting for turning haptic feedback on or off
 

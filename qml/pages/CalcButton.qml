@@ -1,6 +1,5 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
-import QtFeedback 5.0
 
 Button
 {
@@ -78,27 +77,19 @@ Button
 		return true
 	}
 
-	ThemeEffect
-	{
-		id: pressEffect
-		effect: "Press"
-	}
-
 	onPressed: { screen.interactive = false; keyboard.interactive = false }
 	onReleased: { screen.interactive = true; keyboard.interactive = true }
 	onExited: { screen.interactive = true; keyboard.interactive = true }
 	onCanceled: { screen.interactive = true; keyboard.interactive = true }
 	onClicked:
 	{
-		if ( hapticfeedback && pressEffect.supported )
-			pressEffect.play()
+		pressEffect.playEffect()
 		if ( !checkmacro(value) )
 			insertValue(value)
 	}
 	onPressAndHold:
 	{
-		if ( hapticfeedback && pressEffect.supported )
-			pressEffect.play()
+		pressEffect.playEffect()
 		if ( !checkmacro(second) )
 			insertValue(second)
 	}

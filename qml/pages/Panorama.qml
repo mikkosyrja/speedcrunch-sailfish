@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import Sailfish.Silica 1.0
 import Nemo.Notifications 1.0
+import QtFeedback 5.0
 
 Page
 {
@@ -33,6 +34,18 @@ Page
 	width: isLandscape ? Screen.height : Screen.width
 	height: isLandscape ? Screen.width : Screen.height
 	allowedOrientations: Orientation.All
+
+	ThemeEffect
+	{
+		id: pressEffect
+		effect: "Press"
+
+		function playEffect()
+		{
+			if ( hapticfeedback && supported )
+				play()
+		}
+	}
 
 	Rectangle
 	{
@@ -175,7 +188,7 @@ Page
 					{
 						id: clearsearcharea
 						anchors { fill: parent; margins: -buttonmargin }
-						onClicked: { searchfunctions.text = "" }
+						onClicked: { pressEffect.playEffect(); searchfunctions.text = "" }
 					}
 				}
 			}
@@ -198,7 +211,7 @@ Page
 						contentHeight: lineheight
 						Text
 						{
-							id:textitem
+							id: textitem
 							width: parent.width - 40; color: Theme.primaryColor
 							anchors.centerIn: parent
 							text: modelData.name
@@ -209,6 +222,7 @@ Page
 						{
 							ContextMenu
 							{
+								id: historycontextmenu
 								MenuItem
 								{
 									height: settingheight
@@ -222,7 +236,11 @@ Page
 									//: Popup menu item
 									text: qsTrId("id-remove-from-recent")
 									visible: modelData.recent
-									onClicked: functionremorse.execute(functionitem, qsTrId("id-removing"), removeRecent)
+									onClicked:
+									{
+										pressEffect.playEffect()
+										functionremorse.execute(functionitem, qsTrId("id-removing"), removeRecent)
+									}
 								}
 								MenuItem
 								{
@@ -230,10 +248,15 @@ Page
 									//: Popup menu item
 									text: qsTrId("id-delete-user-defined")
 									visible: modelData.user
-									onClicked: functionremorse.execute(functionitem, qsTrId("id-deleting"), deleteUserDefined)
+									onClicked:
+									{
+										pressEffect.playEffect()
+										functionremorse.execute(functionitem, qsTrId("id-deleting"), deleteUserDefined)
+									}
 								}
 							}
 						}
+						onMenuOpenChanged: { if ( menuOpen ) pressEffect.playEffect() }
 						onClicked: { if ( oneclickinsert ) insertitem() }
 						function removeRecent()
 						{
@@ -248,6 +271,7 @@ Page
 						}
 						function insertitem()
 						{
+							pressEffect.playEffect()
 							functionlist.currentIndex = index;
 							var value = modelData.value
 							var text = textfield.text; var pos = textfield.cursorPosition
@@ -316,6 +340,7 @@ Page
 										text: qsTrId("id-edit-item") + " " + modelData.expression
 										onClicked:
 										{
+											pressEffect.playEffect()
 											historyview.clip = true
 											textfield.text = modelData.expression
 										}
@@ -327,6 +352,7 @@ Page
 										text: qsTrId("id-remove-from-history")
 										onClicked:
 										{
+											pressEffect.playEffect()
 											historyview.clip = true
 											historyremorse.execute(historyitem, qsTrId("id-removing"), removeHistory)
 										}
@@ -335,11 +361,8 @@ Page
 								}
 							}
 							onPressAndHold: { historyview.clip = false }	// for popup
-							onClicked:
-							{
-								if ( oneclickinsert )
-									insertitem()
-							}
+							onMenuOpenChanged: { if ( menuOpen ) pressEffect.playEffect() }
+							onClicked: { if ( oneclickinsert ) insertitem() }
 							function removeHistory()
 							{
 								manager.clearHistory(index)
@@ -347,6 +370,7 @@ Page
 							}
 							function insertitem()
 							{
+								pressEffect.playEffect()
 								historyview.clip = true
 								var text = textfield.text; var pos = textfield.cursorPosition
 								textfield.text = text.substring(0, pos) + modelData.value + text.substring(pos, text.length)
@@ -428,7 +452,7 @@ Page
 							onReleased: { screen.interactive = true; keyboard.interactive = true }
 							onExited: { screen.interactive = true; keyboard.interactive = true }
 							onCanceled: { screen.interactive = true; keyboard.interactive = true }
-							onClicked: { textfield.text = ""; textfield.forceActiveFocus() }
+							onClicked: { pressEffect.playEffect(); textfield.text = ""; textfield.forceActiveFocus() }
 						}
 					}
 					CalcButton

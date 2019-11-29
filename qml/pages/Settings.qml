@@ -262,7 +262,6 @@ Rectangle
 			{
 				id: historysaveswitch
 				visible: !isLandscape
-				checked: true
 				//: Setting title
 				text: qsTrId("id-save-history-on-exit")
 				onCheckedChanged: { manager.setSessionSave(checked) }
@@ -279,7 +278,6 @@ Rectangle
 			{
 				id: clickinsertswitch
 				visible: !isLandscape
-				checked: true
 				//: Setting title
 				text: qsTrId("id-direct-insert-from-lists")
 				onCheckedChanged: { oneclickinsert = checked; manager.setClickInsert(checked) }
@@ -296,7 +294,6 @@ Rectangle
 			{
 				id: hapticfeedbackswitch
 				visible: !isLandscape
-				checked: true
 				//: Setting title
 				text: qsTrId("id-haptic-feedback")
 				onCheckedChanged: { hapticfeedback = checked; manager.setHapticFeedback(checked) }
