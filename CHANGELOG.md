@@ -197,10 +197,11 @@
 	- [XO] "0x" or "0o" in octal number mode
 	- Used in new keyboards (Current, Gemini, Tablet)
 
-### 0.5.3 (2019-xx-xx)
+### 0.5.3 (2019-12-05)
 
 - Compiled with SDK version 2.3.15 for Sailfish 3.2.0
 - Updated UI translations
+- Added chinese UI translations (thanks @Historyscholar)
 - Added haptic feedback for keys and list selections
 - Added setting for turning haptic feedback on or off
 
