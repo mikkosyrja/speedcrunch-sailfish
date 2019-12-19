@@ -205,3 +205,9 @@
 - Added haptic feedback for keys and list selections
 - Added setting for turning haptic feedback on or off
 
+### 0.5.4 (2019-12-xx)
+
+- Compiled with SDK version 2.4.0 for Sailfish 3.2.1
+- Added 172x172 size icon
+
+
