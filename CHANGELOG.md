@@ -193,7 +193,7 @@
 	- [4H] "4" or "4 D" in hexadecimal mode
 	- [5H] "5" or "5 E" in hexadecimal mode
 	- [6H] "6" or "6 F" in hexadecimal mode
-	- [6C] "9" or "9 j" in complex number mode
+	- [9C] "9" or "9 j" in complex number mode
 	- [XO] "0x" or "0o" in octal number mode
 	- Used in new keyboards (Current, Gemini, Tablet)
 
@@ -205,9 +205,10 @@
 - Added haptic feedback for keys and list selections
 - Added setting for turning haptic feedback on or off
 
-### 0.5.4 (2019-12-xx)
+### 0.6.0 (2019-12-xx)
 
-- Compiled with SDK version 2.4.0 for Sailfish 3.2.1
+- Compiled with SDK version 2.4.0 for Sailfish 3.2.0
+- Updated UI translations
 - Added 172x172 size icon
-
+- Submitted to Jolla Store
 

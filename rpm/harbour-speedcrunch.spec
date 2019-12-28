@@ -14,7 +14,7 @@ Name:       harbour-speedcrunch
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Port of the SpeedCrunch calculator for Sailfish OS
-Version:    0.5.4
+Version:    0.6.0
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
