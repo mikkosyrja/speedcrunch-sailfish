@@ -831,6 +831,16 @@ QString Manager::getKeyScript(const QString& name, int row, int col) const
 	return keyboard.getKeyScript(name, row, col);
 }
 
+//! Get virtual keyboard state for a given panel.
+/*!
+	\param name			Keyboard panel name.
+	\return				True if virtual keyboard is allowed with panel.
+*/
+bool Manager::getVirtualKeyboard(const QString& name) const
+{
+	return keyboard.getVirtualKeyboard(name);
+}
+
 //! Check if the name is in recent list.
 /*!
 	\param name			Checked name.

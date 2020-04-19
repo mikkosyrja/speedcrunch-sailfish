@@ -468,7 +468,10 @@ Page
 					property int buttonheight: evaluatebutton.height
 					property int buttonrows: isLandscape ? landscapekeyboard.buttonrows : portraitkeyboard.buttonrows
 					property int buttoncols: isLandscape ? landscapekeyboard.buttoncols : portraitkeyboard.buttoncols
+
 					property alias interactive: portraitkeyboard.interactive
+
+					property bool virtualkeys: isLandscape ? landscapekeyboard.virtualkeys : portraitkeyboard.virtualkeys
 
 					id: keyboard
 					width: parent.width; height: keyboardheight; color: "transparent"

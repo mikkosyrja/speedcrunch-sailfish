@@ -311,7 +311,7 @@ Rectangle
 			MenuItem
 			{
 				text: "SpeedCrunch 0.12"
-				onClicked: { Qt.openUrlExternally("http://speedcrunch.org/") }
+				onClicked: { Qt.openUrlExternally("https://speedcrunch.org/") }
 			}
 		}
 		Component.onCompleted:

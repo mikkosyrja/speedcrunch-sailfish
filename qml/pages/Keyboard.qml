@@ -8,6 +8,10 @@ Pager
 	property int buttonspacing
 	property var buttonobjects: [[], []]
 
+	property bool leftvirtualkeys: true
+	property bool rightvirtualkeys: true
+	property bool virtualkeys: (swipeindex ? rightvirtualkeys : leftvirtualkeys)
+
 	color: "transparent"
 	anchors { fill: parent; leftMargin: buttonspacing }
 	clip: true
@@ -72,5 +76,8 @@ Pager
 		evaluatebutton.value = editbutton.value
 		evaluatebutton.second = editbutton.second
 		editbutton.destroy()
+
+		leftvirtualkeys = manager.getVirtualKeyboard("leftpad")
+		rightvirtualkeys = manager.getVirtualKeyboard("rightpad")
 	}
 }

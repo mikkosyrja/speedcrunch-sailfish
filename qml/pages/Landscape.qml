@@ -8,6 +8,8 @@ Rectangle
 	property int buttonspacing
 	property var buttonobjects: []
 
+	property bool virtualkeys: true
+
 	color: "transparent"
 	anchors { fill: parent; leftMargin: buttonspacing; rightMargin: buttonspacing; bottomMargin: buttonspacing }
 
@@ -37,5 +39,7 @@ Rectangle
 				buttonobjects.push(Qt.createQmlObject(script, panel));
 			}
 		}
+
+		virtualkeys = manager.getVirtualKeyboard("landscape")
 	}
 }

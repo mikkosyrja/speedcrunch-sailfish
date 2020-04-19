@@ -205,7 +205,7 @@
 - Added haptic feedback for keys and list selections
 - Added setting for turning haptic feedback on or off
 
-### 0.6.0 (2019-12-xx)
+### 0.6.0 (2020-04-19)
 
 - Compiled with SDK version 2.4.0 for Sailfish 3.2.0
 - Updated UI translations
