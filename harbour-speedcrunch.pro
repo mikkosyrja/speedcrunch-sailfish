@@ -108,7 +108,8 @@ DISTFILES += qml/harbour-speedcrunch.qml \
     README.md \
     lrelease.sh \
     lupdate.sh \
-    locale/mobile.en_GB.ts \
+	locale/mobile.cs_CZ.ts \
+	locale/mobile.en_GB.ts \
     locale/mobile.fi_FI.ts \
     locale/mobile.de_DE.ts \
     locale/mobile.it_IT.ts \

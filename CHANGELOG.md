@@ -212,3 +212,8 @@
 - Added 172x172 size icon
 - Submitted to Jolla Store
 
+### 0.6.1 (2020-xx-xx)
+
+- Compiled with SDK version 3.1.7 for Sailfish 3.3.0
+- Added support for czech language cs_CZ
+
