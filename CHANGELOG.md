@@ -212,12 +212,16 @@
 - Added 172x172 size icon
 - Submitted to Jolla Store
 
-### 0.6.1 (2020-xx-xx)
+### 0.6.1 (2020-05-xx)
 
 - Compiled with SDK version 3.1.7 for Sailfish 3.3.0
 - Added support for czech language cs_CZ
 - Combined engine source with Android version
 - Updated engine to GitHub version 20200514
-	- Supports sexagesimal formatting
-	- Supports gradians as angle format
+	- Supports sexagesimal formatting for times and angles
+	- Supports gradians as angle unit
+- Sexagecimal support in keyboards:
+	- Long press with zero (0) produces degree (°)
+	- Long press with point (.) produces apostrophe (')
+	- Long press with semicolon (;) produces colon (:)
 
