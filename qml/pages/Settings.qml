@@ -31,7 +31,7 @@ Rectangle
 					MenuItem { text: qsTrId("id-binary"); height: settingheight }
 					MenuItem { text: qsTrId("id-octal"); height: settingheight }
 					MenuItem { text: qsTrId("id-hexadecimal"); height: settingheight }
-//					MenuItem { text: qsTrId("id-sexagesimal"); height: settingheight }
+					MenuItem { text: qsTrId("id-sexagesimal"); height: settingheight }
 				}
 				onCurrentIndexChanged:
 				{
@@ -44,7 +44,7 @@ Rectangle
 						else if ( currentIndex == 4 ) { manager.setResultFormat("b") }
 						else if ( currentIndex == 5 ) { manager.setResultFormat("o") }
 						else if ( currentIndex == 6 ) { manager.setResultFormat("h") }
-//						else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
+						else if ( currentIndex == 7 ) { manager.setResultFormat("s") }
 					}
 					historyview.updateHistory()
 					keyboard.loadButtons()
@@ -58,7 +58,7 @@ Rectangle
 					else if ( format === "b" ) currentIndex = 4
 					else if ( format === "o" ) currentIndex = 5
 					else if ( format === "h" ) currentIndex = 6
-//					else if ( format === "s" ) currentIndex = 7
+					else if ( format === "s" ) currentIndex = 7
 				}
 			}
 		}
@@ -119,7 +119,7 @@ Rectangle
 				{
 					MenuItem { text: qsTrId("id-degree"); height: settingheight }
 					MenuItem { text: qsTrId("id-radian"); height: settingheight }
-//					MenuItem { text: qsTrId("id-gradian"); height: settingheight }
+					MenuItem { text: qsTrId("id-gradian"); height: settingheight }
 				}
 				onCurrentIndexChanged:
 				{
@@ -127,14 +127,14 @@ Rectangle
 					{
 						if ( currentIndex == 0 ) manager.setAngleUnit("d")
 						else if ( currentIndex == 1 ) manager.setAngleUnit("r")
-//						else if ( currentIndex == 2 ) manager.setAngleUnit("g")
+						else if ( currentIndex == 2 ) manager.setAngleUnit("g")
 					}
 				}
 				function setAngleUnit(unit)
 				{
 					if ( unit === "d" ) currentIndex = 0
 					else if ( unit === "r" ) currentIndex = 1
-//					else if ( unit === "g" ) currentIndex = 2
+					else if ( unit === "g" ) currentIndex = 2
 				}
 			}
 		}

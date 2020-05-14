@@ -216,4 +216,8 @@
 
 - Compiled with SDK version 3.1.7 for Sailfish 3.3.0
 - Added support for czech language cs_CZ
+- Combined engine source with Android version
+- Updated engine to GitHub version 20200514
+	- Supports sexagesimal formatting
+	- Supports gradians as angle format
 

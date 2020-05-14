@@ -8,8 +8,11 @@ PKGCONFIG += nemonotifications-qt5
 
 DEFINES += SAILFISH
 DEFINES += SPEEDCRUNCH_VERSION=\\\"master\\\"
+DEFINES += SPEEDCRUNCH_MOBILE
 
 INCLUDEPATH += engine
+INCLUDEPATH += engine/math
+INCLUDEPATH += engine/core
 
 SOURCES += \
     engine/math/cmath.cpp \
