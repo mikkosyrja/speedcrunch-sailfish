@@ -21,8 +21,8 @@
 #define KEYPAD_H
 
 #include "core/settings.h"
-#include <vector>
 #include <QJsonParseError>
+#include <vector>
 
 //! Keyboard data.
 class Keyboard
