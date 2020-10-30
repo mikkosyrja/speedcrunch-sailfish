@@ -310,7 +310,7 @@ Rectangle
 			}
 			MenuItem
 			{
-				text: "SpeedCrunch 0.13-git-200514"
+				text: "SpeedCrunch 0.13-git-201030"
 				onClicked: { Qt.openUrlExternally("https://speedcrunch.org/") }
 			}
 		}
