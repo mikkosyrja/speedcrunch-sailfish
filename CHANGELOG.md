@@ -212,7 +212,7 @@
 - Added 172x172 size icon
 - Submitted to Jolla Store
 
-### 0.6.1 (2020-11-xx)
+### 0.6.1 (2021-05-xx)
 
 - Compiled with SDK version 3.3.6 for Sailfish 3.4.0
 - Updated UI translations
@@ -225,4 +225,3 @@
 	- Long press with zero (0) produces degree (°)
 	- Long press with point (.) produces apostrophe (')
 	- Long press with semicolon (;) produces colon (:)
-
