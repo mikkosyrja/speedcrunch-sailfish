@@ -212,7 +212,7 @@
 - Added 172x172 size icon
 - Submitted to Jolla Store
 
-### 0.6.1 (2021-05-xx)
+### 0.6.1 (2021-05-16)
 
 - Compiled with SDK version 3.3.6 for Sailfish 3.4.0
 - Updated UI translations
