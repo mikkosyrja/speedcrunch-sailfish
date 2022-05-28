@@ -5,3 +5,7 @@ Name=SpeedCrunch
 Icon=harbour-speedcrunch
 Exec=harbour-speedcrunch
 
+[X-Sailjail]
+Permissions=
+OrganizationName=org.syrja
+ApplicationName=Speedcrunch

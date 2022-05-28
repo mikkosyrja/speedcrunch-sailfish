@@ -305,12 +305,12 @@ Rectangle
 			width: parent.width
 			MenuItem
 			{
-				text: "SpeedCrunch Sailfish 0.6.1"
+                text: "SpeedCrunch Sailfish 0.7.0"
 				onClicked: { Qt.openUrlExternally("https://openrepos.net/content/syrja/speedcrunch") }
 			}
 			MenuItem
 			{
-				text: "SpeedCrunch 0.13-git-201030"
+                text: "SpeedCrunch 0.13-git-20220527"
 				onClicked: { Qt.openUrlExternally("https://speedcrunch.org/") }
 			}
 		}

@@ -1,6 +1,6 @@
 // This file is part of the SpeedCrunch project
 // Copyright (C) 2014 @qwazix
-// Copyright (C) 2018 Mikko Syrjä
+// Copyright (C) 2018-2022 Mikko Syrjä
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -36,9 +36,11 @@ int main(int argc, char *argv[])
 
 	qmlRegisterType<Manager>("harbour.speedcrunch.Manager", 1, 0, "Manager");
 
+	app->setOrganizationName(QStringLiteral("org.syrja"));
+	app->setApplicationName(QStringLiteral("Speedcrunch"));
+
 	view->setSource(SailfishApp::pathToMainQml());
 	view->showFullScreen();
 
 	return app->exec();
 }
-

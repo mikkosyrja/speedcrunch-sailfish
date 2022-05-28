@@ -212,9 +212,10 @@
 - Added 172x172 size icon
 - Submitted to Jolla Store
 
-### 0.6.1 (2021-05-16)
+### 0.7.0 (2022-05-28)
 
-- Compiled with SDK version 3.3.6 for Sailfish 3.4.0
+- Compiled with SDK version 3.9 for Sailfish 4.4.0
+- Added Sailjail support
 - Updated UI translations
 - Added support for czech language cs_CZ
 - Combined engine source with Android version
